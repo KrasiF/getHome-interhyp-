@@ -58,6 +58,7 @@ export default function Init() {
     amountOfChildren: 0,
     portfolio: {cashInEuro: 10000, cryptoInEuro: 0, etfInEuro: 0},
     living: {
+      name: "",
       zip: "80538",
       yearlyRentInEuro: 12000,
       sizeInSquareMeter: 12,
@@ -206,7 +207,7 @@ export default function Init() {
                 <Slider
                   value={[startState.age]}
                   min={18}
-                  max={100}
+                  max={50}
                   step={1}
                   onValueChange={(val) =>
                     setStartState({...startState, age: val[0]})
@@ -242,7 +243,7 @@ export default function Init() {
                 <Slider
                   value={[startState.occupation.yearlySalaryInEuro]}
                   min={10000}
-                  max={500000}
+                  max={300000}
                   step={1000}
                   onValueChange={(val) =>
                     setStartState({
