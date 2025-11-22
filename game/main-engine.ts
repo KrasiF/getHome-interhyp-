@@ -75,6 +75,7 @@ export class GameEngine implements GameEngineInterface {
             year: new Date().getFullYear(),
             educationLevel: "",
             lifeSatisfactionFrom1To100: 50,
+            terminated: false
         };
 
         this.isRunning = true;
@@ -110,7 +111,8 @@ export class GameEngine implements GameEngineInterface {
             amountOfChildren: 0,
             educationLevel: "",
             lifeSatisfactionFrom1To100: 0,
-            married: false
+            married: false,
+            terminated: false
         };
         this.goals = {} as GoalModel;
         this.history = [];
@@ -203,9 +205,25 @@ export class GameEngine implements GameEngineInterface {
         this.state.year += 1;
         this.state.age += 1;
 
+        // Check if goal is reached
+        this.checkGoalReached();
+
         this.history.push(JSON.parse(JSON.stringify(this.state)));
 
+
         return this.state;
+    }
+
+    private checkGoalReached(): void {
+        const totalWealth = 
+            this.state.portfolio.cashInEuro + 
+            this.state.portfolio.cryptoInEuro + 
+            this.state.portfolio.etfInEuro;
+
+        if (totalWealth >= this.goals.buyingPrice) {
+            (this.state as any).terminated = true; 
+            this.isRunning = false;
+        }
     }
 }
 
