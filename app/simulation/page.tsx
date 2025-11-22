@@ -53,7 +53,7 @@ export default function Simulation() {
       newOccupationModel: null,
       newPortfolioModel: null,
       newLivingModel: null,
-      newSavingsRateInPercent: savingsRate
+      newSavingsRateInPercent: savingsRate,
     });
     console.log(gameEngine.runLoop());
     triggerUpdate();
@@ -168,8 +168,14 @@ export default function Simulation() {
                 </DialogDescription>
               </DialogHeader>
               <div className="grid grid-cols-2 gap-4">
-                <Button onClick={() => router.push("/simulation/find-homes")}>Move</Button>
-                <Button onClick={() => null}>Change Occupation</Button>
+                <Button onClick={() => router.push("/simulation/find-homes")}>
+                  Move
+                </Button>
+                <Button
+                  onClick={() => router.push("/simulation/find-occupation")}
+                >
+                  Change Occupation
+                </Button>
                 <Button onClick={() => null}>Manage Portfolio</Button>
                 <Button onClick={() => null}>Take a Loan</Button>
               </div>
