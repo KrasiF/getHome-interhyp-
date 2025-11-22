@@ -1,5 +1,5 @@
 export interface PortfolioModel {
-    cashInEuro: number;
-    cryptoInEuro: number;
-    etfInEuro: number;
+  cashInEuro: number;
+  cryptoInEuro: number;
+  etfInEuro: number;
 }

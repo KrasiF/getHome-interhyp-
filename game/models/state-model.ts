@@ -1,18 +1,8 @@
-import type { OccupationModel } from "./occupation-model";
-import type { PortfolioModel } from "./portfolio-model";
-import type { LivingModel } from "./living-model";
+import { StartStateModel } from "./start-state-model";
 
-export interface StateModel {
-    year: number;
-    age: number;
-
-    occupation: OccupationModel;
-    portfolio: PortfolioModel;
-    living: LivingModel;
-
-    savingsRateInPercent: number;
-    amountOfChildren: number;
-    educationLevel: string;
-    lifeSatisfactionFrom1To100: number;
-    married: boolean;
+export interface StateModel extends StartStateModel {
+  year: number;
+  educationLevel: string;
+  lifeSatisfactionFrom1To100: number;
+  married: boolean;
 }
