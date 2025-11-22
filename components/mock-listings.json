@@ -1,0 +1,3757 @@
+{
+  "total": 2046,
+  "results": [
+    {
+      "id": "dd728b6e8fb86c0a2aee87b77151e3be",
+      "title": "Exklusive Gartenwohnung sofort bezugsbereit!",
+      "zip": "50968",
+      "buyingPrice": 2995000,
+      "rooms": 4,
+      "squareMeter": 201,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "is24",
+          "id": "161023769",
+          "url": "https://www.immobilienscout24.de/expose/161023769",
+          "creationDate": "2025-04-02T18:45:01.000Z",
+          "publishDate": "2025-04-02T18:45:01.000Z",
+          "active": true
+        }
+      ],
+      "rentPricePerSqm": 20.99004975124378,
+      "metaSpRentPricePerSqm": {
+        "model": "07, 2025",
+        "standarderror": 0.14752,
+        "score": 1.87,
+        "range": {
+          "min": 18.28855721393035,
+          "max": 24.621890547263682
+        }
+      },
+      "pricePerSqm": 14900.49751243781,
+      "spPricePerSqm": 8815.92039800995,
+      "metaSpPricePerSqm": {
+        "model": "07, 2025",
+        "standarderror": 0.19768,
+        "score": 2.31,
+        "range": {
+          "min": 7358.20895522388,
+          "max": 10985.074626865671
+        }
+      },
+      "rentPrice": 4219,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "building",
+        "_normalized_city": "Köln",
+        "_type": "building",
+        "city": "Köln",
+        "city_district": "Rodenkirchen",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "house_number": "11",
+        "political_union": "European Union",
+        "postcode": "50968",
+        "road": "Brohler Straße",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Marienburg",
+        "lat": 50.9023202,
+        "lon": 6.9668918,
+        "displayName": "Brohler Straße 11, 50968 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "A",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "population": 1084831,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "hasUniversity": true,
+        "unemploymentRate": 9.3,
+        "numberOfStudents": null,
+        "score": 67,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "populationScore": 25,
+        "populationTrendScore": 16.664
+      },
+      "grossReturn": 1.69,
+      "grossReturnCurrent": null,
+      "constructionYear": 2023,
+      "apartmentType": "RAISED_GROUND_FLOOR",
+      "condition": "MINT_CONDITION",
+      "lastRefurbishment": null,
+      "lift": true,
+      "floor": 1,
+      "numberOfFloors": null,
+      "cellar": true,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-04-02T18:45:01.000Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "name": "Rodenkirchen",
+          "buyingPrice": 1216050,
+          "pricePerSqm": 6050,
+          "grossReturn": 2.836363636363637
+        },
+        "location": {
+          "name": "Köln",
+          "buyingPrice": 964800,
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        },
+        "similarListing": {
+          "name": null,
+          "buyingPrice": 1772000,
+          "pricePerSqm": 8815.92039800995,
+          "grossReturn": 2.8571106094808125
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 169.0180586907449,
+      "oAddress": {
+        "is24": {
+          "street": "Brohler Straße 11",
+          "postcode": "50968",
+          "location": "Köln",
+          "district": "Marienburg"
+        }
+      },
+      "originalAddress": {
+        "street": "Brohler Straße 11",
+        "postcode": "50968",
+        "location": "Köln",
+        "district": "Marienburg"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "b356a1c4a09f6d33432c209a9103ded5",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/21a57d21-8795-4913-84b1-a0db72e49bb2-1935641808.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Gartenfassade"
+        },
+        {
+          "id": "1497f00e9b6a32dac1450cf35f6f414b",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/cd1313c4-0bfe-484d-9733-8adffe6decec-1930010666.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Fassade"
+        },
+        {
+          "id": "755f9360b8171150d8a05697b45ed7f1",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/e4a64a56-adcd-4d19-900c-f65df313d1eb-1930010669.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Fassade"
+        },
+        {
+          "id": "0b105eba43765229dcfe395fec85740f",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/4e549ef6-1837-433a-9ffb-51cdf4df62a7-1930010671.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Fassade"
+        },
+        {
+          "id": "72964ddfd347e170eccc6e8768eee8ee",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/b1212a09-d1fd-40ed-9683-e042618cf054-1930010672.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Das Haus"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 2995000,
+          "platformName": "is24",
+          "creationDate": "2025-04-02T18:45:01.000Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 0,
+      "lastUpdatedAt": "2025-09-19T00:46:59.598Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 4219,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 4219,
+      "hasImages": true
+    },
+    {
+      "id": "341577cdb5ea2c75bc9509865d3e27b9",
+      "title": "Hochwertige Endetagenwohnung in Marienburg",
+      "zip": "50968",
+      "buyingPrice": 1070000,
+      "rooms": 3,
+      "squareMeter": 88,
+      "comission": 3.57,
+      "platforms": [
+        {
+          "name": "immowelt",
+          "publishDate": "2025-11-14T14:54:32.394Z",
+          "active": true,
+          "id": "immoweltd60f72980fcafdba409c8a80d77cdea8",
+          "creationDate": "2025-11-14T14:54:32.394Z",
+          "url": "https://www.immowelt.de/expose/2d46ab1c-e57c-462d-8b9b-a00b78bfd4c0"
+        },
+        {
+          "name": "immonet",
+          "publishDate": "2025-11-14T14:50:04.712Z",
+          "active": true,
+          "id": "immonet68a72a434079890cb0fc7311c0b0d457",
+          "creationDate": "2025-11-14T14:50:04.712Z",
+          "url": "https://www.immonet.de/expose/2d46ab1c-e57c-462d-8b9b-a00b78bfd4c0"
+        },
+        {
+          "name": "is24",
+          "publishDate": "2025-11-14T14:45:34.000Z",
+          "active": true,
+          "id": "163841639",
+          "creationDate": "2025-11-14T14:45:34.000Z",
+          "url": "https://www.immobilienscout24.de/expose/163841639"
+        }
+      ],
+      "rentPricePerSqm": 18.46590909090909,
+      "metaSpRentPricePerSqm": {
+        "model": "09, 2025",
+        "standarderror": 0.13737,
+        "score": 1.78,
+        "range": {
+          "min": 16.227272727272727,
+          "max": 21.397727272727273
+        }
+      },
+      "pricePerSqm": 12159.09090909091,
+      "spPricePerSqm": 7170.454545454545,
+      "metaSpPricePerSqm": {
+        "model": "09, 2025",
+        "standarderror": 0.16669,
+        "score": 2.04,
+        "range": {
+          "min": 6147.727272727273,
+          "max": 8613.636363636364
+        }
+      },
+      "rentPrice": 1625,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Rodenkirchen",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "postcode": "50968",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Marienburg",
+        "lat": 50.9014161,
+        "lon": 6.9666561,
+        "displayName": "50968 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "A+",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "population": 1084831,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "hasUniversity": true,
+        "unemploymentRate": 0,
+        "numberOfStudents": null,
+        "score": 67,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "populationScore": 25,
+        "populationTrendScore": 16.664
+      },
+      "grossReturn": 1.82,
+      "grossReturnCurrent": null,
+      "constructionYear": 2018,
+      "apartmentType": "PENTHOUSE",
+      "condition": "MINT_CONDITION",
+      "lastRefurbishment": null,
+      "lift": false,
+      "floor": 2,
+      "numberOfFloors": null,
+      "cellar": false,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-11-14T14:45:34.000Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "name": "Rodenkirchen",
+          "buyingPrice": 532400,
+          "pricePerSqm": 6050,
+          "grossReturn": 2.836363636363637
+        },
+        "location": {
+          "name": "Köln",
+          "buyingPrice": 422400,
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        },
+        "similarListing": {
+          "name": null,
+          "buyingPrice": 631000,
+          "pricePerSqm": 7170.454545454545,
+          "grossReturn": 3.0903328050713155
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 169.57210776545168,
+      "oAddress": {
+        "is24": {
+          "street": null,
+          "postcode": "50968",
+          "location": "Köln",
+          "district": "Marienburg"
+        }
+      },
+      "originalAddress": {
+        "postcode": "50968",
+        "location": "Köln",
+        "district": "Marienburg"
+      },
+      "houseMoney": 329,
+      "images": [
+        {
+          "id": "a506ee8f16f62857519a259823dd8daf",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/8bb15b10-a26a-42b2-b7c9-6e2bfcdd4f52-1963726433.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Wohnzimmer"
+        },
+        {
+          "id": "42b7b2670eb17d7b4fd934dab6834b01",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/8d9deb87-30ce-461e-bfce-f5de727a3721-1963726439.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Badezimmer"
+        },
+        {
+          "id": "f6a3b771e610c1836e5d6d7d0572afab",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/0e0d4714-0bec-4d28-8be2-1b8fa4f95c14-1963726445.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Zimmer"
+        },
+        {
+          "id": "98f1c2a3a7e533c7a0670b987633737e",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/377802a0-9e28-4437-b49e-f1eda08641b8-1963726454.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Küche"
+        },
+        {
+          "id": "985c1f5b5098d53ba3b4dcf3bea3e2c1",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/87b4d864-286d-4130-9a5a-149dd7d4a8fb-1963726462.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Terrasse"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 1070000,
+          "platformName": "immonet",
+          "creationDate": "2025-11-14T14:50:04.712Z"
+        },
+        {
+          "buyingPrice": 1070000,
+          "platformName": "is24",
+          "creationDate": "2025-11-14T14:45:34.000Z"
+        },
+        {
+          "buyingPrice": 1070000,
+          "platformName": "immowelt",
+          "creationDate": "2025-11-14T14:54:32.394Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 0,
+      "lastUpdatedAt": "2025-11-14T14:54:34.386Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 1625,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 1625,
+      "hasImages": true
+    },
+    {
+      "id": "ea3ae04b05b411775149d2339c3c03a2",
+      "title": "Viva Agrippina: Exklusives Neubau-Wohnen über den Dächern von Köln",
+      "zip": "50668",
+      "buyingPrice": 1599900,
+      "rooms": 4,
+      "squareMeter": 133.69,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "immonet",
+          "publishDate": "2025-09-22T14:59:47.446Z",
+          "active": true,
+          "id": "immonet8586b86f27349a660f4c265961236abd",
+          "url": "https://www.immonet.de/expose/234a5fa5-acb8-4850-8421-308ab59ea993"
+        },
+        {
+          "name": "is24",
+          "publishDate": "2025-07-15T09:36:18.000Z",
+          "active": true,
+          "id": "137052900",
+          "creationDate": "2025-07-15T09:36:18.000Z",
+          "url": "https://www.immobilienscout24.de/expose/137052900"
+        }
+      ],
+      "rentPricePerSqm": 18.1240182511781,
+      "metaSpRentPricePerSqm": {
+        "score": 2.3,
+        "standarderror": 0.19614,
+        "range": {
+          "min": 15.154461814645822,
+          "max": 22.544692946368464
+        },
+        "model": "08, 2025"
+      },
+      "pricePerSqm": 11967.237639314833,
+      "spPricePerSqm": 7292.991248410502,
+      "metaSpPricePerSqm": {
+        "score": 3.13,
+        "standarderror": 0.29,
+        "range": {
+          "min": 5654.873214152143,
+          "max": 10277.5076669908
+        },
+        "model": "08, 2025"
+      },
+      "rentPrice": 2423,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "building",
+        "_type": "building",
+        "city": "Köln",
+        "city_district": "Innenstadt",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "house_number": "7a",
+        "neighbourhood": "Agnesviertel",
+        "political_union": "European Union",
+        "postcode": "50668",
+        "road": "Worringer Straße",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Neustadt/Nord",
+        "lat": 50.9547115,
+        "lon": 6.9682175,
+        "displayName": "Worringer Straße 7a, 50668 Köln, Deutschland",
+        "_normalized_city": "Köln"
+      },
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "unemploymentRate": 0,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "population": 1084831
+      },
+      "grossReturn": 1.82,
+      "grossReturnCurrent": null,
+      "constructionYear": null,
+      "apartmentType": "PENTHOUSE",
+      "condition": "FIRST_TIME_USE",
+      "lastRefurbishment": null,
+      "lift": true,
+      "floor": 5,
+      "numberOfFloors": 5,
+      "cellar": true,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-07-15T09:56:12.409Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 868985,
+          "name": "Innenstadt",
+          "pricePerSqm": 6500,
+          "grossReturn": 2.3815384615384616
+        },
+        "similarListing": {
+          "buyingPrice": 975000,
+          "name": null,
+          "pricePerSqm": 7292.991248410502,
+          "grossReturn": 2.9821538461538464
+        },
+        "location": {
+          "buyingPrice": 641712,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 164.0923076923077,
+      "oAddress": {
+        "is24": {
+          "street": "Worringer Str. 7a",
+          "postcode": "50668",
+          "location": "Köln",
+          "district": "Neustadt/Nord"
+        }
+      },
+      "originalAddress": {
+        "street": "Riehler Straße 88",
+        "postcode": "50668",
+        "location": "Köln",
+        "district": "Neustadt/Nord"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "94573ff8dafa0e3011f04ef96b2cc01d",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/18fa2375-a6cc-4714-9003-8942470c90c5-1577817768.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Viva Agrippina Visual Immoport"
+        },
+        {
+          "id": "088ab09b26c7322dc17fc716e5ffd4b4",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/3f3cff77-7b38-45fe-ba36-fa18496da929-1566668563.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Grundriss"
+        },
+        {
+          "id": "36dbef2b95f5e1a996e6bdf2eb34e48c",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/ccacc94c-e6bb-4b64-a291-394f27b2e2d7-1566668486.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Wohnbeispiel Bad"
+        },
+        {
+          "id": "be1e1ab6b949e600485788e66aad6c2d",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/d5bdfb45-7b74-4c1c-8754-b1a60569d8c5-1566668479.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Wohnbeispiel Schlafen"
+        },
+        {
+          "id": "1057f8704e3c3e2dcb3e3b778ec9d970",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/ab9bc288-12d6-4509-b67c-3f8a1389dd11-1566668482.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Wohnbeispiel"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 1599900,
+          "platformName": "is24",
+          "creationDate": "2025-07-15T09:56:12.409Z"
+        },
+        {
+          "buyingPrice": 1634800,
+          "platformName": "immonet",
+          "creationDate": "2023-06-21T11:04:21.000Z"
+        },
+        {
+          "buyingPrice": 1634800,
+          "platformName": "is24",
+          "creationDate": "2022-10-19T11:06:22.000Z"
+        },
+        {
+          "buyingPrice": 1599900,
+          "platformName": "immonet",
+          "creationDate": "2025-07-15T10:29:12.354Z"
+        }
+      ],
+      "priceReduced": true,
+      "priceIncreased": false,
+      "runningTime": 130,
+      "lastUpdatedAt": "2025-11-22T07:48:12.358Z",
+      "oldPublishDates": [
+        "2022-10-19T11:06:22.000Z",
+        "2023-06-21T09:40:24.055Z"
+      ],
+      "energyEfficiencyClass": "A",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 2423,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 2423,
+      "hasImages": true
+    },
+    {
+      "id": "e73bae8384dd43c3d8049ccf67ae3fe1",
+      "title": "Viva Agrippina: Exklusives Neubau-Wohnen über den Dächern von Köln",
+      "zip": "50668",
+      "buyingPrice": 1599900,
+      "rooms": 4,
+      "squareMeter": 133.7,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "immowelt",
+          "publishDate": "2025-09-22T15:00:32.727Z",
+          "active": true,
+          "id": "immoweltc97fb2e6d80c812bbf32f257766a8f45",
+          "url": "https://www.immowelt.de/expose/234a5fa5-acb8-4850-8421-308ab59ea993"
+        },
+        {
+          "name": "ebk",
+          "publishDate": "2025-11-12T15:18:12.542Z",
+          "active": true,
+          "id": "ebk8110c5ce5cc9463974d79c338391b3ab",
+          "creationDate": "2025-11-12T15:18:12.542Z",
+          "url": "https://www.ebay-kleinanzeigen.de/s-anzeige/viva-agrippina-exklusives-neubau-wohnen-ueber-den-daechern-von-koeln/3135950670-196-982"
+        }
+      ],
+      "rentPricePerSqm": 17.42707554225879,
+      "metaSpRentPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.24401,
+        "score": 2.72,
+        "range": {
+          "min": 14.008975317875842,
+          "max": 23.05908750934929
+        }
+      },
+      "pricePerSqm": 11966.342557965596,
+      "spPricePerSqm": 7053.103964098729,
+      "metaSpPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.29,
+        "score": 3.13,
+        "range": {
+          "min": 5467.464472700075,
+          "max": 9940.16454749439
+        }
+      },
+      "rentPrice": 2330,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Innenstadt",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "postcode": "50668",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Neustadt/Nord",
+        "lat": 50.9504731,
+        "lon": 6.9629446,
+        "displayName": "50668 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "NO_INFORMATION",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "unemploymentRate": 0,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "population": 1084831
+      },
+      "grossReturn": 1.75,
+      "grossReturnCurrent": null,
+      "constructionYear": null,
+      "apartmentType": "APARTMENT",
+      "condition": "FIRST_TIME_USE",
+      "lastRefurbishment": null,
+      "lift": false,
+      "floor": 5,
+      "numberOfFloors": null,
+      "cellar": false,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-07-15T10:19:54.799Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 869049.9999999999,
+          "name": "Innenstadt",
+          "pricePerSqm": 6500,
+          "grossReturn": 2.3815384615384616
+        },
+        "similarListing": {
+          "buyingPrice": 943000,
+          "name": null,
+          "pricePerSqm": 7053.103964098729,
+          "grossReturn": 2.9650053022269356
+        },
+        "location": {
+          "buyingPrice": 641760,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 169.66065747614,
+      "oAddress": {
+        "ebk": {
+          "street": null,
+          "postcode": "50668",
+          "location": "köln",
+          "locationQuery": "50668 Innenstadt, Köln Altstadt"
+        }
+      },
+      "originalAddress": {
+        "street": "",
+        "postcode": "50668",
+        "location": "köln",
+        "locationQuery": "50668 Innenstadt, Köln Altstadt"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "4423316d46b4e43bdf2f031238f2579a",
+          "originalUrl": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/a1/a189a862-1d90-4496-828f-14cbc8ef7058?rule=$_59.AUTO",
+          "title": "Viva Agrippina: Exklusives Neubau-Wohnen über den Dächern von Köln in Köln",
+          "floorPlan": false
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 1599900,
+          "platformName": "ebk",
+          "creationDate": "2025-07-15T10:19:54.799Z"
+        },
+        {
+          "buyingPrice": 1599900,
+          "platformName": "immowelt",
+          "creationDate": "2025-07-15T10:22:42.569Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 0,
+      "lastUpdatedAt": "2025-11-21T13:41:26.868Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 2330,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 2330,
+      "hasImages": true
+    },
+    {
+      "id": "d5449c0dad5727f074f5bdadc961f323",
+      "title": "Salon-Apartment (Belgisches Viertel)",
+      "zip": "50674",
+      "buyingPrice": 675000,
+      "rooms": 3,
+      "squareMeter": 57,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "is24",
+          "publishDate": "2018-02-13T12:49:17.000Z",
+          "active": true,
+          "id": "102974218",
+          "creationDate": "2018-02-13T12:49:17.000Z",
+          "url": "https://www.immobilienscout24.de/expose/102974218"
+        }
+      ],
+      "rentPricePerSqm": 19.035087719298247,
+      "metaSpRentPricePerSqm": {
+        "score": 2.3,
+        "standarderror": 0.19602,
+        "range": {
+          "min": 15.912280701754385,
+          "max": 23.68421052631579
+        },
+        "model": "07, 2025"
+      },
+      "pricePerSqm": 11842.105263157895,
+      "spPricePerSqm": 6684.210526315789,
+      "metaSpPricePerSqm": {
+        "score": 2.82,
+        "standarderror": 0.25471,
+        "range": {
+          "min": 5315.789473684211,
+          "max": 8964.912280701754
+        },
+        "model": "07, 2025"
+      },
+      "rentPrice": 1085,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "_category": "place",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Innenstadt",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Neustadt/Süd",
+        "lat": 50.9319504,
+        "lon": 6.9335385,
+        "displayName": "50674 Köln, Deutschland",
+        "postcode": "50674",
+        "ISO_3166-2": ["DE-NW"],
+        "_normalized_city": "Köln"
+      },
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "universityScore": 25,
+        "population": 1084831,
+        "unemploymentRate": 9.3,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "unemploymentRateScore": 0
+      },
+      "grossReturn": 1.93,
+      "grossReturnCurrent": null,
+      "constructionYear": null,
+      "apartmentType": "APARTMENT",
+      "condition": "MODERNIZED",
+      "lastRefurbishment": 2021,
+      "lift": false,
+      "floor": 3,
+      "numberOfFloors": 4,
+      "cellar": true,
+      "balcony": true,
+      "garden": true,
+      "active": true,
+      "rented": false,
+      "publishDate": "2023-04-18T02:53:58.328Z",
+      "privateOffer": true,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 370500,
+          "name": "Innenstadt",
+          "pricePerSqm": 6500,
+          "grossReturn": 2.750769230769231
+        },
+        "similarListing": {
+          "buyingPrice": 381000,
+          "name": null,
+          "pricePerSqm": 6684.210526315789,
+          "grossReturn": 3.4173228346456694
+        },
+        "location": {
+          "buyingPrice": 273600,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 177.16535433070868,
+      "oAddress": {
+        "is24": {
+          "street": null,
+          "postcode": "50674",
+          "location": "Köln",
+          "district": "Neustadt/Süd"
+        }
+      },
+      "originalAddress": {
+        "postcode": "50674",
+        "location": "Köln",
+        "district": "Neustadt/Süd"
+      },
+      "houseMoney": 220,
+      "images": [
+        {
+          "id": "586d5ae620c348251c6f1f5e08f9381b",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/a193fbe1-f129-4aac-9924-5e0d5783c134-1193307682.png/ORIG/resize/1024x1024/format/jpg",
+          "title": "Salon"
+        },
+        {
+          "id": "9e3de550a5f3691fb0731b871828be29",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/0199cadd-cff5-40d7-badd-343df8256388-1193307686.png/ORIG/resize/1024x1024/format/jpg",
+          "title": "Wohnzimmer"
+        },
+        {
+          "id": "87711d29788513972babe96793131149",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/d6a791e3-5116-4aa3-b167-045bda03244d-1193307688.png/ORIG/resize/1024x1024/format/jpg",
+          "title": "Flur"
+        },
+        {
+          "id": "2d8b14a5fecf9826e8f709140d843dcb",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/56eaccec-4dcd-408b-8a20-8c70548f1eee-1193307693.png/ORIG/resize/1024x1024/format/jpg",
+          "title": "Hauseigener Garten"
+        },
+        {
+          "id": "79194707cf9ace846c852abeb2235ec0",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/07cfde5b-ac49-4dff-b80f-9d42d3f7eb81-1193307699.png/ORIG/resize/1024x1024/format/jpg",
+          "title": "Blick vom Balkon"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 675000,
+          "platformName": "is24",
+          "creationDate": "2022-03-17T01:16:23.083Z"
+        },
+        {
+          "buyingPrice": 525000,
+          "platformName": "is24",
+          "creationDate": "2021-12-18T00:07:52.008Z"
+        },
+        {
+          "buyingPrice": 495000,
+          "platformName": "is24",
+          "creationDate": "2018-02-13T12:49:17.000Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 2776,
+      "lastUpdatedAt": "2025-09-20T15:59:48.416Z",
+      "oldPublishDates": ["2018-02-13T12:49:17.000Z"],
+      "energyEfficiencyClass": "A",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 1085,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 1085,
+      "hasImages": true
+    },
+    {
+      "id": "900bbdbbb53fe46438673aae4a6429f7",
+      "title": "Kölns exklusivstes Penthouse",
+      "zip": "50937",
+      "buyingPrice": 2499000,
+      "rooms": 3,
+      "squareMeter": 212,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "is24",
+          "publishDate": "2025-10-01T10:12:43.000Z",
+          "active": true,
+          "id": "161969863",
+          "creationDate": "2025-10-01T10:12:43.000Z",
+          "url": "https://www.immobilienscout24.de/expose/161969863"
+        }
+      ],
+      "rentPricePerSqm": 19.669811320754718,
+      "metaSpRentPricePerSqm": {
+        "model": "07, 2025",
+        "standarderror": 0.14765,
+        "score": 1.87,
+        "range": {
+          "min": 17.13679245283019,
+          "max": 23.07547169811321
+        }
+      },
+      "pricePerSqm": 11787.735849056604,
+      "spPricePerSqm": 8452.830188679245,
+      "metaSpPricePerSqm": {
+        "model": "07, 2025",
+        "standarderror": 0.20694,
+        "score": 2.39,
+        "range": {
+          "min": 7004.7169811320755,
+          "max": 10660.377358490567
+        }
+      },
+      "rentPrice": 4170,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "building",
+        "_normalized_city": "Köln",
+        "_type": "building",
+        "city": "Köln",
+        "city_district": "Lindenthal",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "house_number": "391",
+        "political_union": "European Union",
+        "postcode": "50937",
+        "road": "Berrenrather Straße",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Sülz",
+        "lat": 50.9127993,
+        "lon": 6.9199409,
+        "displayName": "Berrenrather Straße 391, 50937 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "A+",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "population": 1084831,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "hasUniversity": true,
+        "unemploymentRate": 9.1,
+        "numberOfStudents": null,
+        "score": 67,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "populationScore": 25,
+        "populationTrendScore": 16.664
+      },
+      "grossReturn": 2,
+      "grossReturnCurrent": null,
+      "constructionYear": 2026,
+      "apartmentType": "PENTHOUSE",
+      "condition": "FIRST_TIME_USE",
+      "lastRefurbishment": null,
+      "lift": true,
+      "floor": 5,
+      "numberOfFloors": 5,
+      "cellar": true,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-10-03T14:03:28.326Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "name": "Lindenthal",
+          "buyingPrice": 1293200,
+          "pricePerSqm": 6100,
+          "grossReturn": 2.832786885245902
+        },
+        "location": {
+          "name": "Köln",
+          "buyingPrice": 1017600,
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        },
+        "similarListing": {
+          "name": null,
+          "buyingPrice": 1792000,
+          "pricePerSqm": 8452.830188679245,
+          "grossReturn": 2.7924107142857144
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 139.453125,
+      "oAddress": {
+        "is24": {
+          "street": "Berrenrather Straße 391",
+          "postcode": "50937",
+          "location": "Köln",
+          "district": "Sülz"
+        }
+      },
+      "originalAddress": {
+        "street": "Berrenrather Straße 391",
+        "postcode": "50937",
+        "location": "Köln",
+        "district": "Sülz"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "c4d93e6fb382ae4a9db054993534d279",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/2a33cc2f-368a-4fe9-83ee-678df2e9230d-1944386836.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "2025.09.19 RNKA FRONTANSICHT"
+        },
+        {
+          "id": "5606001b669cdf03316c0dfc72a66bd9",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/d6934353-7449-48b4-b344-c068b96a2bd9-1944386881.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "2025.09.19 RNKA WOHNEN"
+        },
+        {
+          "id": "40a9857450f9690363e2b1645d02ee0c",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/79152627-0dc4-433b-a2f1-506f4587c866-1944386932.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "2025.09.19 RNKA DACHTERRASSE"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 2499000,
+          "platformName": "is24",
+          "creationDate": "2025-10-01T10:12:43.000Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 2,
+      "lastUpdatedAt": "2025-10-03T14:03:28.326Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 4170,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 4170,
+      "hasImages": true
+    },
+    {
+      "id": "9cbf6770e8251fb78be0aa571149665e",
+      "title": "Design trifft Geborgenheit – Architekten-Townhouse mit privatem Garten in Ehrenfeld",
+      "zip": "50823",
+      "buyingPrice": 1590000,
+      "rooms": 4,
+      "squareMeter": 136,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "is24",
+          "publishDate": "2025-07-03T09:16:54.000Z",
+          "active": true,
+          "id": "160205961",
+          "creationDate": "2025-07-03T09:16:54.000Z",
+          "url": "https://www.immobilienscout24.de/expose/160205961"
+        }
+      ],
+      "rentPricePerSqm": 21.580882352941178,
+      "metaSpRentPricePerSqm": {
+        "model": "07, 2025",
+        "standarderror": 0.14148,
+        "score": 1.81,
+        "range": {
+          "min": 18.904411764705884,
+          "max": 25.13235294117647
+        }
+      },
+      "pricePerSqm": 11691.176470588236,
+      "spPricePerSqm": 7676.470588235294,
+      "metaSpPricePerSqm": {
+        "model": "07, 2025",
+        "standarderror": 0.20604,
+        "score": 2.39,
+        "range": {
+          "min": 6367.64705882353,
+          "max": 9669.117647058823
+        }
+      },
+      "rentPrice": 2935,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Ehrenfeld",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "postcode": "50823",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Ehrenfeld",
+        "lat": 50.9508203,
+        "lon": 6.9259111,
+        "displayName": "50823 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "B",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "unemploymentRate": 0,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "population": 1084831
+      },
+      "grossReturn": 2.22,
+      "grossReturnCurrent": null,
+      "constructionYear": 2025,
+      "apartmentType": "NO_INFORMATION",
+      "condition": "FIRST_TIME_USE",
+      "lastRefurbishment": null,
+      "lift": false,
+      "floor": null,
+      "numberOfFloors": 2,
+      "cellar": true,
+      "balcony": true,
+      "garden": true,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-10-18T14:21:42.975Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 734400,
+          "name": "Ehrenfeld",
+          "pricePerSqm": 5400,
+          "grossReturn": 3.155555555555555
+        },
+        "similarListing": {
+          "buyingPrice": 1044000,
+          "name": null,
+          "pricePerSqm": 7676.470588235294,
+          "grossReturn": 3.373563218390805
+        },
+        "location": {
+          "buyingPrice": 652800,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 152.29885057471267,
+      "oAddress": {
+        "is24": {
+          "street": null,
+          "postcode": "50823",
+          "location": "Köln",
+          "district": "Ehrenfeld (Ortsteil)"
+        }
+      },
+      "originalAddress": {
+        "postcode": "50823",
+        "location": "Köln",
+        "district": "Ehrenfeld (Ortsteil)"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "fc2fc789ad9bbda625615efa9a3b332e",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/bcc21cbf-1f43-4cd4-8543-50dcaade35e2-1918312564.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "unverbindliche Visualisierung"
+        },
+        {
+          "id": "b9f7867668edf4ed95bfa8b7deddce53",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/159a0692-b65a-41aa-bf10-e1611719c64c-1918312571.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "unverbindliche Visualisierung"
+        },
+        {
+          "id": "d7f39db1929c0bdd337b3e5af45fb2c1",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/e7fa1bee-7ea0-4591-b125-9d2f7c17e1e0-1918312569.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "unverbindliche Visualisierung"
+        },
+        {
+          "id": "1cae25fbd558359e25fea427614410cd",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/ef34db75-6b85-4724-93da-e2f67ed93e03-1918312566.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "unverbindliche Visualisierung"
+        },
+        {
+          "id": "5fec78e08fe9a22c67d8934e25b630d0",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/2b84ed26-4088-48e8-ae18-1a3afc56a4f7-1918312573.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "unverbindliche Visualisierung"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 1590000,
+          "platformName": "is24",
+          "creationDate": "2025-07-03T09:16:54.000Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 107,
+      "lastUpdatedAt": "2025-10-18T14:21:42.976Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 2935,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 2935,
+      "hasImages": true
+    },
+    {
+      "id": "d1f6a54f83b19dfb1dfba25ca619ead2",
+      "title": "Constance: Ihr persönliches Paradies über den Dächern der Stadt",
+      "zip": "53115",
+      "buyingPrice": 1700000,
+      "rooms": 5,
+      "squareMeter": 146.87,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "is24",
+          "publishDate": "2025-01-23T16:49:28.000Z",
+          "active": true,
+          "id": "131548850",
+          "creationDate": "2025-01-23T16:49:28.000Z",
+          "url": "https://www.immobilienscout24.de/expose/131548850"
+        }
+      ],
+      "rentPricePerSqm": 16.293320623680806,
+      "metaSpRentPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.13362,
+        "score": 1.74,
+        "range": {
+          "min": 14.373255259753524,
+          "max": 18.812555321032203
+        }
+      },
+      "pricePerSqm": 11574.862122965887,
+      "spPricePerSqm": 6652.141349492748,
+      "metaSpPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.20449,
+        "score": 2.37,
+        "range": {
+          "min": 5521.8901068972555,
+          "max": 8361.135698236536
+        }
+      },
+      "rentPrice": 2393,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "continent": "Europe",
+        "country": "Deutschland",
+        "_normalized_city": "Bonn",
+        "town": "Bonn",
+        "displayName": "Bonn, Nordrhein-Westfalen, Deutschland",
+        "_type": "city",
+        "county": "Köln",
+        "postcode": "53115",
+        "ISO_3166-1_alpha-2": "DE",
+        "lon": 7.09549,
+        "ISO_3166-1_alpha-3": "DEU",
+        "country_code": "de",
+        "_category": "place",
+        "political_union": "European Union",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "lat": 50.73438,
+        "local_administrative_area": "Kreisfreie Stadt Bonn"
+      },
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "unemploymentRate": 0,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": 38919,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "population": 336465
+      },
+      "grossReturn": 1.69,
+      "grossReturnCurrent": null,
+      "constructionYear": 2024,
+      "apartmentType": "PENTHOUSE",
+      "condition": "FIRST_TIME_USE",
+      "lastRefurbishment": null,
+      "lift": true,
+      "floor": 5,
+      "numberOfFloors": 5,
+      "cellar": true,
+      "balcony": true,
+      "garden": true,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-07-11T16:03:02.892Z",
+      "privateOffer": false,
+      "aggregations": {
+        "similarListing": {
+          "buyingPrice": 977000,
+          "name": null,
+          "pricePerSqm": 6652.141349492748,
+          "grossReturn": 2.9392016376663257
+        },
+        "location": {
+          "buyingPrice": 572793,
+          "name": "Bonn",
+          "pricePerSqm": 3900,
+          "grossReturn": 3.3846153846153846
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 174.00204708290684,
+      "oAddress": {
+        "is24": {
+          "street": "Poppelsorfer Allee 27-29",
+          "postcode": "53115",
+          "location": "Bonn",
+          "district": "Poppelsdorf"
+        }
+      },
+      "originalAddress": {
+        "street": "Poppelsorfer Allee 27-29",
+        "postcode": "53115",
+        "location": "Bonn",
+        "district": "Poppelsdorf"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "9dd2b3c4982bae10c0ab3eb9f1f97117",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/4fabff79-2a74-4025-9773-8206f201f1dc-1499047325.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Dachterrasse"
+        },
+        {
+          "id": "fd81cc0b7359b0e075cf11111bf5d2e9",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/d9baecf8-6fb6-4b47-8173-56ef5822ab56-1499047507.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Grundriss 4. OG"
+        },
+        {
+          "id": "8abb07c0dc789374439611a94b0b1ce4",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/669d5c8a-b9e8-485a-9854-bbf963a6710a-1499047514.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Grundriss 5. OG"
+        },
+        {
+          "id": "ed1e86cdfd6a7b477ef028463d717223",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/e4f7a394-c2dd-42ec-87f2-9d865a53e444-1499047331.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Wohnbeispiel Bad"
+        },
+        {
+          "id": "e290b6a76407782d3d681630f4e893d2",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/5c747a0e-6793-41c6-a5f3-e40fbf8ae6df-1499048081.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Ansicht"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 1759900,
+          "platformName": "is24",
+          "creationDate": "2022-01-20T11:27:23.000Z"
+        },
+        {
+          "buyingPrice": 1700000,
+          "platformName": "is24",
+          "creationDate": "2025-06-02T08:33:22.538Z"
+        }
+      ],
+      "priceReduced": true,
+      "priceIncreased": false,
+      "runningTime": 285,
+      "lastUpdatedAt": "2025-11-04T22:22:32.305Z",
+      "energyEfficiencyClass": "A",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 2393,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 2393,
+      "hasImages": true
+    },
+    {
+      "id": "d32fe7afc20e5bd27130d5bfa5674f82",
+      "title": "Exklusive Duplex-Wohnung in Marienburg",
+      "zip": "50968",
+      "buyingPrice": 2250000,
+      "rooms": 7,
+      "squareMeter": 196,
+      "comission": 3.57,
+      "platforms": [
+        {
+          "name": "immonet",
+          "publishDate": "2025-11-14T14:54:47.793Z",
+          "active": true,
+          "id": "immonet5cdea1e32e0da0592fde31e0927c796f",
+          "creationDate": "2025-11-14T14:54:47.793Z",
+          "url": "https://www.immonet.de/expose/70240d79-8e03-4332-ad35-6bddef0d3ff6"
+        },
+        {
+          "name": "immowelt",
+          "publishDate": "2025-11-14T14:54:33.642Z",
+          "active": true,
+          "id": "immoweltfec6d1d56f75d5684af556e8bab869a4",
+          "creationDate": "2025-11-14T14:54:33.642Z",
+          "url": "https://www.immowelt.de/expose/70240d79-8e03-4332-ad35-6bddef0d3ff6"
+        },
+        {
+          "name": "is24",
+          "publishDate": "2025-11-14T14:47:23.000Z",
+          "active": true,
+          "id": "163841748",
+          "creationDate": "2025-11-14T14:47:23.000Z",
+          "url": "https://www.immobilienscout24.de/expose/163841748"
+        }
+      ],
+      "rentPricePerSqm": 18.836734693877553,
+      "metaSpRentPricePerSqm": {
+        "model": "09, 2025",
+        "standarderror": 0.15725,
+        "score": 1.95,
+        "range": {
+          "min": 16.275510204081634,
+          "max": 22.352040816326532
+        }
+      },
+      "pricePerSqm": 11479.591836734693,
+      "spPricePerSqm": 7882.65306122449,
+      "metaSpPricePerSqm": {
+        "model": "09, 2025",
+        "standarderror": 0.20933,
+        "score": 2.42,
+        "range": {
+          "min": 6515.306122448979,
+          "max": 9969.387755102041
+        }
+      },
+      "rentPrice": 3692.0000000000005,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Rodenkirchen",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "postcode": "50968",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Marienburg",
+        "lat": 50.9014161,
+        "lon": 6.9666561,
+        "displayName": "50968 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "A+",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "population": 1084831,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "hasUniversity": true,
+        "unemploymentRate": 0,
+        "numberOfStudents": null,
+        "score": 67,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "populationScore": 25,
+        "populationTrendScore": 16.664
+      },
+      "grossReturn": 1.97,
+      "grossReturnCurrent": null,
+      "constructionYear": 2018,
+      "apartmentType": "MAISONETTE",
+      "condition": "MINT_CONDITION",
+      "lastRefurbishment": null,
+      "lift": false,
+      "floor": 1,
+      "numberOfFloors": null,
+      "cellar": false,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-11-14T14:47:23.000Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "name": "Rodenkirchen",
+          "buyingPrice": 1185800,
+          "pricePerSqm": 6050,
+          "grossReturn": 2.836363636363637
+        },
+        "location": {
+          "name": "Köln",
+          "buyingPrice": 940800,
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        },
+        "similarListing": {
+          "name": null,
+          "buyingPrice": 1545000,
+          "pricePerSqm": 7882.65306122449,
+          "grossReturn": 2.867572815533981
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 145.63106796116506,
+      "oAddress": {
+        "is24": {
+          "street": null,
+          "postcode": "50968",
+          "location": "Köln",
+          "district": "Marienburg"
+        }
+      },
+      "originalAddress": {
+        "postcode": "50968",
+        "location": "Köln",
+        "district": "Marienburg"
+      },
+      "houseMoney": 740,
+      "images": [
+        {
+          "id": "e2dc06284225fb57c3e71cbcb443f5d0",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/8c58f711-7ffa-4eb4-a5fa-c7ab6e918615-1963727570.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "2"
+        },
+        {
+          "id": "3f9c69afe8a8d2081e0141685ca4679b",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/4ecfa643-60e2-41ba-8da3-e633b9836757-1963727573.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Straßenansicht"
+        },
+        {
+          "id": "7df1508991ceaec73f21e5b3a8705210",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/7c86c51b-de71-4d98-bf1f-239a55336722-1963727577.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Wohn-/ Essbereich 1.OG"
+        },
+        {
+          "id": "d544175c237e764873416ab6667750be",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/fc9b6565-4fc2-4015-83c9-7759f3862442-1963727581.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Zimmer"
+        },
+        {
+          "id": "549fc778282b8120d7a8f677eba0abb9",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/409a3525-8619-4db5-99b9-b4af9e6c072a-1963727585.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Terrasse 1.OG"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 2250000,
+          "platformName": "immowelt",
+          "creationDate": "2025-11-14T14:54:33.642Z"
+        },
+        {
+          "buyingPrice": 2250000,
+          "platformName": "is24",
+          "creationDate": "2025-11-14T14:47:23.000Z"
+        },
+        {
+          "buyingPrice": 2250000,
+          "platformName": "immonet",
+          "creationDate": "2025-11-14T14:54:47.793Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 0,
+      "lastUpdatedAt": "2025-11-14T14:54:48.646Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 3692,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 3692.0000000000005,
+      "hasImages": true
+    },
+    {
+      "id": "bbfe9b5d6bc960dfd0d8227860ffacf8",
+      "title": "Anspruchsvolle Eigentumswohnung in Marienburg.",
+      "zip": "50968",
+      "buyingPrice": 1230000,
+      "rooms": 4,
+      "squareMeter": 108,
+      "comission": 3.57,
+      "platforms": [
+        {
+          "name": "immowelt",
+          "publishDate": "2025-11-14T14:54:31.522Z",
+          "active": true,
+          "id": "immowelt8b44b282c88fdafedc23e91de64338f4",
+          "creationDate": "2025-11-14T14:54:31.522Z",
+          "url": "https://www.immowelt.de/expose/d8a49ac0-6e1f-4fec-9427-e78561492c4b"
+        },
+        {
+          "name": "immonet",
+          "publishDate": "2025-11-14T14:50:04.708Z",
+          "active": true,
+          "id": "immonetcd1e24db1e98a7027a46c1de0f1ee695",
+          "creationDate": "2025-11-14T14:50:04.708Z",
+          "url": "https://www.immonet.de/expose/d8a49ac0-6e1f-4fec-9427-e78561492c4b"
+        },
+        {
+          "name": "is24",
+          "publishDate": "2025-11-14T14:46:37.000Z",
+          "active": true,
+          "id": "163841717",
+          "creationDate": "2025-11-14T14:46:37.000Z",
+          "url": "https://www.immobilienscout24.de/expose/163841717"
+        }
+      ],
+      "rentPricePerSqm": 18.37962962962963,
+      "metaSpRentPricePerSqm": {
+        "model": "09, 2025",
+        "standarderror": 0.1339,
+        "score": 1.75,
+        "range": {
+          "min": 16.212962962962962,
+          "max": 21.22222222222222
+        }
+      },
+      "pricePerSqm": 11388.888888888889,
+      "spPricePerSqm": 7240.740740740741,
+      "metaSpPricePerSqm": {
+        "model": "09, 2025",
+        "standarderror": 0.17753,
+        "score": 2.13,
+        "range": {
+          "min": 6148.148148148148,
+          "max": 8805.555555555555
+        }
+      },
+      "rentPrice": 1985,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Rodenkirchen",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "postcode": "50968",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Marienburg",
+        "lat": 50.9014161,
+        "lon": 6.9666561,
+        "displayName": "50968 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "A+",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "population": 1084831,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "hasUniversity": true,
+        "unemploymentRate": 0,
+        "numberOfStudents": null,
+        "score": 67,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "populationScore": 25,
+        "populationTrendScore": 16.664
+      },
+      "grossReturn": 1.94,
+      "grossReturnCurrent": null,
+      "constructionYear": 2018,
+      "apartmentType": "APARTMENT",
+      "condition": "MINT_CONDITION",
+      "lastRefurbishment": null,
+      "lift": false,
+      "floor": 1,
+      "numberOfFloors": null,
+      "cellar": false,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-11-14T14:46:37.000Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "name": "Rodenkirchen",
+          "buyingPrice": 653400,
+          "pricePerSqm": 6050,
+          "grossReturn": 2.836363636363637
+        },
+        "location": {
+          "name": "Köln",
+          "buyingPrice": 518400,
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        },
+        "similarListing": {
+          "name": null,
+          "buyingPrice": 782000,
+          "pricePerSqm": 7240.740740740741,
+          "grossReturn": 3.046035805626598
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 157.28900255754473,
+      "oAddress": {
+        "is24": {
+          "street": null,
+          "postcode": "50968",
+          "location": "Köln",
+          "district": "Marienburg"
+        }
+      },
+      "originalAddress": {
+        "postcode": "50968",
+        "location": "Köln",
+        "district": "Marienburg"
+      },
+      "houseMoney": 420,
+      "images": [
+        {
+          "id": "aa575dd9a3462062159e3a2222fc5a12",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/9fcd6b26-6ee1-4a76-aff5-031ef757e93c-1963727173.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Wohn-/ Essbereich"
+        },
+        {
+          "id": "640c21fce648d56b9fb6fd006a9d3cf7",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/211af3db-ae4e-4e91-9572-003aced4f032-1963727177.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Küche"
+        },
+        {
+          "id": "20f510c2e1e186835733eea86c692ec7",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/a289856a-a96b-4f40-9f9d-7f82df435e64-1963727190.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Zimmer"
+        },
+        {
+          "id": "3541bf04dc5a390cd4e949f4029ab2f5",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/32dd82f4-011b-41e3-8de3-01aa40eb2c97-1963727201.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Terrasse"
+        },
+        {
+          "id": "5e811f6054e4c64758d92cdfcb0b32bd",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/a42897f1-6baa-440f-b129-c128c8977787-1963727206.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Badezimmer"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 1230000,
+          "platformName": "immonet",
+          "creationDate": "2025-11-14T14:50:04.708Z"
+        },
+        {
+          "buyingPrice": 1230000,
+          "platformName": "is24",
+          "creationDate": "2025-11-14T14:46:37.000Z"
+        },
+        {
+          "buyingPrice": 1230000,
+          "platformName": "immowelt",
+          "creationDate": "2025-11-14T14:54:31.522Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 0,
+      "lastUpdatedAt": "2025-11-14T14:54:32.536Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 1985,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 1985,
+      "hasImages": true
+    },
+    {
+      "id": "fccb95029f7fc38539ce2a045cf004a6",
+      "title": "Luxuriöse Penthouse-Maisonette mit Domblick",
+      "zip": "50670",
+      "buyingPrice": 2950000,
+      "rooms": 5,
+      "squareMeter": 260,
+      "comission": 3.57,
+      "platforms": [
+        {
+          "name": "is24",
+          "publishDate": "2025-03-11T17:32:16.000Z",
+          "active": true,
+          "id": "157848805",
+          "creationDate": "2025-03-11T17:32:16.000Z",
+          "url": "https://www.immobilienscout24.de/expose/157848805"
+        }
+      ],
+      "rentPricePerSqm": 19.884615384615383,
+      "metaSpRentPricePerSqm": {
+        "model": "07, 2025",
+        "standarderror": 0.2249,
+        "score": 2.55,
+        "range": {
+          "min": 16.23076923076923,
+          "max": 25.65
+        }
+      },
+      "pricePerSqm": 11346.153846153846,
+      "spPricePerSqm": 7503.846153846154,
+      "metaSpPricePerSqm": {
+        "model": "07, 2025",
+        "standarderror": 0.24581,
+        "score": 2.74,
+        "range": {
+          "min": 6023.076923076923,
+          "max": 9950
+        }
+      },
+      "rentPrice": 5170,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Innenstadt",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Neustadt/Nord",
+        "lat": 50.949625,
+        "lon": 6.9445195,
+        "displayName": "50670 Köln, Deutschland",
+        "postcode": "50670"
+      },
+      "energyEfficiencyClass": "A",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "universityScore": 25,
+        "population": 1084831,
+        "unemploymentRate": 9.3,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "unemploymentRateScore": 0
+      },
+      "grossReturn": 2.1,
+      "grossReturnCurrent": null,
+      "constructionYear": 1888,
+      "apartmentType": "PENTHOUSE",
+      "condition": "MINT_CONDITION",
+      "lastRefurbishment": 2019,
+      "lift": true,
+      "floor": 5,
+      "numberOfFloors": 5,
+      "cellar": true,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-06-07T18:23:49.914Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 1703000,
+          "name": "Innenstadt",
+          "pricePerSqm": 6550,
+          "grossReturn": 2.7297709923664124
+        },
+        "similarListing": {
+          "buyingPrice": 1951000,
+          "name": null,
+          "pricePerSqm": 7503.846153846154,
+          "grossReturn": 3.179907739620707
+        },
+        "location": {
+          "buyingPrice": 1248000,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 151.20451050743208,
+      "oAddress": {
+        "is24": {
+          "street": null,
+          "postcode": "50670",
+          "location": "Köln",
+          "district": "Neustadt/Nord"
+        }
+      },
+      "originalAddress": {
+        "postcode": "50670",
+        "location": "Köln",
+        "district": "Neustadt/Nord"
+      },
+      "houseMoney": 930,
+      "images": [
+        {
+          "id": "9369eede424f319c3bc2496c2f7a5660",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/96119593-149f-4e36-976c-f893122a013b-1886894355.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Frontansicht"
+        },
+        {
+          "id": "7f18a56b8e0abef822321c7b48863e63",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/d52eeb56-712a-4028-80b1-8ff28398378a-1886894360.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Küche 1"
+        },
+        {
+          "id": "a3785cfb7c2b68fced3ee4b6f3082721",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/cec9c7cc-a3a5-4fc5-b6d7-7fc99ba582cf-1886894366.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Küche 2"
+        },
+        {
+          "id": "f0b77d4744b6fffde6e2d119b019777b",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/46088bc6-d0e2-460a-a14b-cb59c8b4729c-1886894371.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Essbereich"
+        },
+        {
+          "id": "8ef084b848cd31f4dc4a15a304a7e668",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/e6d4868f-a310-42d9-955c-256b93db371d-1886894375.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Wohnbereich "
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 3120000,
+          "platformName": "is24",
+          "creationDate": "2025-03-11T17:32:16.000Z"
+        },
+        {
+          "buyingPrice": 2950000,
+          "platformName": "is24",
+          "creationDate": "2025-06-07T18:23:49.914Z"
+        }
+      ],
+      "priceReduced": true,
+      "priceIncreased": false,
+      "runningTime": 191,
+      "lastUpdatedAt": "2025-09-19T01:27:15.328Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 5170,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 5170,
+      "hasImages": true
+    },
+    {
+      "id": "58400b9dee5fb59b39f3f3092f556ad2",
+      "title": "Luxuriöse Penthouse-Maisonette mit Domblick",
+      "zip": "50670",
+      "buyingPrice": 2950000,
+      "rooms": null,
+      "squareMeter": 260,
+      "comission": 3.57,
+      "platforms": [
+        {
+          "name": "is24",
+          "id": "159679011",
+          "url": "https://www.immobilienscout24.de/expose/159679011",
+          "creationDate": "2025-06-07T15:09:30.000Z",
+          "publishDate": "2025-06-07T15:09:30.000Z",
+          "active": true
+        }
+      ],
+      "rentPricePerSqm": 17.93076923076923,
+      "metaSpRentPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.254,
+        "score": 2.81,
+        "range": {
+          "min": 14.296153846153846,
+          "max": 24.034615384615385
+        }
+      },
+      "pricePerSqm": 11346.153846153846,
+      "spPricePerSqm": 6792.307692307692,
+      "metaSpPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.25971,
+        "score": 2.86,
+        "range": {
+          "min": 5392.307692307692,
+          "max": 9176.923076923076
+        }
+      },
+      "rentPrice": 4662,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Innenstadt",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Neustadt/Nord",
+        "lat": 50.949625,
+        "lon": 6.9445195,
+        "displayName": "50670 Köln, Deutschland",
+        "postcode": "50670"
+      },
+      "energyEfficiencyClass": "A",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "unemploymentRate": 0,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "population": 1084831
+      },
+      "grossReturn": 1.9,
+      "grossReturnCurrent": null,
+      "constructionYear": 1888,
+      "apartmentType": "APARTMENT",
+      "condition": "MINT_CONDITION",
+      "lastRefurbishment": null,
+      "lift": false,
+      "floor": null,
+      "numberOfFloors": 5,
+      "cellar": false,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-06-07T15:09:30.000Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 1703000,
+          "name": "Innenstadt",
+          "pricePerSqm": 6550,
+          "grossReturn": 2.7297709923664124
+        },
+        "location": {
+          "buyingPrice": 1248000,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        },
+        "similarListing": {
+          "buyingPrice": 1766000,
+          "name": null,
+          "pricePerSqm": 6792.307692307692,
+          "grossReturn": 3.1678369195922986
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 167.04416761041904,
+      "oAddress": {
+        "is24": {
+          "street": null,
+          "postcode": "50670",
+          "location": "Köln",
+          "district": "Neustadt/Nord"
+        }
+      },
+      "originalAddress": {
+        "postcode": "50670",
+        "location": "Köln",
+        "district": "Neustadt/Nord"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "880f32b31b0bf09190d4affa93837c95",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/6ab9a81b-b32f-40ae-8fbd-ffd89f66cd2c-1910791167.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Frontansicht"
+        },
+        {
+          "id": "a2fb82ab97215c242d5f06d28240235f",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/80bde9ae-035c-41d6-b299-11bf7d89606d-1910791170.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Küche 1"
+        },
+        {
+          "id": "919d78773e49bfe38fe61f9a1eb9a839",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/55245315-2c1d-4c6b-bbe2-18f516b7ad01-1910791173.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Küche 2"
+        },
+        {
+          "id": "7cc3146c6dca70c7f29b32914710ec64",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/ec1a004c-1af0-405c-8932-d27ebb2e9f46-1910791176.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Essbereich"
+        },
+        {
+          "id": "5aba36761e44501d341ec23bca388389",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/a5a57f54-5c2a-4efe-9cbd-f5a57fe0dd20-1910791179.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Wohnbereich "
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 2950000,
+          "platformName": "is24",
+          "creationDate": "2025-06-07T15:09:30.000Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 148,
+      "lastUpdatedAt": "2025-11-02T05:06:05.778Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 4662,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 4662,
+      "hasImages": true
+    },
+    {
+      "id": "3da042f3aa9bc574a6ae11a62866b060",
+      "title": "Einzigartige Neubau-Rheinblick-Wohnung: Castle-Homes \"Rhineview\"",
+      "zip": "50996",
+      "buyingPrice": 890000,
+      "rooms": 3,
+      "squareMeter": 79.21,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "is24",
+          "publishDate": "2024-03-22T11:49:17.000Z",
+          "active": true,
+          "id": "149637843",
+          "creationDate": "2024-03-22T11:49:17.000Z",
+          "url": "https://www.immobilienscout24.de/expose/149637843"
+        }
+      ],
+      "rentPricePerSqm": 20.098472415099106,
+      "metaSpRentPricePerSqm": {
+        "model": "07, 2025",
+        "standarderror": 0.12713,
+        "score": 1.69,
+        "range": {
+          "min": 17.838656735260702,
+          "max": 23.027395530867317
+        }
+      },
+      "pricePerSqm": 11235.955056179777,
+      "spPricePerSqm": 7183.436434793587,
+      "metaSpPricePerSqm": {
+        "model": "07, 2025",
+        "standarderror": 0.15547,
+        "score": 1.94,
+        "range": {
+          "min": 6211.3369524049995,
+          "max": 8496.401969448303
+        }
+      },
+      "rentPrice": 1592,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "building",
+        "_normalized_city": "Köln",
+        "_type": "building",
+        "city": "Köln",
+        "city_district": "Rodenkirchen",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "house_number": "40",
+        "political_union": "European Union",
+        "postcode": "50996",
+        "road": "Hauptstraße",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Rodenkirchen",
+        "lat": 50.8950695,
+        "lon": 6.9922214,
+        "displayName": "Hauptstraße 40, 50996 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "A",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "universityScore": 25,
+        "population": 1084831,
+        "unemploymentRate": 9.3,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "unemploymentRateScore": 0
+      },
+      "grossReturn": 2.15,
+      "grossReturnCurrent": null,
+      "constructionYear": 2026,
+      "apartmentType": "APARTMENT",
+      "condition": "FIRST_TIME_USE",
+      "lastRefurbishment": null,
+      "lift": true,
+      "floor": 3,
+      "numberOfFloors": 5,
+      "cellar": true,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2024-10-12T13:46:33.035Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 356445,
+          "name": "Rodenkirchen",
+          "pricePerSqm": 4500,
+          "grossReturn": 3.626666666666666
+        },
+        "similarListing": {
+          "buyingPrice": 569000,
+          "name": null,
+          "pricePerSqm": 7183.436434793587,
+          "grossReturn": 3.357469244288225
+        },
+        "location": {
+          "buyingPrice": 380207.99999999994,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 156.41476274165203,
+      "oAddress": {
+        "is24": {
+          "street": "Hauptstraße 40",
+          "postcode": "50996",
+          "location": "Köln",
+          "district": "Rodenkirchen (Ortsteil)"
+        }
+      },
+      "originalAddress": {
+        "street": "Hauptstraße 40",
+        "postcode": "50996",
+        "location": "Köln",
+        "district": "Rodenkirchen (Ortsteil)"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "7084b6ca9fe4977ac230680129ea0e8d",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/3e61df0e-837f-45f1-86cb-a8e5ff992770-1778300498.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Visualisierung Vogelperspektiv"
+        },
+        {
+          "id": "1372ba80e8bbee08446851132e2f3b6c",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/6a6416dc-ec32-4155-aa7d-e7a32dd2dce9-1778300488.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Visualisierung Front Blue Hour"
+        },
+        {
+          "id": "4488682923ae2611a811de298ddcd779",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/6111b214-b3d4-4bed-9ad3-fde70f95e828-1778300478.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Visualisierung Bad hell"
+        },
+        {
+          "id": "b0889d2b2a7e7251555d675cc20aa9a5",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/3b442d90-6645-4504-bd92-085bc23d9e9a-1778300480.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Visualisierung Schlafzimmer"
+        },
+        {
+          "id": "5176f6ca1e4b6c1ff88053e404c0ff68",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/297b469e-4ad3-4707-8104-517d2d873707-1778300482.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Visualisierung Wohnzimmer"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 760000,
+          "platformName": "is24",
+          "creationDate": "2024-10-12T13:46:33.035Z"
+        },
+        {
+          "buyingPrice": 780000,
+          "platformName": "is24",
+          "creationDate": "2024-03-22T11:49:17.000Z"
+        },
+        {
+          "buyingPrice": 890000,
+          "platformName": "is24",
+          "creationDate": "2025-05-27T09:55:44.090Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 546,
+      "lastUpdatedAt": "2025-09-19T12:04:34.230Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 1592,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 1592,
+      "hasImages": true
+    },
+    {
+      "id": "cd01ebb3c67f92f7026f1d158f864bb3",
+      "title": "Eine der exklusivsten Penthouse-Wohnungen in Köln im \"Palais du Rhin\"",
+      "zip": "50968",
+      "buyingPrice": 2980000,
+      "rooms": 5,
+      "squareMeter": 271.63,
+      "comission": 3.57,
+      "platforms": [
+        {
+          "deactivationDate": "2025-09-25T00:15:44.736Z",
+          "name": "immonet",
+          "publishDate": "2025-09-22T18:16:15.526Z",
+          "active": false,
+          "id": "immonetbecb9c551d4a93027e0dbc66498389e8",
+          "url": "https://www.immonet.de/expose/66758f70-d6c7-455d-a17c-c07670305976"
+        },
+        {
+          "deactivationDate": "2025-09-25T00:29:28.551Z",
+          "name": "immowelt",
+          "publishDate": "2025-07-23T20:17:53.241Z",
+          "active": false,
+          "id": "immowelt320f54f587b7b958b6ee90a98747bba6",
+          "url": "https://www.immowelt.de/expose/66758f70-d6c7-455d-a17c-c07670305976"
+        },
+        {
+          "name": "is24",
+          "publishDate": "2025-11-07T10:38:10.000Z",
+          "active": true,
+          "id": "160299093",
+          "creationDate": "2025-11-07T10:38:10.000Z",
+          "url": "https://www.immobilienscout24.de/expose/160299093"
+        }
+      ],
+      "rentPricePerSqm": 20.049331811655563,
+      "metaSpRentPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.16102,
+        "score": 1.99,
+        "range": {
+          "min": 17.266134079446307,
+          "max": 23.896476825092957
+        }
+      },
+      "pricePerSqm": 10970.805875639657,
+      "spPricePerSqm": 8736.148437212385,
+      "metaSpPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.19157,
+        "score": 2.26,
+        "range": {
+          "min": 7329.823657180724,
+          "max": 10805.139343960534
+        }
+      },
+      "rentPrice": 5446,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Rodenkirchen",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Bayenthal",
+        "lat": 50.9110582,
+        "lon": 6.9692379,
+        "displayName": "Bayenthal, Köln, Nordrhein-Westfalen, Deutschland",
+        "postcode": "50968"
+      },
+      "energyEfficiencyClass": "A",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "unemploymentRate": 0,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "population": 1084831
+      },
+      "grossReturn": 2.19,
+      "grossReturnCurrent": null,
+      "constructionYear": 2014,
+      "apartmentType": "APARTMENT",
+      "condition": "MINT_CONDITION",
+      "lastRefurbishment": null,
+      "lift": false,
+      "floor": 4,
+      "numberOfFloors": null,
+      "cellar": true,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-11-07T10:40:59.735Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 1643361.5,
+          "name": "Rodenkirchen",
+          "pricePerSqm": 6050,
+          "grossReturn": 2.836363636363637
+        },
+        "similarListing": {
+          "buyingPrice": 2373000,
+          "name": null,
+          "pricePerSqm": 8736.148437212385,
+          "grossReturn": 2.7539823008849558
+        },
+        "location": {
+          "buyingPrice": 1303824,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 125.57943531394858,
+      "oAddress": {
+        "is24": {
+          "street": null,
+          "postcode": "50968",
+          "location": "Köln",
+          "district": "Bayenthal"
+        }
+      },
+      "originalAddress": {
+        "postcode": "50968",
+        "location": "Köln",
+        "district": "Bayenthal"
+      },
+      "houseMoney": 690,
+      "images": [
+        {
+          "id": "b7f5742f2b9da1a4a35310c47838571f",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/86b6f478-c54a-495b-83c8-ded4f7501322-1919588966.jpg/ORIG/resize/1024x1024/format/jpg"
+        },
+        {
+          "id": "a93280ecb9d14bae3e7f8a98682bc2ba",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/09c33583-7120-4810-b8e8-73d151d1c907-1919588967.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "IMG_1400"
+        },
+        {
+          "id": "e4bc6ffb61b06fc15733564984ffcf4d",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/43254743-b80c-4412-befb-817eb5106f95-1919588969.jpg/ORIG/resize/1024x1024/format/jpg"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 2980000,
+          "platformName": "is24",
+          "creationDate": "2025-09-07T15:50:12.843Z"
+        },
+        {
+          "buyingPrice": 2980000,
+          "platformName": "immowelt",
+          "creationDate": "2025-09-07T13:45:01.933Z"
+        },
+        {
+          "buyingPrice": 3190000,
+          "platformName": "immonet",
+          "creationDate": "2025-07-23T20:18:41.564Z"
+        },
+        {
+          "buyingPrice": 3190000,
+          "platformName": "immowelt",
+          "creationDate": "2025-07-23T20:17:53.241Z"
+        },
+        {
+          "buyingPrice": 3190000,
+          "platformName": "is24",
+          "creationDate": "2025-07-07T18:59:40.000Z"
+        },
+        {
+          "buyingPrice": 2980000,
+          "platformName": "immonet",
+          "creationDate": "2025-09-16T02:14:05.731Z"
+        }
+      ],
+      "priceReduced": true,
+      "priceIncreased": false,
+      "runningTime": 0,
+      "lastUpdatedAt": "2025-11-07T10:40:59.736Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 5446,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 5446,
+      "hasImages": true
+    },
+    {
+      "id": "ce92b9b6f2cefbb0d71570e1ae48b690",
+      "title": "✨ RHEINlight: Garten, 2 Terrassen, Maisonette + Bonusfläche! ✨",
+      "zip": "51149",
+      "buyingPrice": 849000,
+      "rooms": 4,
+      "squareMeter": 77.68,
+      "comission": 3.57,
+      "platforms": [
+        {
+          "name": "is24",
+          "publishDate": "2025-09-17T15:09:29.000Z",
+          "active": true,
+          "id": "161695374",
+          "creationDate": "2025-09-17T15:09:29.000Z",
+          "url": "https://www.immobilienscout24.de/expose/161695374"
+        },
+        {
+          "name": "immowelt",
+          "publishDate": "2025-09-17T11:28:00.202Z",
+          "active": true,
+          "id": "immoweltde6302d151b257e77b2dc65ecb6461e5",
+          "url": "https://www.immowelt.de/expose/a2f641ed-7e4c-4081-8135-4d1c803e6230"
+        },
+        {
+          "name": "immonet",
+          "publishDate": "2025-09-17T11:23:08.357Z",
+          "active": true,
+          "id": "immonetfcc413a315bed0e8abb6c30c1a09ba16",
+          "url": "https://www.immonet.de/expose/a2f641ed-7e4c-4081-8135-4d1c803e6230"
+        }
+      ],
+      "rentPricePerSqm": 14.26364572605561,
+      "metaSpRentPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.13887,
+        "score": 1.79,
+        "range": {
+          "min": 12.525746652935117,
+          "max": 16.555097837281153
+        }
+      },
+      "pricePerSqm": 10929.454170957775,
+      "spPricePerSqm": 4505.664263645725,
+      "metaSpPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.16373,
+        "score": 2.01,
+        "range": {
+          "min": 3874.871266735324,
+          "max": 5393.923789907311
+        }
+      },
+      "rentPrice": 1108,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Porz",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "postcode": "51149",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Gremberghoven",
+        "lat": 50.9061148,
+        "lon": 7.0490743,
+        "displayName": "51149 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "D",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "unemploymentRate": 0,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "population": 1084831
+      },
+      "grossReturn": 1.57,
+      "grossReturnCurrent": null,
+      "constructionYear": 2003,
+      "apartmentType": "TERRACED_FLAT",
+      "condition": "MINT_CONDITION",
+      "lastRefurbishment": null,
+      "lift": false,
+      "floor": null,
+      "numberOfFloors": 2,
+      "cellar": true,
+      "balcony": true,
+      "garden": true,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-09-17T11:23:08.357Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 295184,
+          "name": "Porz",
+          "pricePerSqm": 3800,
+          "grossReturn": 3.442105263157895
+        },
+        "similarListing": {
+          "buyingPrice": 350000,
+          "name": null,
+          "pricePerSqm": 4505.664263645725,
+          "grossReturn": 3.798857142857143
+        },
+        "location": {
+          "buyingPrice": 372864.00000000006,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 242.5714285714286,
+      "oAddress": {
+        "immonet": {
+          "street": null,
+          "postcode": "51149",
+          "location": "Köln"
+        }
+      },
+      "originalAddress": {
+        "street": "",
+        "postcode": "51149",
+        "location": "Köln"
+      },
+      "houseMoney": 470,
+      "images": [
+        {
+          "id": "c05de220f5e2c1215f3bd6bf918a1efc",
+          "originalUrl": "https://mms.immonet.de/8/5/2/d/852d857a-a6ed-4cce-a41b-8002ded85a25.jpg?ci_seal=d2ac3037beda3e1cf7cfc11d25d76ac8acabbc9d",
+          "title": "Herzstück ",
+          "floorPlan": false
+        },
+        {
+          "id": "e049ea33e66fffdfeccebbc29a9d94b4",
+          "originalUrl": "https://mms.immonet.de/9/0/b/4/90b4cfb5-d949-427b-8624-ee7a75efbdff.jpg?ci_seal=b75df023aad67be1041f0f266ecf2d6d7747a1df",
+          "title": "Himmlische Raumaufteilung ",
+          "floorPlan": false
+        },
+        {
+          "id": "d1357edb2cabbaf74ea01e5236cc2cdc",
+          "originalUrl": "https://mms.immonet.de/9/6/a/9/96a98df7-6518-4a81-a8aa-6a2008b0e3b6.jpg?ci_seal=c2f2b4c4832e57874454fc56dc447396499dea05",
+          "title": "Einmalige Oase",
+          "floorPlan": false
+        },
+        {
+          "id": "efd15c80409097d3067d24279bd28e72",
+          "originalUrl": "https://mms.immonet.de/5/6/8/e/568e08d9-1190-41a7-9849-7146629046ef.jpg?ci_seal=431aac91bff70c7c4db20b8e8eb5eb1b8522ca8a",
+          "title": "Erst Ihre Immobilie verkaufen?",
+          "floorPlan": false
+        },
+        {
+          "id": "78f561e928bef61399862feda971c68d",
+          "originalUrl": "https://mms.immonet.de/9/1/e/6/91e696e8-c2e7-4233-ad6d-d2cfe0982a25.jpg?ci_seal=3e169846792d31b7d43ecedb82cef7c0a0870999",
+          "title": "Entspannt Immobilie verkaufen!",
+          "floorPlan": false
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 849000,
+          "platformName": "immowelt",
+          "creationDate": "2025-09-17T11:28:00.202Z"
+        },
+        {
+          "buyingPrice": 849000,
+          "platformName": "immonet",
+          "creationDate": "2025-09-17T11:23:08.357Z"
+        },
+        {
+          "buyingPrice": 849000,
+          "platformName": "is24",
+          "creationDate": "2025-09-17T15:09:29.000Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 45,
+      "lastUpdatedAt": "2025-11-22T05:35:29.720Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 1108,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 1108,
+      "hasImages": true
+    },
+    {
+      "id": "91803772a62c8f8518621c8ac3e1ea2d",
+      "title": "Dreigeschossige Maisonette mit Dachterrasse und Weitblick",
+      "zip": "50823",
+      "buyingPrice": 1325000,
+      "rooms": 4,
+      "squareMeter": 122,
+      "comission": 3.57,
+      "platforms": [
+        {
+          "name": "is24",
+          "id": "162870817",
+          "url": "https://www.immobilienscout24.de/expose/162870817",
+          "creationDate": "2025-11-06T13:21:34.000Z",
+          "publishDate": "2025-11-06T13:21:34.000Z",
+          "active": true
+        }
+      ],
+      "rentPricePerSqm": 21.778688524590162,
+      "metaSpRentPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.13833,
+        "score": 1.79,
+        "range": {
+          "min": 19.131147540983605,
+          "max": 25.270491803278688
+        }
+      },
+      "pricePerSqm": 10860.655737704918,
+      "spPricePerSqm": 7549.180327868852,
+      "metaSpPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.1618,
+        "score": 1.99,
+        "range": {
+          "min": 6500,
+          "max": 9008.196721311475
+        }
+      },
+      "rentPrice": 2657,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Ehrenfeld",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "postcode": "50823",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Ehrenfeld",
+        "lat": 50.9508203,
+        "lon": 6.9259111,
+        "displayName": "50823 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "B",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "population": 1084831,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "hasUniversity": true,
+        "unemploymentRate": 0,
+        "numberOfStudents": null,
+        "score": 67,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "populationScore": 25,
+        "populationTrendScore": 16.664
+      },
+      "grossReturn": 2.41,
+      "grossReturnCurrent": null,
+      "constructionYear": 2025,
+      "apartmentType": "NO_INFORMATION",
+      "condition": "FIRST_TIME_USE",
+      "lastRefurbishment": null,
+      "lift": false,
+      "floor": null,
+      "numberOfFloors": 3,
+      "cellar": true,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-11-06T13:21:34.000Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "name": "Ehrenfeld",
+          "buyingPrice": 658800,
+          "pricePerSqm": 5400,
+          "grossReturn": 3.155555555555555
+        },
+        "location": {
+          "name": "Köln",
+          "buyingPrice": 585600,
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        },
+        "similarListing": {
+          "name": null,
+          "buyingPrice": 921000,
+          "pricePerSqm": 7549.180327868852,
+          "grossReturn": 3.4618892508143317
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 143.86536373507056,
+      "oAddress": {
+        "is24": {
+          "street": null,
+          "postcode": "50823",
+          "location": "Köln",
+          "district": "Ehrenfeld (Ortsteil)"
+        }
+      },
+      "originalAddress": {
+        "postcode": "50823",
+        "location": "Köln",
+        "district": "Ehrenfeld (Ortsteil)"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "83eb0b5d87a51da523c202919638b429",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/ed609c65-6ecb-46f8-9314-2efdd2195712-1958179342.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Visualisierung Dachgeschoss"
+        },
+        {
+          "id": "7c11c6bb553d086e952d2f33a06a3dad",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/596b2f12-ba39-4843-a131-3edcbfdba68f-1958179340.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Visualisierung Wohnbereich"
+        },
+        {
+          "id": "df091f2bfbf12e92754407fbc13875a6",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/2549d2d2-0d14-4be5-963a-d6a6e678e546-1958179341.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Visualisierung Küche"
+        },
+        {
+          "id": "a19f836bc3802f8cf21191e4909add9a",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/96145f86-c6e3-402e-9d46-9629b81ed4df-1958179344.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Visualisierung Badezimmer"
+        },
+        {
+          "id": "f76167d542369da9b0007e7cf07f601d",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/9d4357b2-69e4-4d46-b8c0-ce4e6d69e2d9-1958179347.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Visualisierung Schlafbereich"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 1325000,
+          "platformName": "is24",
+          "creationDate": "2025-11-06T13:21:34.000Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 0,
+      "lastUpdatedAt": "2025-11-06T13:23:35.188Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 2657,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 2657,
+      "hasImages": true
+    },
+    {
+      "id": "d929b4308cbbba012c4ce15d85d51602",
+      "title": "Neubau Scheffelstr. 54: Exklusive 6-Zimmer Penthouse-Wohnung",
+      "zip": "50935",
+      "buyingPrice": 2290000,
+      "rooms": 6,
+      "squareMeter": 214.34,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "is24",
+          "id": "157826742",
+          "url": "https://www.immobilienscout24.de/expose/157826742",
+          "creationDate": "2025-03-11T10:18:45.000Z",
+          "publishDate": "2025-03-11T10:18:45.000Z",
+          "active": true
+        }
+      ],
+      "rentPricePerSqm": 20.672762900065315,
+      "metaSpRentPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.15337,
+        "score": 1.92,
+        "range": {
+          "min": 17.924792385928896,
+          "max": 24.414481664644956
+        }
+      },
+      "pricePerSqm": 10683.960063450593,
+      "spPricePerSqm": 8943.734253988989,
+      "metaSpPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.20827,
+        "score": 2.41,
+        "range": {
+          "min": 7404.124288513576,
+          "max": 11299.804049640758
+        }
+      },
+      "rentPrice": 4431,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "building",
+        "_normalized_city": "Köln",
+        "_type": "building",
+        "city": "Köln",
+        "city_district": "Lindenthal",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "house_number": "54",
+        "political_union": "European Union",
+        "postcode": "50935",
+        "road": "Scheffelstraße",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Lindenthal",
+        "lat": 50.9243248,
+        "lon": 6.9080384,
+        "displayName": "Scheffelstraße 54, 50935 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "A+",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "universityScore": 25,
+        "population": 1084831,
+        "unemploymentRate": 9.3,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "unemploymentRateScore": 0
+      },
+      "grossReturn": 2.32,
+      "grossReturnCurrent": null,
+      "constructionYear": 2027,
+      "apartmentType": "PENTHOUSE",
+      "condition": "FIRST_TIME_USE",
+      "lastRefurbishment": null,
+      "lift": true,
+      "floor": 4,
+      "numberOfFloors": 5,
+      "cellar": true,
+      "balcony": true,
+      "garden": true,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-03-11T10:18:45.000Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 1350342,
+          "name": "Lindenthal",
+          "pricePerSqm": 6300,
+          "grossReturn": 2.742857142857143
+        },
+        "similarListing": {
+          "buyingPrice": 1916999.9999999998,
+          "name": null,
+          "pricePerSqm": 8943.734253988989,
+          "grossReturn": 2.7737089201877936
+        },
+        "location": {
+          "buyingPrice": 1028832,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 119.45748565466876,
+      "oAddress": {
+        "is24": {
+          "street": "Scheffelstr. 54",
+          "postcode": "50935",
+          "location": "Köln",
+          "district": "Lindenthal (Ortsteil)"
+        }
+      },
+      "originalAddress": {
+        "street": "Scheffelstr. 54",
+        "postcode": "50935",
+        "location": "Köln",
+        "district": "Lindenthal (Ortsteil)"
+      },
+      "houseMoney": 643,
+      "images": [
+        {
+          "id": "fd7d7dff6578be9c641e15079f2649fa",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/1ef3d57e-25ce-46fb-b9e7-5c9a752af76c-1886592590.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Hausansicht"
+        },
+        {
+          "id": "96cd4d27c434e1af48c4960d5025b230",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/01151378-11a3-4618-8d62-e861b93aea20-1886592591.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Hausansicht"
+        },
+        {
+          "id": "291e46bb5f771d28929642dce11bc563",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/9b51f81b-7f12-4c81-8f12-0b3b81426dd4-1886592592.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Wohnzimmer"
+        },
+        {
+          "id": "99e522c41a897500096874c41e8808c4",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/934775e5-7b7f-44c6-91ce-e4e42eaf4d95-1886592594.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Schlafzimmer"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 2290000,
+          "platformName": "is24",
+          "creationDate": "2025-03-11T10:18:45.000Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 213,
+      "lastUpdatedAt": "2025-10-10T04:49:32.616Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 4431,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 4431,
+      "hasImages": true
+    },
+    {
+      "id": "3a4fd14a5b8d313e2a66db40dc4eab70",
+      "title": "Rheintrio Rodenkirchen- Einliegerwohnung",
+      "zip": "50996",
+      "buyingPrice": 1499500,
+      "rooms": 5,
+      "squareMeter": 141.5,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "immowelt",
+          "publishDate": "2025-09-01T10:44:31.784Z",
+          "active": true,
+          "id": "immoweltce04ee93501847fcebcb05df232a7dd7",
+          "url": "https://www.immowelt.de/expose/70680f13-0480-4661-a8e9-f8c7ccf2e015"
+        }
+      ],
+      "rentPricePerSqm": 17.243816254416963,
+      "metaSpRentPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.14567,
+        "score": 1.85,
+        "range": {
+          "min": 15.053003533568905,
+          "max": 20.18374558303887
+        }
+      },
+      "pricePerSqm": 10597.173144876326,
+      "spPricePerSqm": 5703.180212014135,
+      "metaSpPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.21174,
+        "score": 2.44,
+        "range": {
+          "min": 4706.713780918728,
+          "max": 7236.749116607773
+        }
+      },
+      "rentPrice": 2440.0000000000005,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Rodenkirchen",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "postcode": "50996",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Rodenkirchen",
+        "lat": 50.881537,
+        "lon": 6.9836788,
+        "displayName": "50996 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "NO_INFORMATION",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "unemploymentRate": 0,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "population": 1084831
+      },
+      "grossReturn": 1.95,
+      "grossReturnCurrent": null,
+      "constructionYear": 2025,
+      "apartmentType": "APARTMENT",
+      "condition": "NO_INFORMATION",
+      "lastRefurbishment": null,
+      "lift": false,
+      "floor": null,
+      "numberOfFloors": null,
+      "cellar": false,
+      "balcony": false,
+      "garden": true,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-09-01T10:44:31.784Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 636750,
+          "name": "Rodenkirchen",
+          "pricePerSqm": 4500,
+          "grossReturn": 3.626666666666666
+        },
+        "similarListing": {
+          "buyingPrice": 807000,
+          "name": null,
+          "pricePerSqm": 5703.180212014135,
+          "grossReturn": 3.6282527881040894
+        },
+        "location": {
+          "buyingPrice": 679200,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 185.81164807930608,
+      "oAddress": {
+        "immowelt": {
+          "street": null,
+          "postcode": "50996",
+          "location": "Köln"
+        }
+      },
+      "originalAddress": {
+        "street": "",
+        "postcode": "50996",
+        "location": "Köln"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "bb143df73c02ad4584742becab438ff4",
+          "originalUrl": "https://mms.immowelt.de/7/5/7/c/757cea23-a34a-4d7c-ad7f-21efc1cf7212.png?ci_seal=98ccda902a3f0ffc5d81a65b7fb09cecbc90d2d2",
+          "title": "Einliegerwohnung-Wohnbereich.png",
+          "floorPlan": false
+        },
+        {
+          "id": "23be6f00ff1858686a64242c7cbdedd8",
+          "originalUrl": "https://mms.immowelt.de/5/e/1/b/5e1b55e7-e93a-4c85-8090-dc0dbb34bca8.png?ci_seal=2c72652f1d27f4977bf8428daf037696d4674473",
+          "title": "Flur-Einliegerwohnung.png",
+          "floorPlan": false
+        },
+        {
+          "id": "671bc5ce3e724fb7b419d11e6f4c6d0d",
+          "originalUrl": "https://mms.immowelt.de/8/b/4/5/8b4525f4-7c1f-4121-85d8-552556b134ce.png?ci_seal=0981df052c673527ebe9dfeda887d490f72262f8",
+          "title": "Ansicht-Einliegerwohnung Garten",
+          "floorPlan": false
+        },
+        {
+          "id": "4f106facd7a04328eb9c5c103ac2e44f",
+          "originalUrl": "https://mms.immowelt.de/4/8/7/4/4874f24c-6c07-47b2-9a29-f41e33dd77b9.png?ci_seal=fe10f2f7531bd0d932742ca1ea914046adbc9a4e",
+          "title": "Außenansicht",
+          "floorPlan": false
+        },
+        {
+          "id": "4c50aafb3bc847cf3ed444cca25d0b48",
+          "originalUrl": "https://mms.immowelt.de/6/6/5/b/665b4347-0ac1-4b29-8860-6a7270fc4f2d.png?ci_seal=033df3b5815e7fa235d7938e08b5c6398b989948",
+          "title": "Außenansicht",
+          "floorPlan": false
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 1499500,
+          "platformName": "immowelt",
+          "creationDate": "2025-09-01T10:44:31.784Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 0,
+      "lastUpdatedAt": "2025-11-21T12:14:04.618Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 2440,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 2440.0000000000005,
+      "hasImages": true
+    },
+    {
+      "id": "ae62737177144a0e55f965c1e92f27a7",
+      "title": "Loft-Townhouse mitten in der City. Wohnen im ehemaligen Künstleratelier von Otto Paeffgen.",
+      "zip": "50674",
+      "buyingPrice": 1650000,
+      "rooms": 3,
+      "squareMeter": 156,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "is24",
+          "id": "162473763",
+          "url": "https://www.immobilienscout24.de/expose/162473763",
+          "creationDate": "2025-10-27T10:22:22.000Z",
+          "publishDate": "2025-10-27T10:22:22.000Z",
+          "active": true
+        }
+      ],
+      "rentPricePerSqm": 17.025641025641026,
+      "metaSpRentPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.20699,
+        "score": 2.4,
+        "range": {
+          "min": 14.102564102564102,
+          "max": 21.46794871794872
+        }
+      },
+      "pricePerSqm": 10576.923076923076,
+      "spPricePerSqm": 6230.7692307692305,
+      "metaSpPricePerSqm": {
+        "model": "08, 2025",
+        "standarderror": 0.26201,
+        "score": 2.88,
+        "range": {
+          "min": 4935.897435897436,
+          "max": 8435.897435897436
+        }
+      },
+      "rentPrice": 2656,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "place",
+        "_normalized_city": "Köln",
+        "_type": "neighbourhood",
+        "city": "Köln",
+        "city_district": "Innenstadt",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "postcode": "50674",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Neustadt/Süd",
+        "lat": 50.9319504,
+        "lon": 6.9335385,
+        "displayName": "50674 Köln, Deutschland"
+      },
+      "energyEfficiencyClass": "A",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "population": 1084831,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "hasUniversity": true,
+        "unemploymentRate": 0,
+        "numberOfStudents": null,
+        "score": 67,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "populationScore": 25,
+        "populationTrendScore": 16.664
+      },
+      "grossReturn": 1.93,
+      "grossReturnCurrent": null,
+      "constructionYear": 1960,
+      "apartmentType": "NO_INFORMATION",
+      "condition": "NO_INFORMATION",
+      "lastRefurbishment": 2015,
+      "lift": false,
+      "floor": null,
+      "numberOfFloors": 2,
+      "cellar": false,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-10-27T10:22:22.000Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "name": "Innenstadt",
+          "buyingPrice": 1014000,
+          "pricePerSqm": 6500,
+          "grossReturn": 2.750769230769231
+        },
+        "location": {
+          "name": "Köln",
+          "buyingPrice": 748800,
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        },
+        "similarListing": {
+          "name": null,
+          "buyingPrice": 972000,
+          "pricePerSqm": 6230.7692307692305,
+          "grossReturn": 3.2790123456790123
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 169.7530864197531,
+      "oAddress": {
+        "is24": {
+          "street": null,
+          "postcode": "50674",
+          "location": "Köln",
+          "district": "Neustadt/Süd"
+        }
+      },
+      "originalAddress": {
+        "postcode": "50674",
+        "location": "Köln",
+        "district": "Neustadt/Süd"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "5996abacb12cfe34247f00ebf688cf92",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/2837ff3d-ce1a-487e-ad4e-af476a93ee30-1951969289.png/ORIG/resize/1024x1024/format/jpg",
+          "title": "1"
+        },
+        {
+          "id": "96e0b7cf7d46ea0dee3bd1461c1ae0c1",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/3c3b6809-afbb-426f-89b3-dd7cdc636846-1951969326.png/ORIG/resize/1024x1024/format/jpg",
+          "title": "2"
+        },
+        {
+          "id": "fa69da72158407388f9b27e20b53e077",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/f6adb21d-bd35-448d-b9e3-bcc23be7bb39-1951969378.png/ORIG/resize/1024x1024/format/jpg",
+          "title": "3"
+        },
+        {
+          "id": "e73d0520216d0ec45a165f436e479cdc",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/325102d5-d99f-4506-a5e3-1a3541e79273-1951969356.png/ORIG/resize/1024x1024/format/jpg",
+          "title": "4"
+        },
+        {
+          "id": "37b8d78ac858cd5a8648689e73e3b232",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/dd80a3ad-5b6a-47e3-a68a-017d459fc87f-1951969420.png/ORIG/resize/1024x1024/format/jpg",
+          "title": "5"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 1650000,
+          "platformName": "is24",
+          "creationDate": "2025-10-27T10:22:22.000Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 0,
+      "lastUpdatedAt": "2025-10-28T11:36:34.398Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 2656,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 2656,
+      "hasImages": true
+    },
+    {
+      "id": "2df1eaf1c6243de0e7829e9ed8003988",
+      "title": "Kapitalanlage mit Aussicht: Neubau-Immobilie in gefragter Lage mit Balkon. Degressive AfA sichern!",
+      "zip": "50933",
+      "buyingPrice": 369900,
+      "rooms": 1,
+      "squareMeter": 35,
+      "comission": null,
+      "platforms": [
+        {
+          "name": "is24",
+          "publishDate": "2025-05-28T11:18:04.000Z",
+          "active": true,
+          "id": "159471808",
+          "creationDate": "2025-05-28T11:18:04.000Z",
+          "url": "https://www.immobilienscout24.de/expose/159471808"
+        }
+      ],
+      "rentPricePerSqm": 20.6,
+      "metaSpRentPricePerSqm": {
+        "model": "09, 2025",
+        "standarderror": 0.20921,
+        "score": 2.42,
+        "range": {
+          "min": 17.02857142857143,
+          "max": 26.057142857142857
+        }
+      },
+      "pricePerSqm": 10568.57142857143,
+      "spPricePerSqm": 5914.285714285715,
+      "metaSpPricePerSqm": {
+        "model": "09, 2025",
+        "standarderror": 0.25606,
+        "score": 2.83,
+        "range": {
+          "min": 4714.285714285715,
+          "max": 7942.857142857143
+        }
+      },
+      "rentPrice": 721,
+      "rentPriceCurrent": null,
+      "rentPriceCurrentPerSqm": null,
+      "address": {
+        "ISO_3166-1_alpha-2": "DE",
+        "ISO_3166-1_alpha-3": "DEU",
+        "ISO_3166-2": ["DE-NW"],
+        "_category": "road",
+        "_normalized_city": "Köln",
+        "_type": "road",
+        "city": "Köln",
+        "city_district": "Lindenthal",
+        "continent": "Europe",
+        "country": "Deutschland",
+        "country_code": "de",
+        "political_union": "European Union",
+        "state": "Nordrhein-Westfalen",
+        "state_code": "NW",
+        "suburb": "Braunsfeld",
+        "lat": 50.9432287,
+        "lon": 6.9009606,
+        "displayName": "Alsdorfer Straße, 50933 Köln, Deutschland",
+        "postcode": "50933",
+        "road": "Alsdorfer Straße",
+        "road_type": "residential"
+      },
+      "energyEfficiencyClass": "A",
+      "region": "Nordrhein-Westfalen",
+      "foreClosure": false,
+      "locationFactor": {
+        "unemploymentRate": 0,
+        "score": 67,
+        "populationTrendScore": 16.664,
+        "populationTrend": {
+          "from": -5,
+          "to": 5
+        },
+        "populationScore": 25,
+        "hasUniversity": true,
+        "numberOfStudents": null,
+        "unemploymentRateScore": 0,
+        "universityScore": 25,
+        "population": 1084831
+      },
+      "grossReturn": 2.34,
+      "grossReturnCurrent": null,
+      "constructionYear": null,
+      "apartmentType": "APARTMENT",
+      "condition": "NO_INFORMATION",
+      "lastRefurbishment": null,
+      "lift": true,
+      "floor": 3,
+      "numberOfFloors": 5,
+      "cellar": true,
+      "balcony": true,
+      "garden": false,
+      "active": true,
+      "rented": false,
+      "publishDate": "2025-11-18T19:06:48.673Z",
+      "privateOffer": false,
+      "aggregations": {
+        "district": {
+          "buyingPrice": 197750,
+          "name": "Lindenthal",
+          "pricePerSqm": 5650,
+          "grossReturn": 2.952212389380531
+        },
+        "location": {
+          "buyingPrice": 168000,
+          "name": "Köln",
+          "pricePerSqm": 4800,
+          "grossReturn": 3.2000000000000006
+        },
+        "similarListing": {
+          "buyingPrice": 207000,
+          "name": null,
+          "pricePerSqm": 5914.285714285715,
+          "grossReturn": 4.179710144927537
+        }
+      },
+      "leasehold": false,
+      "priceInMarket": 178.69565217391306,
+      "oAddress": {
+        "is24": {
+          "street": "Alsdorfer Str. 5-9",
+          "postcode": "50933",
+          "location": "Köln",
+          "district": "Braunsfeld"
+        }
+      },
+      "originalAddress": {
+        "postcode": "50933",
+        "location": "Köln",
+        "district": "Braunsfeld",
+        "street": "Alsdorfer Str. 5-9"
+      },
+      "houseMoney": null,
+      "images": [
+        {
+          "id": "ce173c52a6df3936d1c056bab832b2bd",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/21fd68ab-a4ad-4f15-a9d0-d659acbc1010-1907680801.png/ORIG/resize/1024x1024/format/jpg",
+          "title": "Beispiel Wohn-Ess-Bereich"
+        },
+        {
+          "id": "b091c1c0d3baa20d260028ac175f28ac",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/0bfedabf-d19b-4dd6-a72d-11f1f4a84ced-1907680788.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Außenansicht"
+        },
+        {
+          "id": "3f5fbd14ad27bf91055fddeedd5b4cd6",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/d2d87e7f-221d-4001-8299-16ea4b2c448a-1907680789.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Außenansicht"
+        },
+        {
+          "id": "1cae9534f3065f2d965741e259d5098c",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/ef2d8094-b414-4482-a471-9f5d38d70737-1907680787.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Außenansicht"
+        },
+        {
+          "id": "76f50e10552187c2dd1dafe4447fe862",
+          "originalUrl": "https://pictures.immobilienscout24.de/listings/8495c99a-d2ff-4c7e-8dc3-c798db1bfd67-1907680793.jpg/ORIG/resize/1024x1024/format/jpg",
+          "title": "Außenansicht"
+        }
+      ],
+      "buyingPriceHistory": [
+        {
+          "buyingPrice": 369900,
+          "platformName": "is24",
+          "creationDate": "2025-05-28T11:18:04.000Z"
+        }
+      ],
+      "priceReduced": false,
+      "priceIncreased": false,
+      "runningTime": 174,
+      "lastUpdatedAt": "2025-11-18T19:06:48.673Z",
+      "favorite": 0,
+      "favoriteDate": null,
+      "cashFlow": 721,
+      "ownCapitalReturn": null,
+      "cashFlowPerLivingUnit": 721,
+      "hasImages": true
+    }
+  ],
+  "aggregations": {
+    "averagePerWeek": {
+      "value": 35.28846153846154
+    }
+  }
+}

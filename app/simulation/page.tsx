@@ -1,5 +1,5 @@
 "use client";
-import {useGameEngine} from "@/components/game-enginge-context";
+import {useGameEngine} from "@/components/game-engine-context";
 import {Button} from "@/components/ui/button";
 import {Card} from "@/components/ui/card";
 import {
@@ -40,13 +40,13 @@ export default function Simulation() {
   const [savingsRate, setSavingsRate] = useState(
     state?.savingsRateInPercent || 0
   );
-  const [showEventDecision, setShowEventDecision] = useState(!!currentEvent);
+  const [showEventDecision, setShowEventDecision] = useState(currentEvent);
 
   const currentYear = state?.year || new Date().getFullYear();
 
   const handleAdvanceYear = () => {
     gameEngine.runLoop();
-    setShowEventDecision(!!currentEvent);
+    setShowEventDecision(currentEvent);
   };
 
   const handleSavingsRateChange = (value: number[]) => {
@@ -55,21 +55,21 @@ export default function Simulation() {
 
   const handleEventDecision = (chooseOption1: boolean) => {
     gameEngine.decideEvent(!chooseOption1);
-    setShowEventDecision(false);
+    setShowEventDecision(undefined);
   };
 
   // Chart data from real game history
   const chartData = useMemo(() => {
-    return history.map((s: StateModel, idx: number) => ({
+    return history.map((s: StateModel,) => ({
       year: s.year,
       wealth:
         (s.portfolio?.cashInEuro ?? 0) +
         (s.portfolio?.cryptoInEuro ?? 0) +
         (s.portfolio?.etfInEuro ?? 0),
       satisfaction: s.lifeSatisfactionFrom1To100,
-      goal: 500000 + idx * 50000,
+      goal: gameEngine.getGoals().buyingPrice,
     }));
-  }, [history]);
+  }, [history, gameEngine]);
 
   // Portfolio breakdown
   const portfolioBreakdown = useMemo(() => {
@@ -140,11 +140,9 @@ export default function Simulation() {
             Next Year
           </Button>
           <Button className="w-full bg-black hover:bg-gray-800 text-white">
-          Actions
-        </Button>
+            Actions
+          </Button>
         </div>
-
-        
       </Card>
 
       {/* Center: Charts */}
