@@ -1,3 +1,5 @@
 import {GoalModel} from "../models/goal-model";
 
-export async function scrapeApi(goal: GoalModel) {}
+export async function scrapeApi(goal: GoalModel) {
+    
+}

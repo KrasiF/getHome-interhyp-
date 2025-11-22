@@ -4,6 +4,7 @@ interface ListingModel {
   zip: string;
   rooms: number;
   squareMeter: number;
+  imageUrl: string;
 }
 
 export interface ScrapedListingsModel {

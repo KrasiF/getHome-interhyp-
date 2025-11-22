@@ -459,7 +459,8 @@ export default function Init() {
             ) : (
               <Button
                 onClick={() => {
-                  gameEngine?.startGame(startState);
+                  console.log(gameEngine.startGame(startState, goal));
+
                   router.push("/simulation");
                 }}
               >
