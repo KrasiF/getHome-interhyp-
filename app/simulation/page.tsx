@@ -321,16 +321,102 @@ export default function Simulation() {
               eventHistory
                 .slice(-5)
                 .reverse()
-                .map((event: EventModel, idx: number) => (
-                  <div
-                    key={idx}
-                    className="text-xs p-2 bg-blue-50 rounded border border-blue-200"
-                  >
-                    <p className="font-semibold text-blue-900">
-                      {event.eventDescription}
-                    </p>
-                  </div>
-                ))
+                .map((event: EventModel, idx: number) => {
+                  const impact = event.chosenImpact;
+                  const changes: string[] = [];
+
+                  if (impact) {
+                    // Portfolio changes
+                    if (impact.newPortfolioModel?.cashInEuro !== undefined) {
+                      const change = impact.newPortfolioModel.cashInEuro;
+                      changes.push(
+                        `Cash ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
+                      );
+                    }
+                    if (impact.newPortfolioModel?.cryptoInEuro !== undefined) {
+                      const change = impact.newPortfolioModel.cryptoInEuro;
+                      changes.push(
+                        `Crypto ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
+                      );
+                    }
+                    if (impact.newPortfolioModel?.etfInEuro !== undefined) {
+                      const change = impact.newPortfolioModel.etfInEuro;
+                      changes.push(
+                        `ETF ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
+                      );
+                    }
+
+                    // Satisfaction change
+                    if (impact.changeInLifeSatisfactionFrom1To100) {
+                      const change = impact.changeInLifeSatisfactionFrom1To100;
+                      changes.push(
+                        `Satisfaction ${change >= 0 ? "+" : ""}${change}`
+                      );
+                    }
+
+                    // Savings rate change
+                    if (impact.changeInSavingsRateInPercent) {
+                      const change = impact.changeInSavingsRateInPercent;
+                      changes.push(
+                        `Savings Rate ${change >= 0 ? "+" : ""}${change}%`
+                      );
+                    }
+
+                    // Children change
+                    if (impact.changeInAmountOfChildren) {
+                      const change = impact.changeInAmountOfChildren;
+                      changes.push(
+                        `Children ${change >= 0 ? "+" : ""}${change}`
+                      );
+                    }
+
+                    // Education level
+                    if (impact.newEducationLevel) {
+                      changes.push(`Education: ${impact.newEducationLevel}`);
+                    }
+
+                    // Marriage
+                    if (impact.newMarried !== null) {
+                      changes.push(impact.newMarried ? "Got Married" : "Divorced");
+                    }
+
+                    // Occupation changes
+                    if (impact.changeInOccupancyModel?.yearlySalaryInEuro) {
+                      const change = impact.changeInOccupancyModel.yearlySalaryInEuro;
+                      changes.push(
+                        `Salary ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€/yr`
+                      );
+                    }
+
+                    // Living changes
+                    if (impact.changeInLivingModel?.yearlyRentInEuro) {
+                      const change = impact.changeInLivingModel.yearlyRentInEuro;
+                      changes.push(
+                        `Rent ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€/yr`
+                      );
+                    }
+                  }
+
+                  return (
+                    <div
+                      key={idx}
+                      className="text-xs p-2 bg-blue-50 rounded border border-blue-200"
+                    >
+                      <p className="font-semibold text-blue-900">
+                        {event.eventDescription}
+                      </p>
+                      {changes.length > 0 && (
+                        <div className="mt-1 space-y-0.5 text-gray-700">
+                          {changes.map((change, i) => (
+                            <p key={i} className="text-[10px]">
+                              • {change}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
             ) : (
               <p className="text-xs text-gray-500">No events yet</p>
             )}

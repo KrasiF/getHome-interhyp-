@@ -79,6 +79,7 @@ function buildTenYearHistory(): StateModel[] {
                 stressLevelFrom0To100: i < 4 ? 55 : i < 8 ? 65 : 75
             },
             living: {
+                name: "",
                 yearlyRentInEuro: rent,
                 zip: "80331",
                 sizeInSquareMeter: i < 5 ? 45 : 60
@@ -93,7 +94,8 @@ function buildTenYearHistory(): StateModel[] {
             married: i >= 5,
             educationLevel: i < 2 ? "Bachelor ongoing" : "Bachelor finished",
             lifeSatisfactionFrom1To100: lifeSatisfaction,
-            terminated: false
+            terminated: false,
+            creditWorthiness: false
         };
 
         history.push(state);

@@ -86,8 +86,8 @@ export class EventEngine implements EventEngineInterface {
                     impact: EventImpactModel;
                     alternativeImpact: EventImpactModel | null;
 
-                    eventDescription: string;      // short, vivid sentence in German
-                    eventQuestion: string | null;  // yes/no question in German, or null
+                    eventDescription: string;      // short, vivid sentence in Englisch
+                    eventQuestion: string | null;  // yes/no question in Englisch, or null
                 }
 
                 Semantics:
@@ -122,7 +122,7 @@ export class EventEngine implements EventEngineInterface {
                     - alternativeImpact = null
                     - The impact is automatically applied.
                 - Some events are interactive decisions (e.g. "Heiratsantrag", "Jobangebot mit höherem Gehalt", "Umzug"):
-                    - eventQuestion: a yes/no question in German to the player.
+                    - eventQuestion: a yes/no question in Englisch to the player.
                       Example: "Möchtest du deinen Partner heiraten?" or
                                "Möchtest du das Jobangebot mit höherem Gehalt, aber mehr Stress annehmen?"
                     - impact: describes the consequences if the player answers YES.
@@ -135,7 +135,7 @@ export class EventEngine implements EventEngineInterface {
                 - Always return a FULL EventModel object with:
                     - impact (EventImpactModel)
                     - alternativeImpact (EventImpactModel or null)
-                    - eventDescription (string, German)
+                    - eventDescription (string, Englisch)
                     - eventQuestion (string or null)
                 - For non-interactive events:
                     - eventQuestion = null

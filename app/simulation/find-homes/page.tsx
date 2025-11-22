@@ -113,7 +113,7 @@ export default function FindHomes() {
                 >
                   <div className="flex justify-between">
                     <div>
-                      <p className="font-semibold">{`Home ${idx + 1}`}</p>
+                      <p className="font-semibold">{r.name}</p>
                       <p className="text-sm text-gray-600">
                         ZIP: {r.zip ?? "-"}
                       </p>

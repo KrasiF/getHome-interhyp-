@@ -156,7 +156,13 @@ export class GameEngine implements GameEngineInterface {
             this.applyEventImpact(impact);
         }
 
-        this.eventHistory.push(this.currentEventResult);
+        // Store the chosen impact with the event
+        const eventWithChoice = {
+            ...this.currentEventResult,
+            chosenImpact: impact || undefined
+        };
+        
+        this.eventHistory.push(eventWithChoice);
         this.history.push(structuredClone(this.state));
         this.currentEventResult = undefined;
 

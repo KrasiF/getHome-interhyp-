@@ -10,4 +10,5 @@ export interface EventModel {
 
     eventDescription: string;
     eventQuestion: string | null;
+    chosenImpact?: EventImpactModel; // The impact that was actually chosen/applied
 }
