@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: '.env.local' });
 
 async function main() {
-  const apiKey = process.env.GOOGLE_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
   if (!apiKey) return console.error("Kein API Key!");
 
   // Wir nutzen hier direkt die REST API Logik über fetch, 

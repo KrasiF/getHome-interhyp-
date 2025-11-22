@@ -168,10 +168,6 @@ class MockHomeEngine implements Partial<HomeEngine> {
 export function createMockedGameEngine(): GameEngine {
   return new GameEngine(
     new MockEventEngine() as unknown as EventEngine,
-    new MockJobEngine() as unknown as JobEngine,
-    new MockSatisfactionEngine() as unknown as SatisfactionEngine,
-    new MockInvestmentEngine() as unknown as InvestmentEngine,
-    new MockHomeEngine() as unknown as HomeEngine
   );
 }
 

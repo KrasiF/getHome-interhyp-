@@ -28,7 +28,7 @@ import {ScrapedListingsModel} from "@/game/models/scraped-listings-model";
 import mockListingsData from "@/components/mock-listings.json";
 
 export default function Init() {
-  const gameEngine = useGameEngine();
+  const {engine: gameEngine} = useGameEngine();
   const router = useRouter();
 
   const steps = ["Personal Info", "Financials", "Dream Home"]; // labels
