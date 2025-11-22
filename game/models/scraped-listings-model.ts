@@ -8,6 +8,5 @@ interface ListingModel {
 }
 
 export interface ScrapedListingsModel {
-  total: number;
-  results: ListingModel[];
+  results: ListingModel[]; // 0, 1, 10
 }
