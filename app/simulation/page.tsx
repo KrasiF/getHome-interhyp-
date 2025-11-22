@@ -49,12 +49,6 @@ export default function Simulation() {
   const currentYear = state?.year || new Date().getFullYear();
 
   const handleAdvanceYear = () => {
-    gameEngine.decideActions({
-      newOccupationModel: null,
-      newPortfolioModel: null,
-      newLivingModel: null,
-      newSavingsRateInPercent: savingsRate,
-    });
     let gameEvent = gameEngine.runLoop();
     triggerUpdate();
     setShowEventDecision(!!gameEvent);
@@ -81,7 +75,7 @@ export default function Simulation() {
       satisfaction: s.lifeSatisfactionFrom1To100,
       goal: gameEngine.getGoals().buyingPrice,
     }));
-  }, [history, gameEngine]);
+  }, [history.length, state.year]);
 
   // Portfolio breakdown
   const portfolioBreakdown = useMemo(() => {
