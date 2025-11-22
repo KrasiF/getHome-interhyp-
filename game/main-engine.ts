@@ -65,7 +65,7 @@ export class GameEngine implements GameEngineInterface {
     getEventHistory(): EventModel[] {
         return this.eventHistory;
     }
-    startGame(startState: StartStateModel): StateModel {
+    startGame(startState: StartStateModel, goal: GoalModel): StateModel {
         if(this.isRunning) {
             throw new Error("Game is already running.");
         }
@@ -81,6 +81,8 @@ export class GameEngine implements GameEngineInterface {
         this.history = [structuredClone(this.state)];
         this.eventHistory = [];
         this.currentEventResult = undefined;
+
+        this.goals = goal;
 
         return this.state;
     }
@@ -191,7 +193,7 @@ export class GameEngine implements GameEngineInterface {
         }
 
         // Apply automatic updates
-        this.state.portfolio = this.investmentEngine.handleReturnOnInvestment(this.state.portfolio);
+        this.state.portfolio = this.investmentEngine.handleReturnOnInvestment(this.state);
         this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
 
         // Increment year and age
@@ -210,7 +212,7 @@ export interface GameEngineInterface {
     getHistory(): StateModel[];
     getEventHistory(): EventModel[];
 
-    startGame(start_state: StartStateModel): StateModel;
+    startGame(start_state: StartStateModel, goal: GoalModel): StateModel;
     runLoop(): EventModel;
     reset(): void;
     decideEvent(decision: boolean): StateModel;

@@ -2,7 +2,7 @@ import { StateModel } from "../models/state-model";
 import { PortfolioModel } from "../models/portfolio-model";
 
 export interface InvestmentEngineInterface {
-    handleReturnOnInvestment(state: StateModel): StateModel;
+    handleReturnOnInvestment(state: StateModel): PortfolioModel;
 }
 
 export class InvestmentEngine implements InvestmentEngineInterface {
@@ -11,7 +11,7 @@ export class InvestmentEngine implements InvestmentEngineInterface {
 
     constructor() {}
 
-    public handleReturnOnInvestment(state: StateModel): StateModel {
+    public handleReturnOnInvestment(state: StateModel): PortfolioModel {
         // Create a shallow copy of the portfolio to remain immutable regarding the input reference
         const newPortfolio: PortfolioModel = { ...state.portfolio };
 
@@ -51,9 +51,7 @@ export class InvestmentEngine implements InvestmentEngineInterface {
             newPortfolio.cashInEuro += Math.round(actualChange);
         }
 
-        state.portfolio = newPortfolio;
-        
-        return state;
+        return newPortfolio;
     }
 
 
