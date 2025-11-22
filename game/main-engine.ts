@@ -94,7 +94,7 @@ export class GameEngine implements GameEngineInterface {
 
         return this.state;
     }
-    runLoop(): EventModel | undefined {
+    async runLoop(): Promise<EventModel | undefined> {
         // Apply automatic updates
         this.state.portfolio = this.investmentEngine.handleReturnOnInvestment(this.state);
         this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
@@ -110,7 +110,12 @@ export class GameEngine implements GameEngineInterface {
 
         this.history.push(JSON.parse(JSON.stringify(this.state)));
 
-        const random_event = this.eventEngine.randomlyGenerateEvent(0.5, this.history, [this.goals]);
+        const random_event = await this.eventEngine.randomlyGenerateEvent(
+            0.5,
+            this.history,
+            this.goals,
+            this.eventHistory
+        );
         
         if (random_event) {
             this.currentEventResult = random_event;
@@ -257,14 +262,12 @@ export interface GameEngineInterface {
     getEventHistory(): EventModel[];
 
     startGame(start_state: StartStateModel, goal: GoalModel): StateModel;
-    runLoop(): EventModel | undefined;
+    runLoop(): Promise<EventModel | undefined>;
     reset(): void;
     decideEvent(decision: boolean): StateModel;
     decideActions(userInput: UserInputModel): StateModel;
     requestNewOccupation(occupation_description: string): Promise<OccupationModel>;
     requestNewHomes(home_description: string): Promise<LivingModel[]>;
 }
-
-
 
 
