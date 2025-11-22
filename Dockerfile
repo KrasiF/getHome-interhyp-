@@ -1,32 +1,48 @@
-# 1. Basis-Image
-FROM node:18-alpine AS base
+# 1. Basis-Image (Node 20 ist sicherer für aktuelles Next.js)
+FROM node:20-alpine AS base
+
+# pnpm aktivieren
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+# Manche Libraries brauchen libc6-compat unter Alpine
+RUN apk add --no-cache libc6-compat
 
 # 2. Abhängigkeiten installieren
 FROM base AS deps
 WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm ci
+
+# WICHTIG: Hier kopieren wir jetzt die pnpm-lock.yaml
+COPY package.json pnpm-lock.yaml* ./
+
+# Installation mit pnpm
+RUN pnpm config set store-dir /pnpm/store
+RUN pnpm install --frozen-lockfile
 
 # 3. Builder
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# Deaktiviert Telemetrie während des Builds
-ENV NEXT_TELEMETRY_DISABLED 1
-RUN npm run build
 
-# 4. Runner (Das eigentliche Image für Google Cloud)
+ENV NEXT_TELEMETRY_DISABLED 1
+# Build mit pnpm
+RUN pnpm run build
+
+# 4. Runner
 FROM base AS runner
 WORKDIR /app
+
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Wir kopieren nur das Nötigste aus dem Standalone-Build
 COPY --from=builder /app/public ./public
+
+# Standalone Mode Kopien
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
