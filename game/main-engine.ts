@@ -88,8 +88,18 @@ export class GameEngine implements GameEngineInterface {
         return this.state;
     }
     runLoop(): EventModel | undefined {
-        // MAYBE ADJUST RETURN type to add a terminated flag for game terminated.
-        // HERE CHECK IF THE GAME CAN END
+        // Apply automatic updates
+        this.state.portfolio = this.investmentEngine.handleReturnOnInvestment(this.state);
+        this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
+
+        // Increment year and age
+        this.state.year += 1;
+        this.state.age += 1;
+
+        // Check if goal is reached
+        this.checkGoalReached();
+
+        this.history.push(JSON.parse(JSON.stringify(this.state)));
 
         const random_event = this.eventEngine.randomlyGenerateEvent(0.5, this.history, [this.goals]);
         
@@ -197,18 +207,18 @@ export class GameEngine implements GameEngineInterface {
             this.state.savingsRateInPercent = userInput.newSavingsRateInPercent;
         }
 
-        // Apply automatic updates
-        this.state.portfolio = this.investmentEngine.handleReturnOnInvestment(this.state);
-        this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
+        // // Apply automatic updates
+        // this.state.portfolio = this.investmentEngine.handleReturnOnInvestment(this.state);
+        // this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
 
-        // Increment year and age
-        this.state.year += 1;
-        this.state.age += 1;
+        // // Increment year and age
+        // this.state.year += 1;
+        // this.state.age += 1;
 
-        // Check if goal is reached
-        this.checkGoalReached();
+        // // Check if goal is reached
+        // this.checkGoalReached();
 
-        this.history.push(JSON.parse(JSON.stringify(this.state)));
+        // this.history.push(JSON.parse(JSON.stringify(this.state)));
 
 
         return this.state;
