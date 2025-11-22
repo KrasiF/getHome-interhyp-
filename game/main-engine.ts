@@ -1,7 +1,6 @@
 import { StateModel } from "./models/state-model";
 import { EventEngine } from "./engines/event-engine";
 import { JobEngine } from "./engines/job-engine";
-import { CapitalEngine } from "./engines/capital-engine";
 import { SatisfactionEngine } from "./engines/satisfaction-engine";
 import { InvestmentEngine } from "./engines/investment-engine";
 import { HomeEngine } from "./engines/home-engine";
@@ -15,7 +14,6 @@ import { UserInputModel } from "./models/user-input-model";
 export class GameEngine implements GameEngineInterface {
     private eventEngine: EventEngine;
     private jobEngine: JobEngine;
-    private capitalEngine: CapitalEngine;
     private satisfactionEngine: SatisfactionEngine;
     private investmentEngine: InvestmentEngine;
     private homeEngine: HomeEngine;
@@ -27,13 +25,18 @@ export class GameEngine implements GameEngineInterface {
     private isRunning: boolean;
     private currentEventResult: EventModel | undefined;
 
-    constructor() {
-        this.eventEngine = new EventEngine();
-        this.jobEngine = new JobEngine();
-        this.capitalEngine = new CapitalEngine();
-        this.satisfactionEngine = new SatisfactionEngine();
-        this.investmentEngine = new InvestmentEngine();
-        this.homeEngine = new HomeEngine();
+    constructor(
+        eventEngine?: EventEngine,
+        jobEngine?: JobEngine,
+        satisfactionEngine?: SatisfactionEngine,
+        investmentEngine?: InvestmentEngine,
+        homeEngine?: HomeEngine
+    ) {
+        this.eventEngine = eventEngine ?? new EventEngine();
+        this.jobEngine = jobEngine ?? new JobEngine();
+        this.satisfactionEngine = satisfactionEngine ?? new SatisfactionEngine();
+        this.investmentEngine = investmentEngine ?? new InvestmentEngine();
+        this.homeEngine = homeEngine ?? new HomeEngine();
 
         this.state = {} as StateModel;
         this.goals = {} as GoalModel;
@@ -180,7 +183,7 @@ export class GameEngine implements GameEngineInterface {
         }
 
         if (userInput.newPortfolioModel) {
-            this.state.portfolio = this.capitalEngine.handlePortfolioChange(this.state, userInput.newPortfolioModel);
+            this.state.portfolio = { ...this.state.portfolio, ...userInput.newPortfolioModel };
         }
 
         if (userInput.newSavingsRateInPercent !== null) {
