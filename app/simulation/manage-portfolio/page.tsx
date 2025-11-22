@@ -150,9 +150,11 @@ export default function ManagePortfolio() {
                 <Pie
                   data={data}
                   dataKey="value"
-                  outerRadius={100}
-                  startAngle={90}
-                  endAngle={-270}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={40}
+                  outerRadius={70}
+                  paddingAngle={2}
                 >
                   {data.map((entry, index) => (
                     <Cell
