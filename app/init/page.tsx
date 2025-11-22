@@ -1,5 +1,5 @@
 "use client";
-import {useState} from "react";
+import {useState, useEffect, useRef} from "react";
 import {Card, CardHeader, CardTitle, CardContent} from "@/components/ui/card";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
@@ -13,6 +13,7 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command";
+import {Skeleton} from "@/components/ui/skeleton";
 import {Check, ChevronDown} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {useRouter} from "next/navigation";
@@ -20,7 +21,11 @@ import {StartStateModel} from "@/game/models/start-state-model";
 import {GoalModel} from "@/game/models/goal-model";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Label} from "@/components/ui/label";
-import {useGameEngine} from "@/components/game-enginge-context";
+import {useGameEngine} from "@/components/game-engine-context";
+import {Listings} from "@/components/listings";
+import {scrapeApi, SearchParams} from "@/game/apis/scrape-api";
+import {ScrapedListingsModel} from "@/game/models/scraped-listings-model";
+import mockListingsData from "@/components/mock-listings.json";
 
 export default function Init() {
   const gameEngine = useGameEngine();
@@ -64,11 +69,90 @@ export default function Init() {
   const [goal, setGoal] = useState<GoalModel>({
     buyingPrice: 400000,
     rooms: 3,
-    squareMeter: 40,
-    zip: "80802",
+    squareMeter: 105,
+    zip: "80331",
     numberWishedChildren: 0,
     estateType: "HOUSEBUY",
   });
+
+  const [listings, setListings] = useState<ScrapedListingsModel>({
+    results: [],
+  });
+  const [isLoadingListings, setIsLoadingListings] = useState(false);
+  const [selectedHomeId, setSelectedHomeId] = useState<string | null>(null);
+  const skipNextFetchRef = useRef(false);
+
+  useEffect(() => {
+    if (!selectedHomeId) return;
+    const found = listings.results.find((l) => l.id === selectedHomeId);
+    if (!found) return;
+
+    // Mark that the next automatic fetch (triggered by goal changes)
+    // should be skipped because this update originates from a listing selection.
+    skipNextFetchRef.current = true;
+
+    setGoal((prev) => ({
+      ...prev,
+      buyingPrice: found.buyingPrice ?? prev.buyingPrice,
+      rooms: found.rooms ?? prev.rooms,
+      squareMeter: found.squareMeter ?? prev.squareMeter,
+    }));
+  }, [selectedHomeId, listings.results]);
+
+  useEffect(() => {
+    if (skipNextFetchRef.current) {
+      skipNextFetchRef.current = false;
+      return;
+    }
+
+    if (step === 3) {
+      const fetchListings = async () => {
+        setIsLoadingListings(true);
+        try {
+          const currentCity = "Berlin"; // Default fallback
+          const city =
+            cityOptions.find((c) => c.zip === goal.zip)?.city || currentCity;
+          console.log(city);
+          const searchParams: SearchParams = {
+            city,
+            estateType: goal.estateType as "HOUSEBUY" | "APARTMENTBUY",
+            squareMeters: goal.squareMeter,
+          };
+          const results = await scrapeApi(searchParams);
+          setListings(results);
+        } catch (error) {
+          console.error("Error fetching listings:", error);
+          // Use mock listings as fallback - transform mock data to match ListingModel
+          type MockListingRaw = {
+            id: string | number;
+            buyingPrice: string | number;
+            zip: string | number;
+            rooms: string | number;
+            squareMeter: string | number;
+            images?: Array<{originalUrl?: string} | null> | null;
+          };
+          const mockResults: ScrapedListingsModel = {
+            results: (mockListingsData.results as unknown as MockListingRaw[])
+              .slice(0, 10)
+              .map((listing) => ({
+                id: String(listing.id),
+                buyingPrice: Number(listing.buyingPrice),
+                zip: String(listing.zip),
+                rooms: Number(listing.rooms),
+                squareMeter: Number(listing.squareMeter),
+                imageUrl: String(listing.images?.[0]?.originalUrl || ""),
+              })),
+          };
+          setListings(mockResults);
+        } finally {
+          setIsLoadingListings(false);
+        }
+      };
+
+      fetchListings();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [goal.zip, goal.estateType, goal.squareMeter, step]);
 
   const totalSteps = steps.length;
   const progress = (step / totalSteps) * 100;
@@ -151,7 +235,9 @@ export default function Init() {
               <div>
                 <p className="font-medium mb-1">
                   Yearly Salary: €
-                  {startState.occupation.yearlySalaryInEuro.toLocaleString()}
+                  {startState.occupation.yearlySalaryInEuro.toLocaleString(
+                    "de-DE"
+                  )}
                 </p>
                 <Slider
                   value={[startState.occupation.yearlySalaryInEuro]}
@@ -269,7 +355,7 @@ export default function Init() {
               <div>
                 <p className="font-medium mb-1">
                   Starting Capital: €
-                  {startState.portfolio.cashInEuro.toLocaleString()}
+                  {startState.portfolio.cashInEuro.toLocaleString("de-DE")}
                 </p>
                 <Slider
                   value={[startState.portfolio.cashInEuro]}
@@ -438,9 +524,61 @@ export default function Init() {
                 />
               </div>
 
-              <p className="text-sm text-muted-foreground">
-                Results of the Listings
-              </p>
+              {/* Listings Section */}
+              <div className="border-t pt-6 mt-6">
+                {isLoadingListings ? (
+                  <div className="w-full space-y-4">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="space-y-2">
+                        <Skeleton className="h-8 w-48" />
+                        <Skeleton className="h-4 w-64" />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {[1, 2, 3].map((i) => (
+                        <Card key={i} className="overflow-hidden">
+                          {/* Image skeleton */}
+                          <Skeleton className="w-full h-48" />
+
+                          {/* Content skeleton */}
+                          <div className="p-4 space-y-3">
+                            {/* Location */}
+                            <Skeleton className="h-4 w-24" />
+
+                            {/* Property Details */}
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="space-y-2">
+                                <Skeleton className="h-3 w-12" />
+                                <Skeleton className="h-4 w-16" />
+                              </div>
+                              <div className="space-y-2">
+                                <Skeleton className="h-3 w-12" />
+                                <Skeleton className="h-4 w-16" />
+                              </div>
+                            </div>
+
+                            {/* Price per sqm */}
+                            <div className="pt-2 border-t border-gray-200 space-y-2">
+                              <Skeleton className="h-3 w-20" />
+                              <Skeleton className="h-4 w-32" />
+                            </div>
+
+                            {/* Button skeleton */}
+                            <Skeleton className="h-10 w-full" />
+                          </div>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <Listings
+                    listings={listings}
+                    onSelectHome={setSelectedHomeId}
+                    selectedId={selectedHomeId}
+                  />
+                )}
+              </div>
             </div>
           )}
 
@@ -459,7 +597,7 @@ export default function Init() {
             ) : (
               <Button
                 onClick={() => {
-                  console.log(gameEngine.startGame(startState, goal));
+                  gameEngine.startGame(startState, goal);
 
                   router.push("/simulation");
                 }}
