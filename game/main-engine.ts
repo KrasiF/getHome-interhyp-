@@ -197,7 +197,7 @@ export class GameEngine implements GameEngineInterface {
 
         // Apply automatic updates
         this.state.portfolio = this.investmentEngine.handleReturnOnInvestment(this.state);
-        this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state, this.history);
+        this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
 
         // Increment year and age
         this.state.year += 1;
