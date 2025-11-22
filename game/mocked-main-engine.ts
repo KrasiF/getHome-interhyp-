@@ -14,7 +14,12 @@ import { EventType } from "./engines/event-engine";
 
 // Mock Event Engine
 class MockEventEngine implements Partial<EventEngine> {
-  randomlyGenerateEvent(probability: number, history: StateModel[], goals: GoalModel[]): EventModel {
+  async randomlyGenerateEvent(
+    probability: number,
+    history: StateModel[],
+    goals: GoalModel[],
+    eventHistory: EventModel[]
+  ): Promise<EventModel> {
     // Return a mock event if random condition is met
     if (Math.random() < probability) {
       return {

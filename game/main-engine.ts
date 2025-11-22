@@ -11,6 +11,7 @@ import { OccupationModel } from "./models/occupation-model";
 import { LivingModel } from "./models/living-model";
 import { UserInputModel } from "./models/user-input-model";
 import { PortfolioModel } from "./models/portfolio-model";
+import { CreditEngine } from "./engines/credit-engine";
 
 export class GameEngine implements GameEngineInterface {
     private eventEngine: EventEngine;
@@ -18,6 +19,7 @@ export class GameEngine implements GameEngineInterface {
     private satisfactionEngine: SatisfactionEngine;
     private investmentEngine: InvestmentEngine;
     private homeEngine: HomeEngine;
+    private creditEngine: CreditEngine;
 
     private state: StateModel;
     private goals: GoalModel;
@@ -31,13 +33,15 @@ export class GameEngine implements GameEngineInterface {
         jobEngine?: JobEngine,
         satisfactionEngine?: SatisfactionEngine,
         investmentEngine?: InvestmentEngine,
-        homeEngine?: HomeEngine
+        homeEngine?: HomeEngine,
+        creditEngine?: CreditEngine
     ) {
         this.eventEngine = eventEngine ?? new EventEngine();
         this.jobEngine = jobEngine ?? new JobEngine();
         this.satisfactionEngine = satisfactionEngine ?? new SatisfactionEngine();
         this.investmentEngine = investmentEngine ?? new InvestmentEngine();
         this.homeEngine = homeEngine ?? new HomeEngine();
+        this.creditEngine = creditEngine ?? new CreditEngine();
 
         this.state = {} as StateModel;
         this.goals = {} as GoalModel;
@@ -75,7 +79,8 @@ export class GameEngine implements GameEngineInterface {
             year: new Date().getFullYear(),
             educationLevel: "",
             lifeSatisfactionFrom1To100: 50,
-            terminated: false
+            terminated: false,
+            creditWorthiness: false
         };
 
         this.isRunning = true;
@@ -85,12 +90,16 @@ export class GameEngine implements GameEngineInterface {
 
         this.goals = goal;
 
+        this.state = this.creditEngine.checkAndApplyCredit(this.state, this.goals);
+
         return this.state;
     }
-    runLoop(): EventModel | undefined {
+    async runLoop(): Promise<EventModel | undefined> {
         // Apply automatic updates
         this.state.portfolio = this.investmentEngine.handleReturnOnInvestment(this.state);
         this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
+
+        this.state = this.creditEngine.checkAndApplyCredit(this.state, this.goals);
 
         // Increment year and age
         this.state.year += 1;
@@ -101,7 +110,12 @@ export class GameEngine implements GameEngineInterface {
 
         this.history.push(JSON.parse(JSON.stringify(this.state)));
 
-        const random_event = this.eventEngine.randomlyGenerateEvent(0.5, this.history, [this.goals]);
+        const random_event = await this.eventEngine.randomlyGenerateEvent(
+            0.5,
+            this.history,
+            this.goals,
+            this.eventHistory
+        );
         
         if (random_event) {
             this.currentEventResult = random_event;
@@ -122,8 +136,10 @@ export class GameEngine implements GameEngineInterface {
             educationLevel: "",
             lifeSatisfactionFrom1To100: 0,
             married: false,
-            terminated: false
+            terminated: false,
+            creditWorthiness: false
         };
+        
         this.goals = {} as GoalModel;
         this.history = [];
         this.eventHistory = [];
@@ -211,6 +227,8 @@ export class GameEngine implements GameEngineInterface {
         // this.state.portfolio = this.investmentEngine.handleReturnOnInvestment(this.state);
         // this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
 
+        this.state = this.creditEngine.checkAndApplyCredit(this.state, this.goals);
+
         // // Increment year and age
         // this.state.year += 1;
         // this.state.age += 1;
@@ -244,14 +262,12 @@ export interface GameEngineInterface {
     getEventHistory(): EventModel[];
 
     startGame(start_state: StartStateModel, goal: GoalModel): StateModel;
-    runLoop(): EventModel | undefined;
+    runLoop(): Promise<EventModel | undefined>;
     reset(): void;
     decideEvent(decision: boolean): StateModel;
     decideActions(userInput: UserInputModel): StateModel;
     requestNewOccupation(occupation_description: string): Promise<OccupationModel>;
     requestNewHomes(home_description: string): Promise<LivingModel[]>;
 }
-
-
 
 

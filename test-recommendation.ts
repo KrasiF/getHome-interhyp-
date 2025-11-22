@@ -92,7 +92,8 @@ function buildTenYearHistory(): StateModel[] {
             amountOfChildren: i < 5 ? 0 : i < 8 ? 1 : 2,
             married: i >= 5,
             educationLevel: i < 2 ? "Bachelor ongoing" : "Bachelor finished",
-            lifeSatisfactionFrom1To100: lifeSatisfaction
+            lifeSatisfactionFrom1To100: lifeSatisfaction,
+            terminated: false
         };
 
         history.push(state);

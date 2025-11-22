@@ -18,7 +18,7 @@ dotenv.config({ path: ".env.local" });
 // Helper to create mock engines
 function createMockEventEngine(): Partial<EventEngine> {
   return {
-    randomlyGenerateEvent: (probability, history, goals) => {
+    randomlyGenerateEvent: async (probability, history, goals, eventHistory) => {
       return {
         impact: {
           changeInOccupancyModel: null,
@@ -133,7 +133,7 @@ async function runTests() {
   );
   engine2.startGame(mockStartState);
   
-  const event = engine2.runLoop();
+  const event = await engine2.runLoop();
   console.log("✓ Event generated");
   console.log(`  Event description: ${event.eventDescription || "N/A"}\n`);
 
@@ -141,7 +141,7 @@ async function runTests() {
   console.log("Test 3: Decide Event (Accept)");
   const engine3 = new GameEngine(mockEventEngine as EventEngine);
   engine3.startGame(mockStartState);
-  engine3.runLoop();
+  await engine3.runLoop();
   
   const stateBefore = engine3.getState();
   const marriedBefore = stateBefore.married;
@@ -158,7 +158,7 @@ async function runTests() {
   console.log("Test 4: Decide Event (Reject)");
   const engine4 = new GameEngine(mockEventEngine as EventEngine);
   engine4.startGame(mockStartState);
-  engine4.runLoop();
+  await engine4.runLoop();
   
   const stateBefore4 = engine4.getState();
   const satisfactionBefore4 = stateBefore4.lifeSatisfactionFrom1To100;

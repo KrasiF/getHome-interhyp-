@@ -48,8 +48,8 @@ export default function Simulation() {
 
   const currentYear = state?.year || new Date().getFullYear();
 
-  const handleAdvanceYear = () => {
-    let gameEvent = gameEngine.runLoop();
+  const handleAdvanceYear = async () => {
+    let gameEvent = await gameEngine.runLoop();
     triggerUpdate();
     setShowEventDecision(!!gameEvent);
   };
@@ -167,7 +167,7 @@ export default function Simulation() {
                 >
                   Change Occupation
                 </Button>
-                <Button onClick={() => null}>Manage Portfolio</Button>
+                <Button onClick={() => router.push("/simulation/manage-portfolio")}>Manage Portfolio</Button>
                 <Button onClick={() => null}>Take a Loan</Button>
               </div>
             </DialogContent>
@@ -368,7 +368,7 @@ export default function Simulation() {
                     />
                     <span>{item.name}:</span>
                     <span className="font-semibold">
-                      €{Math.round(item.value).toLocaleString()}
+                      €{Math.round(item.value).toLocaleString("de-DE")}
                     </span>
                   </div>
                 ))}
