@@ -2,11 +2,11 @@
 import {useGameEngine} from "@/components/game-enginge-context";
 import {Button} from "@/components/ui/button";
 import {Card} from "@/components/ui/card";
-import {Dialog, DialogContent, DialogHeader} from "@/components/ui/dialog";
 import {
-  DialogDescription,
+  Dialog,
+  DialogContent,
+  DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {Slider} from "@/components/ui/slider";
 import {Label} from "@/components/ui/label";
@@ -23,23 +23,10 @@ import {
   PieChart,
   Pie,
   Cell,
+  ReferenceLine,
 } from "recharts";
 import {EventModel} from "@/game/models/event-model";
 import {StateModel} from "@/game/models/state-model";
-
-// Seeded random for consistent mock data
-function seededRandom(seed: number): number {
-  const x = Math.sin(seed) * 10000;
-  return x - Math.floor(x);
-}
-
-// Generate mock chart data
-const MOCK_CHART_DATA = Array.from({length: 11}, (_, i) => ({
-  year: 2025 + i,
-  kapital: 50000 + i * 10000 + seededRandom(42 + i) * 20000,
-  lebensqualität: 50 + i * 2 + seededRandom(142 + i) * 10,
-  ziel: 50000 + i * 15000,
-}));
 
 export default function Simulation() {
   const gameEngine = useGameEngine();
@@ -55,282 +42,399 @@ export default function Simulation() {
   );
   const [showEventDecision, setShowEventDecision] = useState(!!currentEvent);
 
-  // Generate chart data
-  const chartData = useMemo(() => {
-    if (history.length === 0) {
-      return MOCK_CHART_DATA;
-    }
+  const currentYear = state?.year || new Date().getFullYear();
 
-    return history.map((s: StateModel, idx: number) => ({
-      year: s.year,
-      kapital:
-        (s.portfolio?.cashInEuro ?? 0) +
-        (s.portfolio?.cryptoInEuro ?? 0) +
-        (s.portfolio?.etfInEuro ?? 0),
-      lebensqualität: s.lifeSatisfactionFrom1To100,
-      ziel: 50000 + idx * 15000,
-    }));
-  }, [history]);
-
-  const portfolioData = useMemo(() => {
-    if (!state?.portfolio) {
-      return [
-        {name: "Cash", value: 30000},
-        {name: "Crypto", value: 10000},
-        {name: "ETF", value: 20000},
-      ];
-    }
-
-    return [
-      {name: "Cash", value: state.portfolio.cashInEuro ?? 0},
-      {name: "Crypto", value: state.portfolio.cryptoInEuro ?? 0},
-      {name: "ETF", value: state.portfolio.etfInEuro ?? 0},
-    ].filter((item) => item.value > 0);
-  }, [state]);
-
-  const COLORS = ["#4ade80", "#f59e0b", "#6366f1"];
+  const handleAdvanceYear = () => {
+    gameEngine.runLoop();
+    setShowEventDecision(!!currentEvent);
+  };
 
   const handleSavingsRateChange = (value: number[]) => {
     setSavingsRate(value[0]);
-    // TODO: Update game engine state with new savings rate
   };
 
-  const handleEventDecision = () => {
-    // TODO: Process event decision in game engine
+  const handleEventDecision = (chooseOption1: boolean) => {
+    gameEngine.decideEvent(!chooseOption1);
     setShowEventDecision(false);
   };
 
-  const totalCapital = portfolioData.reduce((sum, item) => sum + item.value, 0);
+  // Chart data from real game history
+  const chartData = useMemo(() => {
+    return history.map((s: StateModel, idx: number) => ({
+      year: s.year,
+      wealth:
+        (s.portfolio?.cashInEuro ?? 0) +
+        (s.portfolio?.cryptoInEuro ?? 0) +
+        (s.portfolio?.etfInEuro ?? 0),
+      satisfaction: s.lifeSatisfactionFrom1To100,
+      goal: 500000 + idx * 50000,
+    }));
+  }, [history]);
+
+  // Portfolio breakdown
+  const portfolioBreakdown = useMemo(() => {
+    return [
+      {name: "Cash", value: state.portfolio?.cashInEuro ?? 0},
+      {name: "Crypto", value: state.portfolio?.cryptoInEuro ?? 0},
+      {name: "ETF", value: state.portfolio?.etfInEuro ?? 0},
+    ].filter((item) => item.value > 0);
+  }, [
+    state.portfolio?.cashInEuro,
+    state.portfolio?.cryptoInEuro,
+    state.portfolio?.etfInEuro,
+  ]);
+
+  const portfolioColors = ["#10b981", "#f59e0b", "#6366f1"];
+  const totalWealth = portfolioBreakdown.reduce(
+    (sum, item) => sum + item.value,
+    0
+  );
 
   return (
     <main className="grid grid-cols-12 gap-4 p-4 h-screen bg-gray-50">
-      {/* Left Panel: Controls */}
+      {/* Left Sidebar: Controls */}
       <Card className="col-span-2 p-4 flex flex-col justify-between">
-        <div>
-          <div className="space-y-4">
+        <div className="space-y-4">
+          <div className="space-y-3">
             <div>
-              <Label className="text-sm font-semibold">Savings rate</Label>
-              <div className="mt-2 flex items-center gap-2">
-                <Slider
-                  value={[savingsRate]}
-                  onValueChange={handleSavingsRateChange}
-                  max={100}
-                  step={1}
-                  className="flex-1"
-                />
+              <Label className="text-sm font-semibold">Savings Rate</Label>
+              <Slider
+                value={[savingsRate]}
+                onValueChange={handleSavingsRateChange}
+                max={100}
+                step={1}
+                className="mt-2"
+              />
+              <div className="mt-2 flex justify-between text-xs text-gray-600">
+                <span>Fixed Costs</span>
+                <span className="font-bold text-gray-900">
+                  {Math.round(savingsRate)}%
+                </span>
+                <span>Savings</span>
               </div>
-              <div className="mt-2 text-xs text-gray-600 flex justify-between">
-                <span>Fixcosts</span>
-                <span className="font-semibold">{savingsRate}%</span>
-                <span>Saving</span>
+            </div>
+
+            <div className="space-y-2 pt-2 border-t">
+              <div>
+                <p className="text-xs text-gray-600">Current Age</p>
+                <p className="text-sm font-semibold">{state?.age ?? 0} years</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-600">Current Year</p>
+                <p className="text-sm font-semibold">{currentYear}</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-600">Total Wealth</p>
+                <p className="text-sm font-semibold">
+                  €{Math.round(totalWealth).toLocaleString()}
+                </p>
               </div>
             </div>
           </div>
+
+          <Button
+            onClick={handleAdvanceYear}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+            disabled={history.length === 0}
+          >
+            Next Year
+          </Button>
+          <Button className="w-full bg-black hover:bg-gray-800 text-white">
+          Actions
+        </Button>
         </div>
 
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="w-full mb-6 bg-black text-white">Actions</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Actions</DialogTitle>
-              <DialogDescription>
-                Decide which action you want to choose next
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid grid-cols-2 gap-4">
-              <Button onClick={() => null}>Move</Button>
-              <Button onClick={() => null}>Change Occupation</Button>
-              <Button onClick={() => null}>Manage Portfolio</Button>
-              <Button onClick={() => null}>Take a Loan</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+        
       </Card>
 
-      {/* Center Panel: Charts */}
+      {/* Center: Charts */}
       <Card className="col-span-6 p-6 flex flex-col">
-        <h2 className="text-lg font-bold mb-4">Simulation</h2>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="year" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="lebensqualität"
-              stroke="#fbbf24"
-              name="Lebensqualität"
-              dot={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="kapital"
-              stroke="#10b981"
-              name="Kapital"
-              dot={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="ziel"
-              stroke="#1f2937"
-              strokeDasharray="5 5"
-              name="Ziel"
-              dot={false}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <h2 className="text-xl font-bold mb-4">
+          Wealth & Satisfaction Progress
+        </h2>
+        {chartData.length > 0 ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              data={chartData}
+              margin={{top: 5, right: 30, left: 0, bottom: 5}}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="year" />
+              <YAxis
+                yAxisId="left"
+                label={{
+                  value: "Wealth (€)",
+                  angle: -90,
+                  position: "insideLeft",
+                }}
+              />
+              <YAxis
+                yAxisId="right"
+                orientation="right"
+                domain={[0, 100]}
+                label={{
+                  value: "Satisfaction (0-100)",
+                  angle: 90,
+                  position: "insideRight",
+                }}
+              />
+              <Tooltip
+                formatter={(value: number) =>
+                  Math.round(value).toLocaleString()
+                }
+                contentStyle={{
+                  backgroundColor: "#f3f4f6",
+                  border: "1px solid #d1d5db",
+                }}
+              />
+              <Legend />
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="wealth"
+                stroke="#10b981"
+                name="Wealth"
+                dot={false}
+                strokeWidth={2}
+              />
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="satisfaction"
+                stroke="#f59e0b"
+                name="Satisfaction"
+                dot={false}
+                strokeWidth={2}
+              />
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="goal"
+                stroke="#6b7280"
+                strokeDasharray="5 5"
+                name="Goal"
+                dot={false}
+                strokeWidth={1.5}
+              />
+              <ReferenceLine
+                x={currentYear}
+                stroke="#ef4444"
+                strokeWidth={2}
+                label={{
+                  value: `Now: ${currentYear}`,
+                  position: "top",
+                  fill: "#ef4444",
+                  fontSize: 12,
+                  fontWeight: "bold",
+                }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        ) : (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            <p>Start the game from the init page to see your progress</p>
+          </div>
+        )}
       </Card>
 
-      {/* Right Panel: Events & Portfolio */}
+      {/* Right Sidebar: Events & Portfolio */}
       <Card className="col-span-4 p-4 flex flex-col gap-4">
-        {/* Events Timeline */}
+        {/* Recent Events */}
         <div>
-          <h3 className="font-semibold text-sm mb-2">Timeline Events</h3>
-          <div className="space-y-2 max-h-40 overflow-y-auto">
+          <h3 className="font-bold text-sm mb-3">Recent Events</h3>
+          <div className="space-y-2 max-h-48 overflow-y-auto">
             {eventHistory.length > 0 ? (
-              eventHistory.slice(-5).map((event, idx) => (
-                <div key={idx} className="text-xs p-2 bg-gray-100 rounded">
-                  <p className="font-semibold text-gray-700">
-                    {event.eventDescription}
-                  </p>
-                </div>
-              ))
+              eventHistory
+                .slice(-5)
+                .reverse()
+                .map((event: EventModel, idx: number) => (
+                  <div
+                    key={idx}
+                    className="text-xs p-2 bg-blue-50 rounded border border-blue-200"
+                  >
+                    <p className="font-semibold text-blue-900">
+                      {event.eventDescription}
+                    </p>
+                  </div>
+                ))
             ) : (
               <p className="text-xs text-gray-500">No events yet</p>
             )}
           </div>
         </div>
 
-        {/* Capital Distribution Donut Chart */}
-        <div className="flex-1 flex flex-col items-center justify-center">
-          <h3 className="font-semibold text-sm mb-2">Capital Chart</h3>
-          <ResponsiveContainer width="100%" height={200}>
-            <PieChart>
-              <Pie
-                data={portfolioData}
-                cx="50%"
-                cy="50%"
-                innerRadius={50}
-                outerRadius={80}
-                paddingAngle={2}
-                dataKey="value"
-              >
-                {portfolioData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                ))}
-              </Pie>
-              <Tooltip
-                formatter={(value: number) => `€${value.toLocaleString()}`}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="text-xs text-gray-600 text-center mt-2">
-            <p className="font-semibold">
-              Total: €{totalCapital.toLocaleString()}
-            </p>
-            <div className="mt-1 space-y-1">
-              {portfolioData.map((item, idx) => (
-                <p key={idx}>
-                  <span
-                    className="inline-block w-2 h-2 rounded-full mr-1"
-                    style={{backgroundColor: COLORS[idx]}}
+        {/* Portfolio Distribution */}
+        <div className="flex-1 flex flex-col items-center">
+          <h3 className="font-bold text-sm mb-3">Portfolio Distribution</h3>
+          {portfolioBreakdown.length > 0 ? (
+            <>
+              <ResponsiveContainer width="100%" height={180}>
+                <PieChart>
+                  <Pie
+                    data={portfolioBreakdown}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={40}
+                    outerRadius={70}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    {portfolioBreakdown.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={portfolioColors[index % portfolioColors.length]}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    formatter={(value: number) =>
+                      `€${Math.round(value).toLocaleString()}`
+                    }
                   />
-                  {item.name}: €{item.value.toLocaleString()}
-                </p>
-              ))}
-            </div>
-          </div>
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="text-xs text-gray-700 text-center mt-3 w-full space-y-1">
+                {portfolioBreakdown.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <div
+                      className="w-2 h-2 rounded-full"
+                      style={{
+                        backgroundColor:
+                          portfolioColors[idx % portfolioColors.length],
+                      }}
+                    />
+                    <span>{item.name}:</span>
+                    <span className="font-semibold">
+                      €{Math.round(item.value).toLocaleString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="text-xs text-gray-500">No portfolio data</p>
+          )}
         </div>
       </Card>
 
-      {/* Event Decision Modal */}
+      {/* Event Decision Dialog */}
       <Dialog open={showEventDecision} onOpenChange={setShowEventDecision}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Event!</DialogTitle>
+            <DialogTitle className="text-lg font-bold">Event!</DialogTitle>
           </DialogHeader>
+
           {currentEvent && (
             <div className="space-y-4">
-              <p className="text-sm font-semibold">
-                {currentEvent.eventDescription}
-              </p>
-              <p className="text-sm text-gray-600">
-                {currentEvent.eventQuestion}
-              </p>
+              <div>
+                <p className="font-semibold text-base">
+                  {currentEvent.eventDescription}
+                </p>
+                <p className="text-sm text-gray-600 mt-2">
+                  {currentEvent.eventQuestion}
+                </p>
+              </div>
 
-              {currentEvent.impact && (
-                <div className="bg-blue-50 p-3 rounded text-xs">
-                  <p className="font-semibold mb-2">Option 1:</p>
-                  <ul className="space-y-1 text-gray-700">
-                    {currentEvent.impact.changeInSavingsRateInPercent && (
-                      <li>
-                        Savings Rate: +
-                        {currentEvent.impact.changeInSavingsRateInPercent}%
-                      </li>
-                    )}
-                    {currentEvent.impact.changeInLifeSatisfactionFrom1To100 && (
-                      <li>
-                        Life Quality:{" "}
-                        {currentEvent.impact
-                          .changeInLifeSatisfactionFrom1To100 > 0
-                          ? "+"
-                          : ""}
-                        {currentEvent.impact.changeInLifeSatisfactionFrom1To100}
-                      </li>
-                    )}
-                  </ul>
+              <div className="grid grid-cols-2 gap-3">
+                {/* Option 1 */}
+                <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                  <p className="font-semibold text-xs text-blue-900 mb-2">
+                    Option 1
+                  </p>
+                  {currentEvent.impact && (
+                    <ul className="text-xs space-y-1 text-blue-800">
+                      {currentEvent.impact.changeInSavingsRateInPercent && (
+                        <li>
+                          Savings: +
+                          {currentEvent.impact.changeInSavingsRateInPercent}%
+                        </li>
+                      )}
+                      {currentEvent.impact
+                        .changeInLifeSatisfactionFrom1To100 && (
+                        <li>
+                          Satisfaction:{" "}
+                          {currentEvent.impact
+                            .changeInLifeSatisfactionFrom1To100 > 0
+                            ? "+"
+                            : ""}
+                          {
+                            currentEvent.impact
+                              .changeInLifeSatisfactionFrom1To100
+                          }
+                        </li>
+                      )}
+                      {currentEvent.impact.newPortfolioModel?.cashInEuro && (
+                        <li>
+                          Cash: +€
+                          {currentEvent.impact.newPortfolioModel.cashInEuro}
+                        </li>
+                      )}
+                    </ul>
+                  )}
                 </div>
-              )}
 
-              {currentEvent.alternativeImpact && (
-                <div className="bg-orange-50 p-3 rounded text-xs">
-                  <p className="font-semibold mb-2">Option 2:</p>
-                  <ul className="space-y-1 text-gray-700">
-                    {currentEvent.alternativeImpact
-                      .changeInSavingsRateInPercent && (
-                      <li>
-                        Savings Rate: +
-                        {
-                          currentEvent.alternativeImpact
-                            .changeInSavingsRateInPercent
-                        }
-                        %
-                      </li>
-                    )}
-                    {currentEvent.alternativeImpact
-                      .changeInLifeSatisfactionFrom1To100 && (
-                      <li>
-                        Life Quality:{" "}
-                        {currentEvent.alternativeImpact
-                          .changeInLifeSatisfactionFrom1To100 > 0
-                          ? "+"
-                          : ""}
-                        {
-                          currentEvent.alternativeImpact
-                            .changeInLifeSatisfactionFrom1To100
-                        }
-                      </li>
-                    )}
-                  </ul>
+                {/* Option 2 */}
+                <div className="bg-orange-50 p-3 rounded-lg border border-orange-200">
+                  <p className="font-semibold text-xs text-orange-900 mb-2">
+                    Option 2
+                  </p>
+                  {currentEvent.alternativeImpact && (
+                    <ul className="text-xs space-y-1 text-orange-800">
+                      {currentEvent.alternativeImpact
+                        .changeInSavingsRateInPercent && (
+                        <li>
+                          Savings: +
+                          {
+                            currentEvent.alternativeImpact
+                              .changeInSavingsRateInPercent
+                          }
+                          %
+                        </li>
+                      )}
+                      {currentEvent.alternativeImpact
+                        .changeInLifeSatisfactionFrom1To100 && (
+                        <li>
+                          Satisfaction:{" "}
+                          {currentEvent.alternativeImpact
+                            .changeInLifeSatisfactionFrom1To100 > 0
+                            ? "+"
+                            : ""}
+                          {
+                            currentEvent.alternativeImpact
+                              .changeInLifeSatisfactionFrom1To100
+                          }
+                        </li>
+                      )}
+                      {currentEvent.alternativeImpact.newPortfolioModel
+                        ?.cashInEuro && (
+                        <li>
+                          Cash: +€
+                          {
+                            currentEvent.alternativeImpact.newPortfolioModel
+                              .cashInEuro
+                          }
+                        </li>
+                      )}
+                    </ul>
+                  )}
                 </div>
-              )}
+              </div>
 
               <div className="flex gap-2">
                 <Button
-                  className="flex-1 bg-blue-500"
-                  onClick={handleEventDecision}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                  onClick={() => handleEventDecision(true)}
                 >
-                  Option 1
+                  Choose Option 1
                 </Button>
                 <Button
-                  className="flex-1 bg-orange-500"
-                  onClick={handleEventDecision}
+                  className="flex-1 bg-orange-600 hover:bg-orange-700 text-white"
+                  onClick={() => handleEventDecision(false)}
                 >
-                  Option 2
+                  Choose Option 2
                 </Button>
               </div>
             </div>

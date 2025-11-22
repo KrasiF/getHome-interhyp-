@@ -1,5 +1,4 @@
-
-// every value which the user did not change is supposed to be null
+// every value which the user did not change is supposed to be null/undefined
 // give the new values --- no increments --- overwrite directelly with this 
 
 import { LivingModel } from "./living-model";

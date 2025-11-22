@@ -1,5 +1,4 @@
-
-// every value which is not supposted to be impacted by the event should be set null
+// every value which is not supposted to be impacted by the event should be set null/undefined
 // number values: give the change relative to the old value
     // exception: portfolio -> here overwrite the value like in string
 // string values: give the new value with which the existing one is overwritten
