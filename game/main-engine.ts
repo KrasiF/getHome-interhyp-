@@ -10,6 +10,7 @@ import { EventModel } from "./models/event-model";
 import { OccupationModel } from "./models/occupation-model";
 import { LivingModel } from "./models/living-model";
 import { UserInputModel } from "./models/user-input-model";
+import { PortfolioModel } from "./models/portfolio-model";
 
 export class GameEngine implements GameEngineInterface {
     private eventEngine: EventEngine;
@@ -74,7 +75,6 @@ export class GameEngine implements GameEngineInterface {
             year: new Date().getFullYear(),
             educationLevel: "",
             lifeSatisfactionFrom1To100: 50,
-            married: false
         };
 
         this.isRunning = true;
@@ -99,7 +99,7 @@ export class GameEngine implements GameEngineInterface {
             year: 0,
             age: 0,
             occupation: {} as OccupationModel,
-            portfolio: {} as any,
+            portfolio: {} as PortfolioModel,
             living: {} as LivingModel,
             savingsRateInPercent: 0,
             amountOfChildren: 0,
