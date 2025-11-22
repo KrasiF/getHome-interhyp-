@@ -121,12 +121,12 @@ class MockSatisfactionEngine implements Partial<SatisfactionEngine> {
 
 // Mock Investment Engine
 class MockInvestmentEngine implements Partial<InvestmentEngine> {
-  handleReturnOnInvestment(portfolio: PortfolioModel): PortfolioModel {
+  handleReturnOnInvestment(state: StateModel): PortfolioModel {
     // Mock 5% return on all investments
     return {
-      cashInEuro: portfolio.cashInEuro * 1.02, // 2% interest on cash
-      cryptoInEuro: portfolio.cryptoInEuro * 1.10, // 10% on crypto (volatile)
-      etfInEuro: portfolio.etfInEuro * 1.07, // 7% on ETFs
+      cashInEuro: state.portfolio.cashInEuro * 1.02, // 2% interest on cash
+      cryptoInEuro: state.portfolio.cryptoInEuro * 1.10, // 10% on crypto (volatile)
+      etfInEuro: state.portfolio.etfInEuro * 1.07, // 7% on ETFs
     };
   }
 }
