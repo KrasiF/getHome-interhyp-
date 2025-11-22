@@ -1,5 +1,5 @@
 export interface LivingModel {
-    yearlyRentInEuro: number;
-    location: string;
-    sizeInSquareMeter: number;
+  yearlyRentInEuro: number;
+  zip: string;
+  sizeInSquareMeter: number;
 }
