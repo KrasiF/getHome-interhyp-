@@ -1,15 +1,13 @@
-export interface InvestmentEngineInterface {
-    handleReturnOnInvestment(portfolio: Portfolio): Portfolio;
-}
+import { PortfolioModel } from "../models/portfolio-model";
 
-export interface Portfolio {
-    // Portfolio properties
+export interface InvestmentEngineInterface {
+    handleReturnOnInvestment(portfolio: PortfolioModel): PortfolioModel;
 }
 
 export class InvestmentEngine implements InvestmentEngineInterface {
     constructor() {}
 
-    public handleReturnOnInvestment(portfolio: Portfolio): Portfolio {
+    public handleReturnOnInvestment(portfolio: PortfolioModel): PortfolioModel {
         // Calculate and apply return on investment
         return portfolio;
     }

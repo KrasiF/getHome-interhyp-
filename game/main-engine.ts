@@ -8,6 +8,9 @@ import { HomeEngine } from "./engines/home-engine";
 import { GoalModel } from "./models/goal-model";
 import { StartStateModel } from "./models/start-state-model";
 import { EventModel } from "./models/event-model";
+import { OccupationModel } from "./models/occupation-model";
+import { LivingModel } from "./models/living-model";
+import { UserInputModel } from "./models/user-input-model";
 
 export class GameEngine implements GameEngineInterface {
     private eventEngine: EventEngine;
@@ -39,6 +42,12 @@ export class GameEngine implements GameEngineInterface {
         this.isRunning = false;
         this.currentEventResult = undefined;  
     }
+    async requestNewOccupation(occupation_description: string): Promise<OccupationModel> {
+        return await this.jobEngine.handleNewJobWish(occupation_description);
+    }
+    async requestNewHomes(home_description: string): Promise<LivingModel[]> {
+        return await this.homeEngine.handleNewHomeWish(home_description);
+    }
 
     getState(): StateModel {
         return this.state;
@@ -57,10 +66,18 @@ export class GameEngine implements GameEngineInterface {
             throw new Error("Game is already running.");
         }
 
-        
-        // TODO: Implement
+        this.state = {
+            ...startState,
+            year: new Date().getFullYear(),
+            educationLevel: "",
+            lifeSatisfactionFrom1To100: 50,
+            married: false
+        };
 
-
+        this.isRunning = true;
+        this.history = [structuredClone(this.state)];
+        this.eventHistory = [];
+        this.currentEventResult = undefined;
 
         return this.state;
     }
@@ -75,7 +92,18 @@ export class GameEngine implements GameEngineInterface {
     }
     reset(): void {
         this.isRunning = false;
-        this.state = {} as StateModel;
+        this.state = {
+            year: 0,
+            age: 0,
+            occupation: {} as OccupationModel,
+            portfolio: {} as any,
+            living: {} as LivingModel,
+            savingsRateInPercent: 0,
+            amountOfChildren: 0,
+            educationLevel: "",
+            lifeSatisfactionFrom1To100: 0,
+            married: false
+        };
         this.goals = {} as GoalModel;
         this.history = [];
         this.eventHistory = [];
@@ -86,19 +114,91 @@ export class GameEngine implements GameEngineInterface {
             throw new Error("No event to decide on.");
         }
 
-        if (decision) {
-            // TODO implement;
+        const impact = decision ? this.currentEventResult.impact : this.currentEventResult.alternativeImpact;
+        
+        if (impact) {
+            this.applyEventImpact(impact);
         }
 
-        this.history.push(this.state);
+        this.eventHistory.push(this.currentEventResult);
+        this.history.push(structuredClone(this.state));
         this.currentEventResult = undefined;
 
         return this.state;
     }
-    decideActions(userInput: UserInputMock): StateModel {
-        throw new Error("Method not implemented.");
+
+    private applyEventImpact(impact: any): void {
+        // Apply occupation changes
+        if (impact.changeInOccupancyModel) {
+            this.state.occupation = { ...this.state.occupation, ...impact.changeInOccupancyModel };
+        }
+
+        // Apply portfolio changes
+        if (impact.newPortfolioModel) {
+            this.state.portfolio = { ...this.state.portfolio, ...impact.newPortfolioModel };
+        }
+
+        // Apply living changes
+        if (impact.changeInLivingModel) {
+            this.state.living = { ...this.state.living, ...impact.changeInLivingModel };
+        }
+
+        // Apply savings rate change
+        if (impact.changeInSavingsRateInPercent !== null) {
+            this.state.savingsRateInPercent += impact.changeInSavingsRateInPercent;
+        }
+
+        // Apply children count change
+        if (impact.changeInAmountOfChildren !== null) {
+            this.state.amountOfChildren += impact.changeInAmountOfChildren;
+        }
+
+        // Apply education level change
+        if (impact.newEducationLevel !== null) {
+            this.state.educationLevel = impact.newEducationLevel;
+        }
+
+        // Apply life satisfaction change
+        if (impact.changeInLifeSatisfactionFrom1To100 !== null) {
+            this.state.lifeSatisfactionFrom1To100 += impact.changeInLifeSatisfactionFrom1To100;
+        }
+
+        // Apply married status change
+        if (impact.newMarried !== null) {
+            this.state.married = impact.newMarried;
+        }
     }
 
+    decideActions(userInput: UserInputModel): StateModel {
+        // Apply user actions
+        if (userInput.newOccupationModel) {
+            this.state.occupation = userInput.newOccupationModel;
+        }
+
+        if (userInput.newLivingModel) {
+            this.state.living = userInput.newLivingModel;
+        }
+
+        if (userInput.newPortfolioModel) {
+            this.state.portfolio = this.capitalEngine.handlePortfolioChange(this.state, userInput.newPortfolioModel);
+        }
+
+        if (userInput.newSavingsRateInPercent !== null) {
+            this.state.savingsRateInPercent = userInput.newSavingsRateInPercent;
+        }
+
+        // Apply automatic updates
+        this.state.portfolio = this.investmentEngine.handleReturnOnInvestment(this.state.portfolio);
+        this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
+
+        // Increment year and age
+        this.state.year += 1;
+        this.state.age += 1;
+
+        this.history.push(JSON.parse(JSON.stringify(this.state)));
+
+        return this.state;
+    }
 }
 
 export interface GameEngineInterface {
@@ -111,7 +211,9 @@ export interface GameEngineInterface {
     runLoop(): EventModel;
     reset(): void;
     decideEvent(decision: boolean): StateModel;
-    decideActions(userInput: UserInputMock): StateModel;
+    decideActions(userInput: UserInputModel): StateModel;
+    requestNewOccupation(occupation_description: string): Promise<OccupationModel>;
+    requestNewHomes(home_description: string): Promise<LivingModel[]>;
 }
 
 

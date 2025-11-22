@@ -3,7 +3,6 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export interface HomeEngineInterface {
     handleNewHomeWish(home_desc: string): Promise<LivingModel[]>;
-    handleNewHome(home: LivingModel): void;
 }
 
 export class HomeEngine implements HomeEngineInterface {
@@ -20,13 +19,6 @@ export class HomeEngine implements HomeEngineInterface {
     public async handleNewHomeWish(home_desc: string): Promise<LivingModel[]> {
         // Generate multiple home choices based on description
         return await this.generateHomeOptions(home_desc);
-    }
-
-    public handleNewHome(home: LivingModel): void {
-        // Handle selection of a new home
-        // maybe unneeded so delet if needed.
-
-        console.log("Home selected:", home);
     }
 
     private async generateHomeOptions(description: string): Promise<LivingModel[]> {
