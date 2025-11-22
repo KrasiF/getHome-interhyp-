@@ -7,7 +7,7 @@ import {
   DialogDescription,
   DialogTitle,
   DialogTrigger,
-} from "@/components/";
+} from "@/components/ui/dialog";
 import {Slider} from "@/components/ui/slider";
 import {Label} from "@/components/ui/label";
 import {useState, useMemo} from "react";
