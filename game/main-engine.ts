@@ -229,21 +229,7 @@ export class GameEngine implements GameEngineInterface {
             this.state.savingsRateInPercent = userInput.newSavingsRateInPercent;
         }
 
-        // // Apply automatic updates
-        // this.state.portfolio = this.investmentEngine.handleReturnOnInvestment(this.state);
-        // this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
-
         this.state = this.creditEngine.checkAndApplyCredit(this.state, this.goals);
-
-        // // Increment year and age
-        // this.state.year += 1;
-        // this.state.age += 1;
-
-        // // Check if goal is reached
-        // this.checkGoalReached();
-
-        // this.history.push(JSON.parse(JSON.stringify(this.state)));
-
 
         return this.state;
     }
