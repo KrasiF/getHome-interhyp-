@@ -90,7 +90,15 @@ export default function Simulation() {
     state.portfolio?.etfInEuro,
   ]);
 
-  const portfolioColors = ["#10b981", "#f59e0b", "#6366f1"];
+  const CASH_COLOR = "#10b981";
+  const CRYPTO_COLOR = "#f59e0b";
+  const ETF_COLOR = "#6366f1";
+
+  const portfolioColorsByName: Record<string, string> = {
+    Cash: CASH_COLOR,
+    Crypto: CRYPTO_COLOR,
+    ETF: ETF_COLOR,
+  };
   const totalWealth = portfolioBreakdown.reduce(
     (sum, item) => sum + item.value,
     0
@@ -167,7 +175,11 @@ export default function Simulation() {
                 >
                   Change Occupation
                 </Button>
-                <Button onClick={() => router.push("/simulation/manage-portfolio")}>Manage Portfolio</Button>
+                <Button
+                  onClick={() => router.push("/simulation/manage-portfolio")}
+                >
+                  Manage Portfolio
+                </Button>
                 <Button onClick={() => null}>Take a Loan</Button>
               </div>
             </DialogContent>
@@ -277,15 +289,17 @@ export default function Simulation() {
           </DialogHeader>
           {currentEvent?.eventQuestion && (
             <div className="space-y-4">
-              <p className="text-sm font-semibold">{currentEvent.eventQuestion}</p>
+              <p className="text-sm font-semibold">
+                {currentEvent.eventQuestion}
+              </p>
               <div className="grid grid-cols-2 gap-4">
-                <Button 
+                <Button
                   onClick={() => handleEventDecision(true)}
                   className="bg-green-600 hover:bg-green-700"
                 >
                   Yes
                 </Button>
-                <Button 
+                <Button
                   onClick={() => handleEventDecision(false)}
                   className="bg-red-600 hover:bg-red-700"
                 >
@@ -342,7 +356,7 @@ export default function Simulation() {
                     {portfolioBreakdown.map((entry, index) => (
                       <Cell
                         key={`cell-${index}`}
-                        fill={portfolioColors[index % portfolioColors.length]}
+                        fill={portfolioColorsByName[entry.name] ?? CASH_COLOR}
                       />
                     ))}
                   </Pie>
@@ -363,7 +377,7 @@ export default function Simulation() {
                       className="w-2 h-2 rounded-full"
                       style={{
                         backgroundColor:
-                          portfolioColors[idx % portfolioColors.length],
+                          portfolioColorsByName[item.name] ?? CASH_COLOR,
                       }}
                     />
                     <span>{item.name}:</span>

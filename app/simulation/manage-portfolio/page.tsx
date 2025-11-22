@@ -36,6 +36,7 @@ export default function ManagePortfolio() {
 
   const draggingRef = useRef<null | "left" | "right">(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const [trackWidth, setTrackWidth] = useState<number>(0);
 
   useEffect(() => {
     // keep allocation synced if external portfolio changed
@@ -53,6 +54,21 @@ export default function ManagePortfolio() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameEngine]);
+
+  // measure track width to compute a minimum visual gap when crypto is 0
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const update = () => setTrackWidth(el.getBoundingClientRect().width || 0);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener("resize", update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, []);
 
   const colors = ["#10b981", "#f59e0b", "#6366f1"];
 
@@ -111,6 +127,13 @@ export default function ManagePortfolio() {
     {name: "ETF", value: alloc.etf},
   ];
 
+  // visual helpers: ensure a small visible area for crypto when its value is 0
+  const minPixels = 20;
+  const minPercent = trackWidth > 0 ? (minPixels / trackWidth) * 100 : 2;
+  const visualCrypto =
+    alloc.crypto > 0 ? alloc.crypto : Math.min(minPercent, 10);
+  const visualRight = alloc.cash + visualCrypto;
+
   return (
     <main className="p-6">
       <Card className="p-6 max-w-3xl mx-auto">
@@ -127,7 +150,6 @@ export default function ManagePortfolio() {
                 <Pie
                   data={data}
                   dataKey="value"
-                  innerRadius={60}
                   outerRadius={100}
                   startAngle={90}
                   endAngle={-270}
@@ -181,13 +203,7 @@ export default function ManagePortfolio() {
                 <div
                   className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-3 rounded"
                   style={{
-                    background: `linear-gradient(90deg, ${colors[0]} 0%, ${
-                      colors[0]
-                    } ${alloc.cash}%, ${colors[1]} ${alloc.cash}%, ${
-                      colors[1]
-                    } ${alloc.cash + alloc.crypto}%, ${colors[2]} ${
-                      alloc.cash + alloc.crypto
-                    }%, ${colors[2]} 100%)`,
+                    background: `linear-gradient(90deg, ${colors[0]} 0%, ${colors[0]} ${alloc.cash}%, ${colors[1]} ${alloc.cash}%, ${colors[1]} ${visualRight}%, ${colors[2]} ${visualRight}%, ${colors[2]} 100%)`,
                   }}
                 />
 
@@ -200,19 +216,21 @@ export default function ManagePortfolio() {
                     background: colors[0],
                     transform: "translate(-50%, -50%)",
                     cursor: "ew-resize",
+                    zIndex: 20,
                   }}
                   aria-label="Move cash boundary"
                 />
 
-                {/* right handle */}
+                {/* right handle (visual offset when crypto === 0 so users can grab it) */}
                 <button
                   onPointerDown={startHandleDrag("right")}
                   className="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full border-2 border-white shadow"
                   style={{
-                    left: `${alloc.cash + alloc.crypto}%`,
+                    left: `${visualRight}%`,
                     background: colors[1],
                     transform: "translate(-50%, -50%)",
                     cursor: "ew-resize",
+                    zIndex: 10,
                   }}
                   aria-label="Move crypto boundary"
                 />
