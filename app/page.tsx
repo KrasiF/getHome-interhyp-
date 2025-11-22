@@ -15,8 +15,11 @@ import {
 } from "@/components/ui/command";
 import {Check, ChevronDown} from "lucide-react";
 import {cn} from "@/lib/utils";
+import {useRouter} from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   const steps = ["Personal Info", "Financials", "Dream Home"]; // labels
   const [step, setStep] = useState<number>(1);
 
@@ -36,18 +39,17 @@ export default function Home() {
 
   const [formData, setFormData] = useState({
     age: 30,
-    jobTitle: "",
+    jobTitle: "Software Engineer",
     salary: 50000,
     children: 0,
     capital: 10000,
-    accomodation: "",
+    accomodation: "Flat in Munich",
     rent: 1200,
     savingsRate: 20,
-    dreamLocation: "",
-    dreamRegion: "",
+    dreamLocation: "Munich",
+    dreamRegion: "BY",
     dreamType: "HOUSEBUY",
   });
-
   const totalSteps = steps.length;
   const progress = (step / totalSteps) * 100;
 
@@ -335,7 +337,8 @@ export default function Home() {
               </div>
 
               <p className="text-sm text-muted-foreground">
-                This step will query the ThinkImmo API to find the best matching real-estate listings.
+                This step will query the ThinkImmo API to find the best matching
+                real-estate listings.
               </p>
             </div>
           )}
@@ -353,7 +356,14 @@ export default function Home() {
             {step < totalSteps ? (
               <Button onClick={next}>Next</Button>
             ) : (
-              <Button>Finish</Button>
+              <Button
+                onClick={() => {
+                  /* define here to start game startGame(formData) */
+                  router.push("/simulation");
+                }}
+              >
+                Finish
+              </Button>
             )}
           </div>
         </CardContent>
