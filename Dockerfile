@@ -1,4 +1,4 @@
-# 1. Basis-Image (Node 20 ist sicherer für aktuelles Next.js)
+# 1. Basis-Image (Node 20 für Next.js 15/16)
 FROM node:20-alpine AS base
 
 # pnpm aktivieren
@@ -6,17 +6,15 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
-# Manche Libraries brauchen libc6-compat unter Alpine
 RUN apk add --no-cache libc6-compat
 
-# 2. Abhängigkeiten installieren
+# 2. Abhängigkeiten
 FROM base AS deps
 WORKDIR /app
 
-# WICHTIG: Hier kopieren wir jetzt die pnpm-lock.yaml
+# Wir nutzen pnpm-lock.yaml
 COPY package.json pnpm-lock.yaml* ./
 
-# Installation mit pnpm
 RUN pnpm config set store-dir /pnpm/store
 RUN pnpm install --frozen-lockfile
 
@@ -27,7 +25,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
-# Build mit pnpm
 RUN pnpm run build
 
 # 4. Runner
@@ -41,8 +38,6 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
-
-# Standalone Mode Kopien
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
