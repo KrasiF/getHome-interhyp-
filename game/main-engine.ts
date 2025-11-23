@@ -12,6 +12,7 @@ import { LivingModel } from "./models/living-model";
 import { UserInputModel } from "./models/user-input-model";
 import { PortfolioModel } from "./models/portfolio-model";
 import { CreditEngine } from "./engines/credit-engine";
+import { RecommendationEngine } from "./engines/recommendation-engine";
 
 export class GameEngine implements GameEngineInterface {
     private eventEngine: EventEngine;
@@ -20,11 +21,13 @@ export class GameEngine implements GameEngineInterface {
     private investmentEngine: InvestmentEngine;
     private homeEngine: HomeEngine;
     private creditEngine: CreditEngine;
+    private recommendationEngine: RecommendationEngine;
 
     private state: StateModel;
     private goals: GoalModel;
     private history: StateModel[];
     private eventHistory: EventModel[];
+    private historyVersion: number;
     private isRunning: boolean;
     private currentEventResult: EventModel | undefined;
 
@@ -34,7 +37,8 @@ export class GameEngine implements GameEngineInterface {
         satisfactionEngine?: SatisfactionEngine,
         investmentEngine?: InvestmentEngine,
         homeEngine?: HomeEngine,
-        creditEngine?: CreditEngine
+        creditEngine?: CreditEngine,
+        recommendationEngine?: RecommendationEngine
     ) {
         this.eventEngine = eventEngine ?? new EventEngine();
         this.jobEngine = jobEngine ?? new JobEngine();
@@ -42,11 +46,13 @@ export class GameEngine implements GameEngineInterface {
         this.investmentEngine = investmentEngine ?? new InvestmentEngine();
         this.homeEngine = homeEngine ?? new HomeEngine();
         this.creditEngine = creditEngine ?? new CreditEngine();
+        this.recommendationEngine = recommendationEngine ?? new RecommendationEngine();
 
         this.state = {} as StateModel;
         this.goals = {} as GoalModel;
         this.history = [];
         this.eventHistory = [];
+        this.historyVersion = 0;
         this.isRunning = false;
         this.currentEventResult = undefined;  
     }
@@ -69,6 +75,11 @@ export class GameEngine implements GameEngineInterface {
     getEventHistory(): EventModel[] {
         return this.eventHistory;
     }
+    
+    getHistoryVersion(): number {
+        return this.historyVersion;
+    }
+    
     startGame(startState: StartStateModel, goal: GoalModel): StateModel {
         if(this.isRunning) {
             throw new Error("Game is already running.");
@@ -84,13 +95,16 @@ export class GameEngine implements GameEngineInterface {
         };
 
         this.isRunning = true;
-        this.history = [structuredClone(this.state)];
         this.eventHistory = [];
         this.currentEventResult = undefined;
 
         this.goals = goal;
 
         this.state = this.creditEngine.checkAndApplyCredit(this.state, this.goals);
+
+        this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
+
+        this.history = [structuredClone(this.state)];
 
         return this.state;
     }
@@ -108,7 +122,13 @@ export class GameEngine implements GameEngineInterface {
         // Check if goal is reached
         this.checkGoalReached();
 
-        this.history.push(JSON.parse(JSON.stringify(this.state)));
+        // Push to history, replacing if same year
+        if (this.history.length > 0 && this.history[this.history.length - 1].year === this.state.year) {
+            this.history[this.history.length - 1] = JSON.parse(JSON.stringify(this.state));
+        } else {
+            this.history.push(JSON.parse(JSON.stringify(this.state)));
+        }
+        this.historyVersion++;
 
         const random_event = await this.eventEngine.randomlyGenerateEvent(
             0.5,
@@ -164,7 +184,15 @@ export class GameEngine implements GameEngineInterface {
         };
         
         this.eventHistory.push(eventWithChoice);
-        this.history.push(structuredClone(this.state));
+        
+        // Push to history, replacing if same year
+        if (this.history.length > 0 && this.history[this.history.length - 1].year === this.state.year) {
+            this.history[this.history.length - 1] = structuredClone(this.state);
+        } else {
+            this.history.push(structuredClone(this.state));
+        }
+        this.historyVersion++;
+        
         this.currentEventResult = undefined;
 
         return this.state;
@@ -246,6 +274,14 @@ export class GameEngine implements GameEngineInterface {
             this.isRunning = false;
         }
     }
+
+    async generateRecommendations(): Promise<string> {
+        return await this.recommendationEngine.generateFeedback(
+            this.history,
+            this.eventHistory,
+            this.goals
+        );
+    }
 }
 
 export interface GameEngineInterface {
@@ -261,5 +297,7 @@ export interface GameEngineInterface {
     decideActions(userInput: UserInputModel): StateModel;
     requestNewOccupation(occupation_description: string): Promise<OccupationModel>;
     requestNewHomes(home_description: string): Promise<LivingModel[]>;
+    generateRecommendations(): Promise<string>;
+    getHistoryVersion(): number;
 }
 

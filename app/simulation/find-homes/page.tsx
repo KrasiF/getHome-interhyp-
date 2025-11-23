@@ -47,6 +47,7 @@ export default function FindHomes() {
       newOccupationModel: null,
       newPortfolioModel: null,
       newLivingModel: {
+        name: String(chosen.name ?? ""),
         zip: String(chosen.zip ?? ""),
         yearlyRentInEuro: Number(chosen.yearlyRentInEuro ?? 0) || 0,
         sizeInSquareMeter: Number(chosen.sizeInSquareMeter ?? 0) || 0,

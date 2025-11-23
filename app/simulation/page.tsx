@@ -31,7 +31,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {Home, MapPin, Users, Ruler} from "lucide-react";
+import {Home, MapPin, Users, Ruler, Briefcase, CreditCard} from "lucide-react";
+import Character from "@/components/character";
 
 export default function Simulation() {
   const router = useRouter();
@@ -48,25 +49,41 @@ export default function Simulation() {
     const details: string[] = [];
 
     if (impact.changeInOccupancyModel) {
-      const {occupationTitle, occupationDescription, yearlySalaryInEuro, stressLevelFrom0To100} =
-        impact.changeInOccupancyModel;
+      const {
+        occupationTitle,
+        occupationDescription,
+        yearlySalaryInEuro,
+        stressLevelFrom0To100,
+      } = impact.changeInOccupancyModel;
       if (occupationTitle) details.push(`Job: ${occupationTitle}`);
-      if (occupationDescription) details.push(`Job description: ${occupationDescription}`);
+      if (occupationDescription)
+        details.push(`Job description: ${occupationDescription}`);
       if (yearlySalaryInEuro !== undefined && yearlySalaryInEuro !== null) {
-        details.push(`Gehalt: ${Math.round(yearlySalaryInEuro).toLocaleString("de-DE")} €/Jahr`);
+        details.push(
+          `Salary: ${Math.round(yearlySalaryInEuro).toLocaleString(
+            "de-DE"
+          )} €/Year`
+        );
       }
-      if (stressLevelFrom0To100 !== undefined && stressLevelFrom0To100 !== null) {
-        details.push(`Stresslevel: ${stressLevelFrom0To100}/100`);
+      if (
+        stressLevelFrom0To100 !== undefined &&
+        stressLevelFrom0To100 !== null
+      ) {
+        details.push(`Stress level: ${stressLevelFrom0To100}/100`);
       }
     }
 
     if (impact.newPortfolioModel) {
       const {cashInEuro, cryptoInEuro, etfInEuro} = impact.newPortfolioModel;
       if (cashInEuro !== undefined && cashInEuro !== null) {
-        details.push(`Cash: ${Math.round(cashInEuro).toLocaleString("de-DE")} €`);
+        details.push(
+          `Cash: ${Math.round(cashInEuro).toLocaleString("de-DE")} €`
+        );
       }
       if (cryptoInEuro !== undefined && cryptoInEuro !== null) {
-        details.push(`Crypto: ${Math.round(cryptoInEuro).toLocaleString("de-DE")} €`);
+        details.push(
+          `Crypto: ${Math.round(cryptoInEuro).toLocaleString("de-DE")} €`
+        );
       }
       if (etfInEuro !== undefined && etfInEuro !== null) {
         details.push(`ETF: ${Math.round(etfInEuro).toLocaleString("de-DE")} €`);
@@ -74,9 +91,12 @@ export default function Simulation() {
     }
 
     if (impact.changeInLivingModel) {
-      const {yearlyRentInEuro, zip, sizeInSquareMeter} = impact.changeInLivingModel;
+      const {yearlyRentInEuro, zip, sizeInSquareMeter} =
+        impact.changeInLivingModel;
       if (yearlyRentInEuro !== undefined && yearlyRentInEuro !== null) {
-        details.push(`Rent: ${Math.round(yearlyRentInEuro).toLocaleString("de-DE")} €/year`);
+        details.push(
+          `Rent: ${Math.round(yearlyRentInEuro).toLocaleString("de-DE")} €/year`
+        );
       }
       if (zip) details.push(`ZIP: ${zip}`);
       if (sizeInSquareMeter !== undefined && sizeInSquareMeter !== null) {
@@ -112,8 +132,8 @@ export default function Simulation() {
       details.push(`Life satisfaction: ${v >= 0 ? "+" : ""}${v}`);
     }
 
-    if (impact.newMarried !== null && impact.newMarried !== undefined) {
-      details.push(impact.newMarried ? "Marriage" : "No marriage / separation");
+    if (impact.newMarried === true) {
+      details.push("Marriage");
     }
 
     return details;
@@ -151,23 +171,53 @@ export default function Simulation() {
     state?.savingsRateInPercent || 0
   );
   const [showEventDecision, setShowEventDecision] = useState(!!currentEvent);
+  const [isAdvancing, setIsAdvancing] = useState(false);
+  const [showGameOver, setShowGameOver] = useState(false);
+  const [recommendations, setRecommendations] = useState("");
 
   const currentYear = state?.year || new Date().getFullYear();
 
   const handleAdvanceYear = async () => {
+    setIsAdvancing(true);
     const gameEvent = await gameEngine.runLoop();
     triggerUpdate();
-    setShowEventDecision(!!gameEvent);
+
+    // Check if game is terminated after running the loop
+    const currentState = gameEngine.getState() as StateModel;
+    if ((currentState as any).terminated) {
+      // Generate recommendations
+      const feedback = await gameEngine.generateRecommendations();
+      setRecommendations(feedback);
+      setShowGameOver(true);
+    } else {
+      setShowEventDecision(!!gameEvent);
+    }
+
+    setIsAdvancing(false);
   };
 
   const handleSavingsRateChange = (value: number[]) => {
     setSavingsRate(value[0]);
+    gameEngine.decideActions({
+      newOccupationModel: null,
+      newPortfolioModel: null,
+      newLivingModel: null,
+      newSavingsRateInPercent: value[0],
+    });
+    triggerUpdate();
   };
 
   const handleEventDecision = (accept: boolean) => {
     gameEngine.decideEvent(accept);
     triggerUpdate();
     setShowEventDecision(false);
+  };
+
+  const handleDialogChange = (open: boolean) => {
+    if (currentEvent?.eventQuestion) {
+      setShowEventDecision(open);
+    }
+    // ignore close attempts for non-interactive events until acknowledged
   };
 
   // Chart data from real game history
@@ -181,7 +231,7 @@ export default function Simulation() {
       satisfaction: s.lifeSatisfactionFrom1To100,
       goal: gameEngine.getGoals().buyingPrice,
     }));
-  }, [history, gameEngine]);
+  }, [gameEngine.getHistoryVersion(), gameEngine]);
 
   // Portfolio breakdown
   const portfolioBreakdown = useMemo(() => {
@@ -240,8 +290,21 @@ export default function Simulation() {
       {/* Navbar */}
       <nav className="bg-white border-b border-gray-200 px-4 py-3">
         <div className="flex items-center ml-2.5">
-          <span className="text-2xl font-bold text-black mr-1" style={{ fontFamily: 'Avenir, "Avenir Next", system-ui, -apple-system, sans-serif' }}>getHome(</span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 85" height="28" className="relative top-[3px]">
+          <span
+            className="text-2xl font-bold text-black mr-1"
+            style={{
+              fontFamily:
+                'Avenir, "Avenir Next", system-ui, -apple-system, sans-serif',
+            }}
+          >
+            getHome(
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 400 85"
+            height="28"
+            className="relative top-[3px]"
+          >
             <defs>
               <clipPath id="a">
                 <path d="M0 0h400v85H0z"></path>
@@ -249,7 +312,10 @@ export default function Simulation() {
             </defs>
             <g clipPath="url(#a)">
               <g>
-                <path d="M38.56 9.533A29.027 29.027 0 1067.587 38.56 29.032 29.032 0 0038.56 9.533m0-9.533A38.567 38.567 0 110 38.56 38.606 38.606 0 0138.56 0z" fill="#ee7900"></path>
+                <path
+                  d="M38.56 9.533A29.027 29.027 0 1067.587 38.56 29.032 29.032 0 0038.56 9.533m0-9.533A38.567 38.567 0 110 38.56 38.606 38.606 0 0138.56 0z"
+                  fill="#ee7900"
+                ></path>
               </g>
               <g>
                 <path d="M101.173 9.547a5.665 5.665 0 015.8 5.8 5.8 5.8 0 11-11.6 0 5.657 5.657 0 015.8-5.8zM96.2 26.96h9.533v40.627H96.2z"></path>
@@ -263,16 +329,134 @@ export default function Simulation() {
               </g>
             </g>
           </svg>
-          <span className="text-2xl font-bold text-black ml-1" style={{ fontFamily: 'Avenir, "Avenir Next", system-ui, -apple-system, sans-serif' }}>)</span>
+          <span
+            className="text-2xl font-bold text-black ml-1"
+            style={{
+              fontFamily:
+                'Avenir, "Avenir Next", system-ui, -apple-system, sans-serif',
+            }}
+          >
+            )
+          </span>
         </div>
       </nav>
 
       {/* Main Content */}
-      <main className="grid grid-cols-12 gap-4 p-4 flex-1">
+      <main className="grid grid-cols-4 gap-4 p-4 flex-1">
         {/* Left Sidebar: Controls */}
-        <Card className="col-span-2 p-4 flex flex-col justify-between">
-        <div className="space-y-4">
-          <div className="space-y-3">
+        <Card className="col-span-1 p-4 flex flex-col justify-between">
+          <div className="space-y-4">
+            <div className="space-y-3">
+              <Character state={state} />
+              <div className="space-y-2 pt-2 border-t">
+                <div>
+                  <p className="text-xs text-gray-600">Current Age</p>
+                  <p className="text-sm font-semibold">
+                    {state?.age ?? 0} years
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-600">Current Year</p>
+                  <p className="text-sm font-semibold">{currentYear}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-600">Total Wealth</p>
+                  <p className="text-sm font-semibold">
+                    €{Math.round(totalWealth).toLocaleString()}
+                  </p>
+                  <div className="mt-2">
+                    <p className="text-xs text-gray-500">Wealth vs Goal</p>
+                    <div className="w-full bg-gray-200 rounded h-3 mt-1 overflow-hidden">
+                      <div
+                        className="h-3"
+                        style={{
+                          width: `${goalProgressPercent}%`,
+                          backgroundColor: CASH_COLOR,
+                        }}
+                      />
+                    </div>
+                    <div className="flex justify-between text-xs text-gray-600 mt-1">
+                      <span>€{Math.round(totalWealth).toLocaleString()}</span>
+                      <span>€{Math.round(goalPrice).toLocaleString()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t">
+              {state?.living?.yearlyRentInEuro !== undefined && (
+                <div className="mt-1">
+                  <p className="text-xs text-gray-600">Cost for Rent</p>
+                  <p className="text-sm font-semibold">
+                    €{monthlyRent.toLocaleString("de-DE")} per month
+                  </p>
+                </div>
+              )}
+              <div className="mt-1 flex items-center gap-2">
+                <Home size={16} className="text-gray-500" />
+                <p className="text-xs text-gray-600">
+                  {living?.name || "Apartment"}
+                </p>
+              </div>
+
+              <div className="mt-1 flex items-center gap-2">
+                <MapPin size={14} className="text-gray-400" />
+                <p className="text-xs text-gray-500">{livingCity}</p>
+              </div>
+
+              {typeof living?.sizeInSquareMeter === "number" && (
+                <div className="mt-1 flex items-center gap-2">
+                  <Ruler size={14} className="text-gray-400" />
+                  <p className="text-xs text-gray-600">
+                    {living.sizeInSquareMeter} m²
+                  </p>
+                </div>
+              )}
+
+              <div className="mt-3 flex items-center gap-3">
+                <div className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">
+                  <Users size={14} className="text-gray-600" />
+                  <span>
+                    {children} {children === 1 ? "child" : "children"}
+                  </span>
+                </div>
+
+                <div
+                  className={
+                    "px-2 py-1 rounded text-xs font-medium " +
+                    (married
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-100 text-gray-700")
+                  }
+                >
+                  {married ? "Married" : "Single"}
+                </div>
+              </div>
+
+              {/* Occupation */}
+              <div className="mt-4 pt-3 border-t">
+                <div className="flex items-center gap-2">
+                  <Briefcase size={14} className="text-gray-500" />
+                  <p className="text-xs text-gray-600">
+                    {state?.occupation?.occupationTitle || "Occupation"}
+                  </p>
+                </div>
+                {state?.occupation?.yearlySalaryInEuro !== undefined && (
+                  <div className="mt-1 flex items-center gap-2">
+                    <CreditCard size={14} className="text-gray-400" />
+                    <p className="text-xs text-gray-600">
+                      €
+                      {Math.round(
+                        state.occupation.yearlySalaryInEuro
+                      ).toLocaleString("de-DE")}{" "}
+                      / year
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
             <div>
               <Label className="text-sm font-semibold">Savings Rate</Label>
               <Slider
@@ -291,439 +475,334 @@ export default function Simulation() {
               </div>
             </div>
 
-            <div className="space-y-2 pt-2 border-t">
-              <div>
-                <p className="text-xs text-gray-600">Current Age</p>
-                <p className="text-sm font-semibold">{state?.age ?? 0} years</p>
+            <Button
+              onClick={handleAdvanceYear}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+              disabled={history.length === 0 || isAdvancing}
+            >
+              {isAdvancing ? "Processing..." : "Next Year"}
+            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="w-full mb-6 bg-black text-white">
+                  Actions
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Actions</DialogTitle>
+                  <DialogDescription>
+                    Decide which action you want to choose next
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid grid-cols-2 gap-4">
+                  <Button onClick={() => router.push("/simulation/find-homes")}>
+                    Change Accommodation
+                  </Button>
+                  <Button
+                    onClick={() => router.push("/simulation/find-occupation")}
+                  >
+                    Change Occupation
+                  </Button>
+                  <Button
+                    onClick={() => router.push("/simulation/manage-portfolio")}
+                  >
+                    Manage Portfolio
+                  </Button>
+                  <Button onClick={() => null}>Take a Loan</Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </Card>
+
+        {/* Center: Charts */}
+        <Card className="col-span-2 p-6 flex flex-col">
+          <h2 className="text-xl font-bold mb-4">
+            Wealth & Satisfaction Progress
+          </h2>
+          {chartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={chartData}
+                margin={{top: 5, right: 30, left: 0, bottom: 5}}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="year" />
+                <YAxis
+                  yAxisId="left"
+                  label={{
+                    value: "Wealth (€)",
+                    angle: -90,
+                    position: "insideLeft",
+                  }}
+                />
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  domain={[0, 100]}
+                  label={{
+                    value: "Satisfaction (0-100)",
+                    angle: 90,
+                    position: "insideRight",
+                  }}
+                />
+                <Tooltip
+                  formatter={(value: number) =>
+                    Math.round(value).toLocaleString()
+                  }
+                  contentStyle={{
+                    backgroundColor: "#f3f4f6",
+                    border: "1px solid #d1d5db",
+                  }}
+                />
+                <Legend />
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="wealth"
+                  stroke="#10b981"
+                  name="Wealth"
+                  dot={false}
+                  strokeWidth={2}
+                />
+                <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="satisfaction"
+                  stroke="#f59e0b"
+                  name="Satisfaction"
+                  dot={false}
+                  strokeWidth={2}
+                />
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="goal"
+                  stroke="#6b7280"
+                  strokeDasharray="5 5"
+                  name="Goal"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <ReferenceLine
+                  x={currentYear}
+                  stroke="#ef4444"
+                  strokeWidth={2}
+                  label={{
+                    value: `Now: ${currentYear}`,
+                    position: "top",
+                    fill: "#ef4444",
+                    fontSize: 12,
+                    fontWeight: "bold",
+                  }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-gray-500">
+              <p>Start the game from the init page to see your progress</p>
+              <Button onClick={() => router.push("/init")}>Go to Init</Button>
+            </div>
+          )}
+        </Card>
+
+        {/* Event Decision Dialog */}
+        <Dialog open={showEventDecision} onOpenChange={handleDialogChange}>
+          <DialogContent showCloseButton={false}>
+            <DialogHeader>
+              <DialogTitle>Event Occurred!</DialogTitle>
+              <DialogDescription>
+                {currentEvent?.eventDescription}
+              </DialogDescription>
+            </DialogHeader>
+            {currentEvent?.eventQuestion ? (
+              <div className="mt-3 grid grid-cols-1 gap-2">
+                <ImpactCard
+                  title="Impact if Yes"
+                  impact={currentEvent?.impact}
+                />
+                <ImpactCard
+                  title="Impact if No"
+                  impact={currentEvent?.alternativeImpact}
+                  fallback="No changes if No."
+                />
               </div>
-              <div>
-                <p className="text-xs text-gray-600">Current Year</p>
-                <p className="text-sm font-semibold">{currentYear}</p>
+            ) : (
+              <div className="mt-3 space-y-3">
+                <ImpactCard title="Impact" impact={currentEvent?.impact} />
+                <Button
+                  className="w-full"
+                  onClick={() => handleEventDecision(true)}
+                >
+                  Acknowledge
+                </Button>
               </div>
-              <div>
-                <p className="text-xs text-gray-600">Total Wealth</p>
+            )}
+            {currentEvent?.eventQuestion && (
+              <div className="space-y-4">
                 <p className="text-sm font-semibold">
-                  €{Math.round(totalWealth).toLocaleString()}
+                  {currentEvent.eventQuestion}
                 </p>
-                <div className="mt-2">
-                  <p className="text-xs text-gray-500">Wealth vs Goal</p>
-                  <div className="w-full bg-gray-200 rounded h-3 mt-1 overflow-hidden">
-                    <div
-                      className="h-3"
-                      style={{
-                        width: `${goalProgressPercent}%`,
-                        backgroundColor: CASH_COLOR,
-                      }}
-                    />
-                  </div>
-                  <div className="flex justify-between text-xs text-gray-600 mt-1">
-                    <span>€{Math.round(totalWealth).toLocaleString()}</span>
-                    <span>€{Math.round(goalPrice).toLocaleString()}</span>
-                  </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <Button
+                    onClick={() => handleEventDecision(true)}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    onClick={() => handleEventDecision(false)}
+                    className="bg-red-600 hover:bg-red-700"
+                  >
+                    No
+                  </Button>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="pt-4 border-t">
-            <div className="mt-1 flex items-center gap-2">
-              <Home size={16} className="text-gray-500" />
-              <p className="text-xs text-gray-600">
-                {living?.name || "Apartment"}
-              </p>
-            </div>
-
-            <div className="mt-1 flex items-center gap-2">
-              <MapPin size={14} className="text-gray-400" />
-              <p className="text-xs text-gray-500">{livingCity}</p>
-            </div>
-
-            {typeof living?.sizeInSquareMeter === "number" && (
-              <div className="mt-1 flex items-center gap-2">
-                <Ruler size={14} className="text-gray-400" />
-                <p className="text-xs text-gray-600">
-                  {living.sizeInSquareMeter} m²
-                </p>
-              </div>
             )}
+          </DialogContent>
+        </Dialog>
 
-            {state?.living?.yearlyRentInEuro !== undefined && (
-              <div className="mt-2">
-                <p className="text-xs text-gray-600">Monthly Costs</p>
-                <p className="text-sm font-semibold">
-                  €{monthlyRent.toLocaleString("de-DE")} per month
-                </p>
+        {/* Game Over Dialog with Recommendations */}
+        <Dialog open={showGameOver} onOpenChange={() => router.push("/init")}>
+          <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-3xl font-bold text-green-600">
+                🎉 Congratulations! You've Reached Your Goal! 🎉
+              </DialogTitle>
+              <DialogDescription className="text-lg mt-2">
+                You have successfully accumulated enough wealth to achieve your
+                housing dream!
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-6 space-y-4">
+              <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-green-800 mb-4">
+                  Your Journey Summary
+                </h3>
+                <div className="prose prose-sm max-w-none text-gray-700">
+                  {recommendations.split("\n").map(
+                    (paragraph, idx) =>
+                      paragraph.trim() && (
+                        <p key={idx} className="mb-3">
+                          {paragraph}
+                        </p>
+                      )
+                  )}
+                </div>
               </div>
-            )}
-
-            <div className="mt-3 flex items-center gap-3">
-              <div className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">
-                <Users size={14} className="text-gray-600" />
-                <span>
-                  {children} {children === 1 ? "child" : "children"}
-                </span>
-              </div>
-
-              <div
-                className={
-                  "px-2 py-1 rounded text-xs font-medium " +
-                  (married
-                    ? "bg-green-100 text-green-800"
-                    : "bg-gray-100 text-gray-700")
-                }
-              >
-                {married ? "Married" : "Single"}
-              </div>
-            </div>
-          </div>
-
-          <Button
-            onClick={handleAdvanceYear}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
-            disabled={history.length === 0}
-          >
-            Next Year
-          </Button>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="w-full mb-6 bg-black text-white">
-                Actions
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Actions</DialogTitle>
-                <DialogDescription>
-                  Decide which action you want to choose next
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid grid-cols-2 gap-4">
-                <Button onClick={() => router.push("/simulation/find-homes")}>
-                  Move
-                </Button>
+              <div className="flex justify-end mt-6">
                 <Button
-                  onClick={() => router.push("/simulation/find-occupation")}
+                  onClick={() => router.push("/init")}
+                  className="bg-blue-600 hover:bg-blue-700"
                 >
-                  Change Occupation
-                </Button>
-                <Button
-                  onClick={() => router.push("/simulation/manage-portfolio")}
-                >
-                  Manage Portfolio
-                </Button>
-                <Button onClick={() => null}>Take a Loan</Button>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </Card>
-
-      {/* Center: Charts */}
-      <Card className="col-span-6 p-6 flex flex-col">
-        <h2 className="text-xl font-bold mb-4">
-          Wealth & Satisfaction Progress
-        </h2>
-        {chartData.length > 0 ? (
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={chartData}
-              margin={{top: 5, right: 30, left: 0, bottom: 5}}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="year" />
-              <YAxis
-                yAxisId="left"
-                label={{
-                  value: "Wealth (€)",
-                  angle: -90,
-                  position: "insideLeft",
-                }}
-              />
-              <YAxis
-                yAxisId="right"
-                orientation="right"
-                domain={[0, 100]}
-                label={{
-                  value: "Satisfaction (0-100)",
-                  angle: 90,
-                  position: "insideRight",
-                }}
-              />
-              <Tooltip
-                formatter={(value: number) =>
-                  Math.round(value).toLocaleString()
-                }
-                contentStyle={{
-                  backgroundColor: "#f3f4f6",
-                  border: "1px solid #d1d5db",
-                }}
-              />
-              <Legend />
-              <Line
-                yAxisId="left"
-                type="monotone"
-                dataKey="wealth"
-                stroke="#10b981"
-                name="Wealth"
-                dot={false}
-                strokeWidth={2}
-              />
-              <Line
-                yAxisId="right"
-                type="monotone"
-                dataKey="satisfaction"
-                stroke="#f59e0b"
-                name="Satisfaction"
-                dot={false}
-                strokeWidth={2}
-              />
-              <Line
-                yAxisId="left"
-                type="monotone"
-                dataKey="goal"
-                stroke="#6b7280"
-                strokeDasharray="5 5"
-                name="Goal"
-                dot={false}
-                strokeWidth={1.5}
-              />
-              <ReferenceLine
-                x={currentYear}
-                stroke="#ef4444"
-                strokeWidth={2}
-                label={{
-                  value: `Now: ${currentYear}`,
-                  position: "top",
-                  fill: "#ef4444",
-                  fontSize: 12,
-                  fontWeight: "bold",
-                }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full text-gray-500">
-            <p>Start the game from the init page to see your progress</p>
-            <Button onClick={() => router.push("/init")}>Go to Init</Button>
-          </div>
-        )}
-      </Card>
-
-      {/* Event Decision Dialog */}
-      <Dialog open={showEventDecision} onOpenChange={setShowEventDecision}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Event Occurred!</DialogTitle>
-          <DialogDescription>
-            {currentEvent?.eventDescription}
-          </DialogDescription>
-        </DialogHeader>
-        {currentEvent?.eventQuestion ? (
-          <div className="mt-3 grid grid-cols-1 gap-2">
-            <ImpactCard title="Impact if Yes" impact={currentEvent?.impact} />
-            <ImpactCard
-              title="Impact if No"
-              impact={currentEvent?.alternativeImpact}
-              fallback="No changes if No."
-            />
-          </div>
-        ) : (
-          <div className="mt-3">
-            <ImpactCard title="Impact" impact={currentEvent?.impact} />
-          </div>
-        )}
-        {currentEvent?.eventQuestion && (
-          <div className="space-y-4">
-            <p className="text-sm font-semibold">
-              {currentEvent.eventQuestion}
-            </p>
-              <div className="grid grid-cols-2 gap-4">
-                <Button
-                  onClick={() => handleEventDecision(true)}
-                  className="bg-green-600 hover:bg-green-700"
-                >
-                  Yes
-                </Button>
-                <Button
-                  onClick={() => handleEventDecision(false)}
-                  className="bg-red-600 hover:bg-red-700"
-                >
-                  No
+                  Start New Game
                 </Button>
               </div>
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+          </DialogContent>
+        </Dialog>
 
-      {/* Right Sidebar: Events & Portfolio */}
-      <Card className="col-span-4 p-4 flex flex-col gap-4">
-        {/* Recent Events */}
-        <div>
-          <h3 className="font-bold text-sm mb-3">Recent Events</h3>
-          <div className="space-y-2 max-h-48 overflow-y-auto">
-            {eventHistory.length > 0 ? (
-              eventHistory
-                .slice(-5)
-                .reverse()
-                .map((event: EventModel, idx: number) => {
-                  const impact = event.chosenImpact;
-                  const changes = formatImpactDetails(impact);
-                  console.log(impact)
-                  if (impact) {
-                    // Portfolio changes
-                    if (impact.newPortfolioModel?.cashInEuro !== undefined) {
-                      const change = impact.newPortfolioModel.cashInEuro;
-                      changes.push(
-                        `Cash ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
-                      );
-                    }
-                    if (impact.newPortfolioModel?.cryptoInEuro !== undefined) {
-                      const change = impact.newPortfolioModel.cryptoInEuro;
-                      changes.push(
-                        `Crypto ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
-                      );
-                    }
-                    if (impact.newPortfolioModel?.etfInEuro !== undefined) {
-                      const change = impact.newPortfolioModel.etfInEuro;
-                      changes.push(
-                        `ETF ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
-                      );
-                    }
+        {/* Right Sidebar: Events & Portfolio */}
+        <Card className="col-span-1 p-4 flex flex-col gap-4">
+          {/* Recent Events */}
+          <div>
+            <h3 className="font-bold text-sm mb-3">Recent Events</h3>
+            <div className="space-y-2 max-h-60 min-h-60 overflow-y-auto">
+              {eventHistory.length > 0 ? (
+                eventHistory
+                  .slice(-5)
+                  .reverse()
+                  .map((event: EventModel, idx: number) => {
+                    const impact =
+                      event.chosenImpact ??
+                      event.impact ??
+                      event.alternativeImpact;
+                    const changes = formatImpactDetails(impact);
 
-                    // Satisfaction change
-                    if (impact.changeInLifeSatisfactionFrom1To100) {
-                      const change = impact.changeInLifeSatisfactionFrom1To100;
-                      changes.push(
-                        `Satisfaction ${change >= 0 ? "+" : ""}${change}`
-                      );
-                    }
+                    return (
+                      <div
+                        key={idx}
+                        className="text-xs p-2 bg-blue-50 rounded border border-blue-200"
+                      >
+                        <p className="font-semibold text-blue-900">
+                          {event.eventDescription}
+                        </p>
+                        {changes.length > 0 && (
+                          <div className="mt-1 space-y-0.5 text-gray-700">
+                            {changes.map((change, i) => (
+                              <p key={i} className="text-[10px]">
+                                • {change}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+              ) : (
+                <p className="text-xs text-gray-500">No events yet</p>
+              )}
+            </div>
+          </div>
 
-                    // Savings rate change
-                    if (impact.changeInSavingsRateInPercent) {
-                      const change = impact.changeInSavingsRateInPercent;
-                      changes.push(
-                        `Savings Rate ${change >= 0 ? "+" : ""}${change}%`
-                      );
-                    }
-
-                    // Children change
-                    if (impact.changeInAmountOfChildren) {
-                      const change = impact.changeInAmountOfChildren;
-                      changes.push(
-                        `Children ${change >= 0 ? "+" : ""}${change}`
-                      );
-                    }
-
-                    // Education level
-                    if (impact.newEducationLevel) {
-                      changes.push(`Education: ${impact.newEducationLevel}`);
-                    }
-
-                    // Marriage
-                    if (impact.newMarried !== null) {
-                      changes.push(impact.newMarried ? "Got Married" : "Divorced");
-                    }
-
-                    // Occupation changes
-                    if (impact.changeInOccupancyModel?.yearlySalaryInEuro) {
-                      const change = impact.changeInOccupancyModel.yearlySalaryInEuro;
-                      changes.push(
-                        `Salary ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€/yr`
-                      );
-                    }
-
-                    // Living changes
-                    if (impact.changeInLivingModel?.yearlyRentInEuro) {
-                      const change = impact.changeInLivingModel.yearlyRentInEuro;
-                      changes.push(
-                        `Rent ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€/yr`
-                      );
-                    }
-                  }
-
-                  return (
+          {/* Portfolio Distribution */}
+          <div className="flex-1 flex flex-col items-center">
+            <h3 className="font-bold text-sm mb-3">Portfolio Distribution</h3>
+            {portfolioBreakdown.length > 0 ? (
+              <>
+                <ResponsiveContainer width="100%" height={180}>
+                  <PieChart>
+                    <Pie
+                      data={portfolioBreakdown}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={70}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {portfolioBreakdown.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={portfolioColorsByName[entry.name] ?? CASH_COLOR}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: number) =>
+                        `€${Math.round(value).toLocaleString()}`
+                      }
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="text-xs text-gray-700 text-center mt-3 w-full space-y-1">
+                  {portfolioBreakdown.map((item, idx) => (
                     <div
                       key={idx}
-                      className="text-xs p-2 bg-blue-50 rounded border border-blue-200"
+                      className="flex items-center justify-center gap-2"
                     >
-                      <p className="font-semibold text-blue-900">
-                        {event.eventDescription}
-                      </p>
-                      {changes.length > 0 && (
-                        <div className="mt-1 space-y-0.5 text-gray-700">
-                          {changes.map((change, i) => (
-                            <p key={i} className="text-[10px]">
-                              • {change}
-                            </p>
-                          ))}
-                        </div>
-                      )}
+                      <div
+                        className="w-2 h-2 rounded-full"
+                        style={{
+                          backgroundColor:
+                            portfolioColorsByName[item.name] ?? CASH_COLOR,
+                        }}
+                      />
+                      <span>{item.name}:</span>
+                      <span className="font-semibold">
+                        €{Math.round(item.value).toLocaleString("de-DE")}
+                      </span>
                     </div>
-                  );
-                })
+                  ))}
+                </div>
+              </>
             ) : (
-              <p className="text-xs text-gray-500">No events yet</p>
+              <p className="text-xs text-gray-500">No portfolio data</p>
             )}
           </div>
-        </div>
-
-        {/* Portfolio Distribution */}
-        <div className="flex-1 flex flex-col items-center">
-          <h3 className="font-bold text-sm mb-3">Portfolio Distribution</h3>
-          {portfolioBreakdown.length > 0 ? (
-            <>
-              <ResponsiveContainer width="100%" height={180}>
-                <PieChart>
-                  <Pie
-                    data={portfolioBreakdown}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={70}
-                    paddingAngle={2}
-                    dataKey="value"
-                  >
-                    {portfolioBreakdown.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={portfolioColorsByName[entry.name] ?? CASH_COLOR}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value: number) =>
-                      `€${Math.round(value).toLocaleString()}`
-                    }
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="text-xs text-gray-700 text-center mt-3 w-full space-y-1">
-                {portfolioBreakdown.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center justify-center gap-2"
-                  >
-                    <div
-                      className="w-2 h-2 rounded-full"
-                      style={{
-                        backgroundColor:
-                          portfolioColorsByName[item.name] ?? CASH_COLOR,
-                      }}
-                    />
-                    <span>{item.name}:</span>
-                    <span className="font-semibold">
-                      €{Math.round(item.value).toLocaleString("de-DE")}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <p className="text-xs text-gray-500">No portfolio data</p>
-          )}
-        </div>
-      </Card>
-    </main>
+        </Card>
+      </main>
     </div>
   );
 }
