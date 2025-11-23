@@ -10,5 +10,7 @@ export interface EventModel {
 
     eventDescription: string;
     eventQuestion: string | null;
+    emoji: string; // Single emoji representing the event
+    year: number; // Year in which the event happened
     chosenImpact?: EventImpactModel; // The impact that was actually chosen/applied
 }

@@ -63,6 +63,7 @@ Data model (TypeScript)
     alternativeImpact: EventImpactModel | null
     eventDescription: string          // short, vivid, English
     eventQuestion: string | null      // English yes/no question or null
+    emoji: string                      // SINGLE emoji that represents the event (e.g., 🎉, 💍, 👶, 📉, 🏆)
 
 Semantics
 - Unchanged fields -> null/undefined.
@@ -189,6 +190,8 @@ ${JSON.stringify(contextForModel, null, 2)}
                 alternativeImpact: enforceChildCost(alternativeImpact),
                 eventDescription: data.eventDescription,
                 eventQuestion: data.eventQuestion ?? null,
+                emoji: data.emoji ?? "📌",
+                year: currentState.year,
             };
 
             return event;

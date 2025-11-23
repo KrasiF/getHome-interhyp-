@@ -232,15 +232,22 @@ export default function Simulation() {
 
   // Chart data from real game history
   const chartData = useMemo(() => {
-    return history.map((s: StateModel) => ({
-      year: s.year,
-      wealth:
-        (s.portfolio?.cashInEuro ?? 0) +
-        (s.portfolio?.cryptoInEuro ?? 0) +
-        (s.portfolio?.etfInEuro ?? 0),
-      satisfaction: s.lifeSatisfactionFrom1To100,
-      goal: gameEngine.getGoals().buyingPrice,
-    }));
+    return history.map((s: StateModel) => {
+      // Find events that happened in this year
+      const eventsInYear = eventHistory.filter(e => e.year === s.year);
+      const emoji = eventsInYear.length > 0 ? eventsInYear[0].emoji : null;
+      
+      return {
+        year: s.year,
+        wealth:
+          (s.portfolio?.cashInEuro ?? 0) +
+          (s.portfolio?.cryptoInEuro ?? 0) +
+          (s.portfolio?.etfInEuro ?? 0),
+        satisfaction: s.lifeSatisfactionFrom1To100,
+        goal: gameEngine.getGoals().buyingPrice,
+        emoji,
+      };
+    });
   }, [gameEngine.getHistoryVersion(), gameEngine]);
 
   // Portfolio breakdown
@@ -502,7 +509,29 @@ export default function Simulation() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="year" />
+                <XAxis 
+                  dataKey="year"
+                  tick={(props) => {
+                    const { x, y, payload } = props;
+                    const dataPoint = chartData.find(d => d.year === payload.value);
+                    return (
+                      <g transform={`translate(${x},${y})`}>
+                        <text x={0} y={0} dy={16} textAnchor="middle" fill="#666" fontSize={12}>
+                          {payload.value}
+                        </text>
+                        {dataPoint?.emoji && (
+                          <g>
+                            <circle cx={0} cy={-8} r={12} fill="white" stroke="#10b981" strokeWidth={2} />
+                            <text x={0} y={-8} textAnchor="middle" dominantBaseline="central" fontSize={14}>
+                              {dataPoint.emoji}
+                            </text>
+                          </g>
+                        )}
+                      </g>
+                    );
+                  }}
+                  height={60}
+                />
                 <YAxis
                   yAxisId="left"
                   tickFormatter={(value) => `€${formatMoney(value)}`}
