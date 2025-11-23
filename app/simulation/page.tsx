@@ -6,7 +6,6 @@ import {Slider} from "@/components/ui/slider";
 import {Label} from "@/components/ui/label";
 import {useState, useMemo} from "react";
 import {
-  LineChart,
   Line,
   AreaChart,
   Area,
@@ -33,7 +32,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {Home, MapPin, Users, Ruler, Briefcase, CreditCard} from "lucide-react";
+import {Home, MapPin, Ruler} from "lucide-react";
 import Character from "@/components/character";
 
 const formatMoney = (value: number): string => {
