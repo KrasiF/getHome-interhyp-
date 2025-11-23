@@ -112,8 +112,8 @@ export default function Simulation() {
       details.push(`Life satisfaction: ${v >= 0 ? "+" : ""}${v}`);
     }
 
-    if (impact.newMarried !== null && impact.newMarried !== undefined) {
-      details.push(impact.newMarried ? "Marriage" : "No marriage / separation");
+    if (impact.newMarried === true) {
+      details.push("Marriage");
     }
 
     return details;
@@ -191,6 +191,13 @@ export default function Simulation() {
     gameEngine.decideEvent(accept);
     triggerUpdate();
     setShowEventDecision(false);
+  };
+
+  const handleDialogChange = (open: boolean) => {
+    if (currentEvent?.eventQuestion) {
+      setShowEventDecision(open);
+    }
+    // ignore close attempts for non-interactive events until acknowledged
   };
 
   // Chart data from real game history
@@ -532,8 +539,8 @@ export default function Simulation() {
       </Card>
 
       {/* Event Decision Dialog */}
-      <Dialog open={showEventDecision} onOpenChange={setShowEventDecision}>
-        <DialogContent>
+      <Dialog open={showEventDecision} onOpenChange={handleDialogChange}>
+        <DialogContent showCloseButton={false}>
           <DialogHeader>
             <DialogTitle>Event Occurred!</DialogTitle>
           <DialogDescription>
@@ -550,8 +557,11 @@ export default function Simulation() {
             />
           </div>
         ) : (
-          <div className="mt-3">
+          <div className="mt-3 space-y-3">
             <ImpactCard title="Impact" impact={currentEvent?.impact} />
+            <Button className="w-full" onClick={() => handleEventDecision(true)}>
+              Acknowledge
+            </Button>
           </div>
         )}
         {currentEvent?.eventQuestion && (
@@ -627,72 +637,8 @@ export default function Simulation() {
                 .slice(-5)
                 .reverse()
                 .map((event: EventModel, idx: number) => {
-                  const impact = event.chosenImpact;
+                  const impact = event.chosenImpact ?? event.impact ?? event.alternativeImpact;
                   const changes = formatImpactDetails(impact);
-                  console.log(impact)
-                  if (impact) {
-                    // Portfolio changes
-                    if (impact.newPortfolioModel?.cashInEuro !== undefined) {
-                      const change = impact.newPortfolioModel.cashInEuro;
-                      changes.push(
-                        `Cash ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
-                      );
-                    }
-                    if (impact.newPortfolioModel?.cryptoInEuro !== undefined) {
-                      const change = impact.newPortfolioModel.cryptoInEuro;
-                      changes.push(
-                        `Crypto ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
-                      );
-                    }
-                    if (impact.newPortfolioModel?.etfInEuro !== undefined) {
-                      const change = impact.newPortfolioModel.etfInEuro;
-                      changes.push(
-                        `ETF ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
-                      );
-                    }
-
-                    // Savings rate change
-                    if (impact.changeInSavingsRateInPercent) {
-                      const change = impact.changeInSavingsRateInPercent;
-                      changes.push(
-                        `Savings Rate ${change >= 0 ? "+" : ""}${change}%`
-                      );
-                    }
-
-                    // Children change
-                    if (impact.changeInAmountOfChildren) {
-                      const change = impact.changeInAmountOfChildren;
-                      changes.push(
-                        `Children ${change >= 0 ? "+" : ""}${change}`
-                      );
-                    }
-
-                    // Education level
-                    if (impact.newEducationLevel) {
-                      changes.push(`Education: ${impact.newEducationLevel}`);
-                    }
-
-                    // Marriage
-                    if (impact.newMarried !== null) {
-                      changes.push(impact.newMarried ? "Got Married" : "Divorced");
-                    }
-
-                    // Occupation changes
-                    if (impact.changeInOccupancyModel?.yearlySalaryInEuro) {
-                      const change = impact.changeInOccupancyModel.yearlySalaryInEuro;
-                      changes.push(
-                        `Salary ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€/yr`
-                      );
-                    }
-
-                    // Living changes
-                    if (impact.changeInLivingModel?.yearlyRentInEuro) {
-                      const change = impact.changeInLivingModel.yearlyRentInEuro;
-                      changes.push(
-                        `Rent ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€/yr`
-                      );
-                    }
-                  }
 
                   return (
                     <div

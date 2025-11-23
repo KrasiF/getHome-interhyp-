@@ -57,6 +57,7 @@ export class EventEngine implements EventEngineInterface {
                 - The event is fully described via an EventImpactModel.
 
                 About half of the events shall have positive impact on the users simulation life and the other half negative.
+                At least half of the events shall have a yes no question.    
 
                 Data model (TypeScript):
 
