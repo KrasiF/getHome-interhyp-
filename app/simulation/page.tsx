@@ -350,12 +350,6 @@ export default function Simulation() {
               <Character state={state} />
               <div className="space-y-2 pt-2 border-t">
                 <div>
-                  <p className="text-xs text-gray-600">Current Age</p>
-                  <p className="text-sm font-semibold">
-                    {state?.age ?? 0} years
-                  </p>
-                </div>
-                <div>
                   <p className="text-xs text-gray-600">Current Year</p>
                   <p className="text-sm font-semibold">{currentYear}</p>
                 </div>
@@ -413,48 +407,8 @@ export default function Simulation() {
                   </p>
                 </div>
               )}
-
-              <div className="mt-3 flex items-center gap-3">
-                <div className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">
-                  <Users size={14} className="text-gray-600" />
-                  <span>
-                    {children} {children === 1 ? "child" : "children"}
-                  </span>
-                </div>
-
-                <div
-                  className={
-                    "px-2 py-1 rounded text-xs font-medium " +
-                    (married
-                      ? "bg-green-100 text-green-800"
-                      : "bg-gray-100 text-gray-700")
-                  }
-                >
-                  {married ? "Married" : "Single"}
-                </div>
-              </div>
-
               {/* Occupation */}
-              <div className="mt-4 pt-3 border-t">
-                <div className="flex items-center gap-2">
-                  <Briefcase size={14} className="text-gray-500" />
-                  <p className="text-xs text-gray-600">
-                    {state?.occupation?.occupationTitle || "Occupation"}
-                  </p>
-                </div>
-                {state?.occupation?.yearlySalaryInEuro !== undefined && (
-                  <div className="mt-1 flex items-center gap-2">
-                    <CreditCard size={14} className="text-gray-400" />
-                    <p className="text-xs text-gray-600">
-                      €
-                      {Math.round(
-                        state.occupation.yearlySalaryInEuro
-                      ).toLocaleString("de-DE")}{" "}
-                      / year
-                    </p>
-                  </div>
-                )}
-              </div>
+              <div className="mt-4 pt-3 border-t"></div>
             </div>
 
             <div>
