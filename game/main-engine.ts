@@ -88,13 +88,16 @@ export class GameEngine implements GameEngineInterface {
         };
 
         this.isRunning = true;
-        this.history = [structuredClone(this.state)];
         this.eventHistory = [];
         this.currentEventResult = undefined;
 
         this.goals = goal;
 
         this.state = this.creditEngine.checkAndApplyCredit(this.state, this.goals);
+
+        this.state.lifeSatisfactionFrom1To100 = this.satisfactionEngine.handleSatisfaction(this.state);
+
+        this.history = [structuredClone(this.state)];
 
         return this.state;
     }
