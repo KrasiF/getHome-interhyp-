@@ -22,23 +22,23 @@ export class SatisfactionEngine implements SatisfactionEngineInterface {
 
 
         // Rent Burden (High rent kills the vibe)
+        /*
         if (salary > 0) {
             const rentRatio = rent / salary;
             if (rentRatio > 0.35) {
                 rawScore -= (rentRatio * 100); 
             }
-        }
+        }*/
 
        
         // Having a high stress lecvel is bad af
         const stress = state.occupation.stressLevelFrom0To100;
-        rawScore -= (stress * 1.5); 
+        rawScore -= (stress * 0.3); 
 
         // Living Quality: Space is luxury
         const peopleInHousehold = 1 + state.amountOfChildren + (state.married ? 1 : 0);
         const qmPerPerson = state.living.sizeInSquareMeter / Math.max(1, peopleInHousehold);
-        rawScore += (qmPerPerson - 35);
-
+        rawScore +=  Math.min(Math.max(-20, qmPerPerson - 35), 20);
 
         // Mostly true 
         if (state.married) {
@@ -54,7 +54,7 @@ export class SatisfactionEngine implements SatisfactionEngineInterface {
 
        
         // Tanh Mapping
-        const SENSITIVITY = 150;
+        const SENSITIVITY = 100;
         const curveValue = Math.tanh(rawScore / SENSITIVITY);
         
         // map to [0, 100]

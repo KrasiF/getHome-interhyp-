@@ -1,6 +1,3 @@
-//relistischer machen
-//infos zeigen
-
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import type { EventModel } from "../models/event-model";
@@ -11,6 +8,8 @@ import type { StateModel } from "../models/state-model";
 export interface EventEngineInterface {
     randomlyGenerateEvent(probability: number, history: StateModel[], goal: GoalModel, eventHistory: EventModel[]): Promise<EventModel | undefined>;
 }
+
+//TODO: Einfluss bei Finaznzeug
 
 export class EventEngine implements EventEngineInterface {
     private genAI: GoogleGenerativeAI;
@@ -123,6 +122,16 @@ export class EventEngine implements EventEngineInterface {
                 - You may create "CHILD_BORN" only if current age is in a plausible child-bearing range (approx 18–50).
                 - Use goal.numberWishedChildren as a tendency, but the player may end up with fewer or more children.
                 - Build on previous events (e.g., remarriage after divorce is allowed, not 5 crashes in 5 years, etc.).
+
+                Portfolio realism:
+                - If the event text implies market moves, the portfolio MUST change accordingly:
+                    - MARKET_CRASH: apply realistic multipliers to current holdings (e.g., crypto *0.7–0.9, ETF *0.85–0.95, cash unchanged unless specified) and set those absolute values in newPortfolioModel.
+                    - MARKET_GOOD_YEAR: apply growth multipliers (e.g., crypto *1.05–1.25, ETF *1.03–1.15).
+                - Always return ABSOLUTE values in newPortfolioModel after applying the multipliers to the current state.
+
+                Child events and finances:
+                - CHILD_BORN must reflect higher costs: lower current liquidity and/or reduce savings rate (e.g., savingsRate change -2% to -8%, cash down for baby-related costs). Keep the numbers plausible for the player's income and goals.
+                - CHILD_BORN is non-interactive: eventQuestion MUST be null and alternativeImpact MUST be null (the child is simply born).
 
                 Decision / interactive events:
                 - Some events are non-interactive (e.g. "Market crash on global markets"):
