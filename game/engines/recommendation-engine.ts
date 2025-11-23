@@ -6,10 +6,16 @@
 import { StateModel } from "../models/state-model";
 import { EventModel } from "../models/event-model";
 import { GoalModel } from "../models/goal-model";
+import { LoanConditions } from "../models/loan-condition";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export interface RecommendationEngineInterface {
-    generateFeedback(history: StateModel[], eventHistory: EventModel[], goal: GoalModel): Promise<string[]>;
+    generateFeedback(
+        history: StateModel[],
+        eventHistory: EventModel[],
+        goal: GoalModel,
+        completion: CompletionContext
+    ): Promise<string[]>;
 }
 
 export class RecommendationEngine implements RecommendationEngineInterface {
@@ -24,6 +30,16 @@ export class RecommendationEngine implements RecommendationEngineInterface {
             return;
         }
         this.genAI = new GoogleGenerativeAI(apiKey);
+    }
+
+    private formatEuroK(value: number): string {
+        if (!isFinite(value)) return "0";
+        const abs = Math.abs(value);
+        if (abs >= 1000) {
+            const rounded = Math.round(value / 1000);
+            return `${rounded}k`;
+        }
+        return `${Math.round(value)}`;
     }
 
     private buildSavingsProfile(history: StateModel[], eventHistory: EventModel[]) {
@@ -91,7 +107,8 @@ export class RecommendationEngine implements RecommendationEngineInterface {
     public async generateFeedback(
         history: StateModel[],
         eventHistory: EventModel[],
-        goal: GoalModel
+        goal: GoalModel,
+        completion?: CompletionContext
     ): Promise<string[]> {
         if (!this.genAI) {
             return ["AI key missing – cannot generate recommendations right now."];
@@ -101,13 +118,28 @@ export class RecommendationEngine implements RecommendationEngineInterface {
         }
 
         const lastState = history[history.length - 1];
+        const completionContext: CompletionContext =
+            completion ??
+            {
+                reason:
+                    lastState.creditWorthiness && (lastState.loanConditions?.loanAmount ?? 0) > 0
+                        ? "loan"
+                        : "cash",
+                loan: lastState.loanConditions
+            };
 
         const finalPortfolioValue =
             lastState.portfolio.cashInEuro +
             lastState.portfolio.etfInEuro +
             lastState.portfolio.cryptoInEuro;
+        const cashShare = finalPortfolioValue > 0 ? Math.round((lastState.portfolio.cashInEuro / finalPortfolioValue) * 100) : 0;
+        const etfShare = finalPortfolioValue > 0 ? Math.round((lastState.portfolio.etfInEuro / finalPortfolioValue) * 100) : 0;
+        const cryptoShare = finalPortfolioValue > 0 ? Math.round((lastState.portfolio.cryptoInEuro / finalPortfolioValue) * 100) : 0;
 
-        const gapToGoal = goal.buyingPrice - finalPortfolioValue;
+        const completionStatement =
+            completionContext.reason === "loan"
+                ? `Financing secured via Interhyp Group mortgage for €${this.formatEuroK(completionContext.loan?.loanAmount ?? 0)} (rate ~${this.formatEuroK(completionContext.loan?.monthlyPayment ?? 0)}€/month at ${completionContext.loan?.interestRateInPercent ?? 0}% over ${completionContext.loan?.durationInYears ?? 0}y).`
+                : "Home fully affordable with own capital (no mortgage needed).";
 
         const historySummary = history
             .map((state) => {
@@ -119,13 +151,13 @@ export class RecommendationEngine implements RecommendationEngineInterface {
                 return [
                     `Year ${state.year}:`,
                     `age ${state.age}`,
-                    `job "${state.occupation.occupationTitle}" (salary: ${state.occupation.yearlySalaryInEuro}€)`,
-                    `rent: ${state.living.yearlyRentInEuro}€/year in ${state.living.zip} for ${state.living.sizeInSquareMeter}m²`,
+                    `job "${state.occupation.occupationTitle}" (salary: ${this.formatEuroK(state.occupation.yearlySalaryInEuro)}€)`,
+                    `rent: ${this.formatEuroK(state.living.yearlyRentInEuro)}€/year in ${state.living.zip} for ${state.living.sizeInSquareMeter}m²`,
                     `children: ${state.amountOfChildren}`,
                     `married: ${state.married}`,
                     `savings rate: ${state.savingsRateInPercent}%`,
                     `life satisfaction: ${state.lifeSatisfactionFrom1To100}/100`,
-                    `portfolio total: ${totalPortfolio}€ (cash ${state.portfolio.cashInEuro}€, ETF ${state.portfolio.etfInEuro}€, crypto ${state.portfolio.cryptoInEuro}€)`
+                    `portfolio total: ${this.formatEuroK(totalPortfolio)}€ (cash ${this.formatEuroK(state.portfolio.cashInEuro)}€, ETF ${this.formatEuroK(state.portfolio.etfInEuro)}€, crypto ${this.formatEuroK(state.portfolio.cryptoInEuro)}€)`
                 ].join(", ");
             })
             .join("\n");
@@ -152,16 +184,19 @@ export class RecommendationEngine implements RecommendationEngineInterface {
 You are a concise, upbeat financial & life coach for a simulation game.
 
 Goal:
-- Return 5–8 SHORT bullet-style takeaways for a Spotify-Wrapped-like story flow.
-- Focus on brevity (ideally < 120 characters per bullet). English language.
+- Return 7-10 SHORT bullet-style takeaways for a Spotify-Wrapped-like story flow.
+- Focus on brevity (ideally < 160 characters per bullet). English language.
 - Answer format MUST be raw JSON array of strings (no prose around it).
 
 What to cover across the bullets:
-- Whether the housing goal was reached; if not, how much money is missing/excess.
+- Congratulate that financing is secured; tailor the tone to the completion path.
+- If completionReason=loan: mention the Interhyp Group mortgage and its key terms (amount, duration, interest, monthly payment) without suggesting more loans.
+- If completionReason=cash: celebrate paying with own funds and explicitly avoid mentioning any loan.
 - How the player lived: job/education, living situation, family (children/marriage), life satisfaction.
 - Savings behavior and frugality using the provided savings profile and event-driven changes.
 - Portfolio risk mix (cash vs ETF vs crypto) and whether it fits the goal.
-- 1–2 concrete improvement nudges (save more, rebalance, housing choice, stress/life balance).
+- 1–2 concrete improvement nudges tied to observed behavior in history/savings profile/portfolio (no generic advice).
+- Do NOT mention any funding gap; financing is already done.
 
 Style:
 - Energetic but to the point. Think “story cards”, not a paragraph.
@@ -172,7 +207,7 @@ Style:
 
         const prompt = `
 ### Goal (Real Estate)
-- buying price: ${goal.buyingPrice}€
+- buying price: ${this.formatEuroK(goal.buyingPrice)}€
 - ZIP: ${goal.zip}
 - rooms: ${goal.rooms}
 - size: ${goal.squareMeter}m²
@@ -183,9 +218,11 @@ Style:
 - age: ${lastState.age}
 - children: ${lastState.amountOfChildren}
 - married: ${lastState.married}
-- final portfolio: ${finalPortfolioValue}€ (cash ${lastState.portfolio.cashInEuro}€, ETF ${lastState.portfolio.etfInEuro}€, crypto ${lastState.portfolio.cryptoInEuro}€)
+- final portfolio: ${this.formatEuroK(finalPortfolioValue)}€ (cash ${this.formatEuroK(lastState.portfolio.cashInEuro)}€, ETF ${this.formatEuroK(lastState.portfolio.etfInEuro)}€, crypto ${this.formatEuroK(lastState.portfolio.cryptoInEuro)}€)
+- portfolio mix: cash ${cashShare}%, ETF ${etfShare}%, crypto ${cryptoShare}%
 - life satisfaction: ${lastState.lifeSatisfactionFrom1To100}/100
-- gap to goal (goal - final portfolio): ${gapToGoal}€
+- completion reason: ${completionContext.reason}
+- completion note: ${completionStatement}
 
 ### Full History (chronological)
 ${historySummary}
@@ -222,4 +259,10 @@ ${eventsSummary}
             return ["An error occurred while generating your life evaluation. Please try again later."];
         }
     }
+}
+
+export type CompletionReason = "loan" | "cash";
+export interface CompletionContext {
+    reason: CompletionReason;
+    loan?: LoanConditions;
 }
