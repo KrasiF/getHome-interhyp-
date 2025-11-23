@@ -30,7 +30,7 @@ import mockListingsData from "@/components/mock-listings.json";
 export default function Init() {
   const {engine: gameEngine} = useGameEngine();
   const router = useRouter();
-  const scrollingRef = useRef<HTMLDivElement>(null);
+  const scrollingRef = useRef<HTMLDivElement | null>(null);
 
   const steps = ["Personal Info", "Financials", "Dream Home"]; // labels
   const [step, setStep] = useState<number>(1);
@@ -89,7 +89,7 @@ export default function Init() {
     const found = listings.results.find((l) => l.id === selectedHomeId);
     if (!found) return;
 
-    scrollingRef.current.scrollIntoView({behavior: "smooth"});
+    scrollingRef?.current?.scrollIntoView({behavior: "smooth"});
 
     // Mark that the next automatic fetch (triggered by goal changes)
     // should be skipped because this update originates from a listing selection.

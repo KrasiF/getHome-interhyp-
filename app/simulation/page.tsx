@@ -8,6 +8,8 @@ import {useState, useMemo} from "react";
 import {
   LineChart,
   Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -32,6 +34,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {Home, MapPin, Users, Ruler, Briefcase, CreditCard} from "lucide-react";
+import Character from "@/components/character";
+
+const formatMoney = (value: number): string => {
+  if (value >= 1000000) {
+    return `${(value / 1000000).toFixed(1)}M`;
+  } else if (value >= 1000) {
+    return `${(value / 1000).toFixed(0)}k`;
+  }
+  return Math.round(value).toString();
+};
 
 export default function Simulation() {
   const router = useRouter();
@@ -180,7 +192,7 @@ export default function Simulation() {
     setIsAdvancing(true);
     const gameEvent = await gameEngine.runLoop();
     triggerUpdate();
-    
+
     // Check if game is terminated after running the loop
     const currentState = gameEngine.getState() as StateModel;
     if ((currentState as any).terminated) {
@@ -191,7 +203,7 @@ export default function Simulation() {
     } else {
       setShowEventDecision(!!gameEvent);
     }
-    
+
     setIsAdvancing(false);
   };
 
@@ -341,36 +353,13 @@ export default function Simulation() {
       </nav>
 
       {/* Main Content */}
-      <main className="grid grid-cols-12 gap-4 p-4 flex-1">
+      <main className="grid grid-cols-4 gap-4 p-4 flex-1">
         {/* Left Sidebar: Controls */}
-        <Card className="col-span-2 p-4 flex flex-col justify-between">
+        <Card className="col-span-1 p-4 flex flex-col justify-between">
           <div className="space-y-4">
             <div className="space-y-3">
-              <div>
-                <Label className="text-sm font-semibold">Savings Rate</Label>
-                <Slider
-                  value={[savingsRate]}
-                  onValueChange={handleSavingsRateChange}
-                  max={100}
-                  step={1}
-                  className="mt-2"
-                />
-                <div className="mt-2 flex justify-between text-xs text-gray-600">
-                  <span>Fixed Costs</span>
-                  <span className="font-bold text-gray-900">
-                    {Math.round(savingsRate)}%
-                  </span>
-                  <span>Savings</span>
-                </div>
-              </div>
-
+              <Character state={state} />
               <div className="space-y-2 pt-2 border-t">
-                <div>
-                  <p className="text-xs text-gray-600">Current Age</p>
-                  <p className="text-sm font-semibold">
-                    {state?.age ?? 0} years
-                  </p>
-                </div>
                 <div>
                   <p className="text-xs text-gray-600">Current Year</p>
                   <p className="text-sm font-semibold">{currentYear}</p>
@@ -399,7 +388,16 @@ export default function Simulation() {
                 </div>
               </div>
             </div>
+
             <div className="pt-4 border-t">
+              {state?.living?.yearlyRentInEuro !== undefined && (
+                <div className="mt-1">
+                  <p className="text-xs text-gray-600">Cost for Rent</p>
+                  <p className="text-sm font-semibold">
+                    €{monthlyRent.toLocaleString("de-DE")} per month
+                  </p>
+                </div>
+              )}
               <div className="mt-1 flex items-center gap-2">
                 <Home size={16} className="text-gray-500" />
                 <p className="text-xs text-gray-600">
@@ -420,117 +418,97 @@ export default function Simulation() {
                   </p>
                 </div>
               )}
-
-              {state?.living?.yearlyRentInEuro !== undefined && (
-                <div className="mt-2">
-                  <p className="text-xs text-gray-600">Monthly Costs</p>
-                  <p className="text-sm font-semibold">
-                    €{monthlyRent.toLocaleString("de-DE")} per month
-                  </p>
-                </div>
-              )}
-
-              <div className="mt-3 flex items-center gap-3">
-                <div className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">
-                  <Users size={14} className="text-gray-600" />
-                  <span>
-                    {children} {children === 1 ? "child" : "children"}
-                  </span>
-                </div>
-
-                <div
-                  className={
-                    "px-2 py-1 rounded text-xs font-medium " +
-                    (married
-                      ? "bg-green-100 text-green-800"
-                      : "bg-gray-100 text-gray-700")
-                  }
-                >
-                  {married ? "Married" : "Single"}
-                </div>
-              </div>
-
               {/* Occupation */}
-              <div className="mt-4 pt-3 border-t">
-                <div className="flex items-center gap-2">
-                  <Briefcase size={14} className="text-gray-500" />
-                  <p className="text-xs text-gray-600">
-                    {state?.occupation?.occupationTitle || "Occupation"}
-                  </p>
-                </div>
-                {state?.occupation?.yearlySalaryInEuro !== undefined && (
-                  <div className="mt-1 flex items-center gap-2">
-                    <CreditCard size={14} className="text-gray-400" />
-                    <p className="text-xs text-gray-600">
-                      €
-                      {Math.round(
-                        state.occupation.yearlySalaryInEuro
-                      ).toLocaleString("de-DE")}{" "}
-                      / year
-                    </p>
-                  </div>
-                )}
+              <div className="mt-4 pt-3 border-t"></div>
+            </div>
+
+            <div>
+              <Label className="text-sm font-semibold">Savings Rate</Label>
+              <Slider
+                value={[savingsRate]}
+                onValueChange={handleSavingsRateChange}
+                max={100}
+                step={1}
+                className="mt-2"
+              />
+              <div className="mt-2 flex justify-between text-xs text-gray-600">
+                <span>Fixed Costs</span>
+                <span className="font-bold text-gray-900">
+                  {Math.round(savingsRate)}%
+                </span>
+                <span>Savings</span>
               </div>
             </div>
 
-          <Button
-            onClick={handleAdvanceYear}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
-            disabled={history.length === 0 || isAdvancing}
-          >
-            {isAdvancing ? "Processing..." : "Next Year"}
-          </Button>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="w-full mb-6 bg-black text-white">
-                Actions
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Actions</DialogTitle>
-                <DialogDescription>
-                  Decide which action you want to choose next
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid grid-cols-2 gap-4">
-                <Button onClick={() => router.push("/simulation/find-homes")}>
-                  Change Accommodation
+            <Button
+              onClick={handleAdvanceYear}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+              disabled={history.length === 0 || isAdvancing}
+            >
+              {isAdvancing ? "Processing..." : "Next Year"}
+            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="w-full mb-6 bg-black text-white">
+                  Actions
                 </Button>
-                <Button
-                  onClick={() => router.push("/simulation/find-occupation")}
-                >
-                  Change Occupation
-                </Button>
-                <Button
-                  onClick={() => router.push("/simulation/manage-portfolio")}
-                >
-                  Manage Portfolio
-                </Button>
-                <Button onClick={() => null}>Take a Loan</Button>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </Card>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Actions</DialogTitle>
+                  <DialogDescription>
+                    Decide which action you want to choose next
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid grid-cols-2 gap-4">
+                  <Button onClick={() => router.push("/simulation/find-homes")}>
+                    Change Accommodation
+                  </Button>
+                  <Button
+                    onClick={() => router.push("/simulation/find-occupation")}
+                  >
+                    Change Occupation
+                  </Button>
+                  <Button
+                    onClick={() => router.push("/simulation/manage-portfolio")}
+                  >
+                    Manage Portfolio
+                  </Button>
+                  <Button onClick={() => null}>Take a Loan</Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </Card>
 
         {/* Center: Charts */}
-        <Card className="col-span-6 p-6 flex flex-col">
+        <Card className="col-span-2 p-6 flex flex-col">
           <h2 className="text-xl font-bold mb-4">
             Wealth & Satisfaction Progress
           </h2>
           {chartData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart
+              <AreaChart
                 data={chartData}
                 margin={{top: 5, right: 30, left: 0, bottom: 5}}
               >
+                <defs>
+                  <linearGradient id="colorWealth" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="colorSatisfaction" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#f59e0b" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="year" />
                 <YAxis
                   yAxisId="left"
+                  tickFormatter={(value) => `€${formatMoney(value)}`}
                   label={{
-                    value: "Wealth (€)",
+                    value: "Wealth",
                     angle: -90,
                     position: "insideLeft",
                   }}
@@ -540,7 +518,7 @@ export default function Simulation() {
                   orientation="right"
                   domain={[0, 100]}
                   label={{
-                    value: "Satisfaction (0-100)",
+                    value: "Satisfaction",
                     angle: 90,
                     position: "insideRight",
                   }}
@@ -555,22 +533,24 @@ export default function Simulation() {
                   }}
                 />
                 <Legend />
-                <Line
+                <Area
                   yAxisId="left"
                   type="monotone"
                   dataKey="wealth"
                   stroke="#10b981"
+                  fillOpacity={1}
+                  fill="url(#colorWealth)"
                   name="Wealth"
-                  dot={false}
                   strokeWidth={2}
                 />
-                <Line
+                <Area
                   yAxisId="right"
                   type="monotone"
                   dataKey="satisfaction"
                   stroke="#f59e0b"
+                  fillOpacity={1}
+                  fill="url(#colorSatisfaction)"
                   name="Satisfaction"
-                  dot={false}
                   strokeWidth={2}
                 />
                 <Line
@@ -595,7 +575,7 @@ export default function Simulation() {
                     fontWeight: "bold",
                   }}
                 />
-              </LineChart>
+              </AreaChart>
             </ResponsiveContainer>
           ) : (
             <div className="flex flex-col items-center justify-center h-full text-gray-500">
@@ -605,55 +585,61 @@ export default function Simulation() {
           )}
         </Card>
 
-      {/* Event Decision Dialog */}
-      <Dialog open={showEventDecision} onOpenChange={handleDialogChange}>
-        <DialogContent showCloseButton={false}>
-          <DialogHeader>
-            <DialogTitle>Event Occurred!</DialogTitle>
-          <DialogDescription>
-            {currentEvent?.eventDescription}
-          </DialogDescription>
-        </DialogHeader>
-        {currentEvent?.eventQuestion ? (
-          <div className="mt-3 grid grid-cols-1 gap-2">
-            <ImpactCard title="Impact if Yes" impact={currentEvent?.impact} />
-            <ImpactCard
-              title="Impact if No"
-              impact={currentEvent?.alternativeImpact}
-              fallback="No changes if No."
-            />
-          </div>
-        ) : (
-          <div className="mt-3 space-y-3">
-            <ImpactCard title="Impact" impact={currentEvent?.impact} />
-            <Button className="w-full" onClick={() => handleEventDecision(true)}>
-              Acknowledge
-            </Button>
-          </div>
-        )}
-        {currentEvent?.eventQuestion && (
-          <div className="space-y-4">
-            <p className="text-sm font-semibold">
-              {currentEvent.eventQuestion}
-            </p>
-              <div className="grid grid-cols-2 gap-4">
+        {/* Event Decision Dialog */}
+        <Dialog open={showEventDecision} onOpenChange={handleDialogChange}>
+          <DialogContent showCloseButton={false}>
+            <DialogHeader>
+              <DialogTitle>Event Occurred!</DialogTitle>
+              <DialogDescription>
+                {currentEvent?.eventDescription}
+              </DialogDescription>
+            </DialogHeader>
+            {currentEvent?.eventQuestion ? (
+              <div className="mt-3 grid grid-cols-1 gap-2">
+                <ImpactCard
+                  title="Impact if Yes"
+                  impact={currentEvent?.impact}
+                />
+                <ImpactCard
+                  title="Impact if No"
+                  impact={currentEvent?.alternativeImpact}
+                  fallback="No changes if No."
+                />
+              </div>
+            ) : (
+              <div className="mt-3 space-y-3">
+                <ImpactCard title="Impact" impact={currentEvent?.impact} />
                 <Button
+                  className="w-full"
                   onClick={() => handleEventDecision(true)}
-                  className="bg-green-600 hover:bg-green-700"
                 >
-                  Yes
-                </Button>
-                <Button
-                  onClick={() => handleEventDecision(false)}
-                  className="bg-red-600 hover:bg-red-700"
-                >
-                  No
+                  Acknowledge
                 </Button>
               </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+            )}
+            {currentEvent?.eventQuestion && (
+              <div className="space-y-4">
+                <p className="text-sm font-semibold">
+                  {currentEvent.eventQuestion}
+                </p>
+                <div className="grid grid-cols-2 gap-4">
+                  <Button
+                    onClick={() => handleEventDecision(true)}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    onClick={() => handleEventDecision(false)}
+                    className="bg-red-600 hover:bg-red-700"
+                  >
+                    No
+                  </Button>
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
 
       {/* Game Over Dialog with Recommendations */}
       <Dialog open={showGameOver} onOpenChange={() => router.push("/init")}>
@@ -703,19 +689,22 @@ export default function Simulation() {
         </DialogContent>
       </Dialog>
 
-      {/* Right Sidebar: Events & Portfolio */}
-      <Card className="col-span-4 p-4 flex flex-col gap-4">
-        {/* Recent Events */}
-        <div>
-          <h3 className="font-bold text-sm mb-3">Recent Events</h3>
-          <div className="space-y-2 max-h-60 min-h-60 overflow-y-auto">
-            {eventHistory.length > 0 ? (
-              eventHistory
-                .slice(-5)
-                .reverse()
-                .map((event: EventModel, idx: number) => {
-                  const impact = event.chosenImpact ?? event.impact ?? event.alternativeImpact;
-                  const changes = formatImpactDetails(impact);
+        {/* Right Sidebar: Events & Portfolio */}
+        <Card className="col-span-1 p-4 flex flex-col gap-4">
+          {/* Recent Events */}
+          <div>
+            <h3 className="font-bold text-sm mb-3">Recent Events</h3>
+            <div className="space-y-2 max-h-60 min-h-60 overflow-y-auto">
+              {eventHistory.length > 0 ? (
+                eventHistory
+                  .slice(-5)
+                  .reverse()
+                  .map((event: EventModel, idx: number) => {
+                    const impact =
+                      event.chosenImpact ??
+                      event.impact ??
+                      event.alternativeImpact;
+                    const changes = formatImpactDetails(impact);
 
                     return (
                       <div
