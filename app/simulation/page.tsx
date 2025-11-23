@@ -32,6 +32,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {Home, MapPin, Users, Ruler, Briefcase, CreditCard} from "lucide-react";
+import Character from "@/components/character";
 
 export default function Simulation() {
   const router = useRouter();
@@ -180,7 +181,7 @@ export default function Simulation() {
     setIsAdvancing(true);
     const gameEvent = await gameEngine.runLoop();
     triggerUpdate();
-    
+
     // Check if game is terminated after running the loop
     const currentState = gameEngine.getState() as StateModel;
     if ((currentState as any).terminated) {
@@ -191,7 +192,7 @@ export default function Simulation() {
     } else {
       setShowEventDecision(!!gameEvent);
     }
-    
+
     setIsAdvancing(false);
   };
 
@@ -341,29 +342,12 @@ export default function Simulation() {
       </nav>
 
       {/* Main Content */}
-      <main className="grid grid-cols-12 gap-4 p-4 flex-1">
+      <main className="grid grid-cols-4 gap-4 p-4 flex-1">
         {/* Left Sidebar: Controls */}
-        <Card className="col-span-2 p-4 flex flex-col justify-between">
+        <Card className="col-span-1 p-4 flex flex-col justify-between">
           <div className="space-y-4">
             <div className="space-y-3">
-              <div>
-                <Label className="text-sm font-semibold">Savings Rate</Label>
-                <Slider
-                  value={[savingsRate]}
-                  onValueChange={handleSavingsRateChange}
-                  max={100}
-                  step={1}
-                  className="mt-2"
-                />
-                <div className="mt-2 flex justify-between text-xs text-gray-600">
-                  <span>Fixed Costs</span>
-                  <span className="font-bold text-gray-900">
-                    {Math.round(savingsRate)}%
-                  </span>
-                  <span>Savings</span>
-                </div>
-              </div>
-
+              <Character state={state} />
               <div className="space-y-2 pt-2 border-t">
                 <div>
                   <p className="text-xs text-gray-600">Current Age</p>
@@ -399,7 +383,16 @@ export default function Simulation() {
                 </div>
               </div>
             </div>
+
             <div className="pt-4 border-t">
+              {state?.living?.yearlyRentInEuro !== undefined && (
+                <div className="mt-1">
+                  <p className="text-xs text-gray-600">Cost for Rent</p>
+                  <p className="text-sm font-semibold">
+                    €{monthlyRent.toLocaleString("de-DE")} per month
+                  </p>
+                </div>
+              )}
               <div className="mt-1 flex items-center gap-2">
                 <Home size={16} className="text-gray-500" />
                 <p className="text-xs text-gray-600">
@@ -417,15 +410,6 @@ export default function Simulation() {
                   <Ruler size={14} className="text-gray-400" />
                   <p className="text-xs text-gray-600">
                     {living.sizeInSquareMeter} m²
-                  </p>
-                </div>
-              )}
-
-              {state?.living?.yearlyRentInEuro !== undefined && (
-                <div className="mt-2">
-                  <p className="text-xs text-gray-600">Monthly Costs</p>
-                  <p className="text-sm font-semibold">
-                    €{monthlyRent.toLocaleString("de-DE")} per month
                   </p>
                 </div>
               )}
@@ -473,49 +457,67 @@ export default function Simulation() {
               </div>
             </div>
 
-          <Button
-            onClick={handleAdvanceYear}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
-            disabled={history.length === 0 || isAdvancing}
-          >
-            {isAdvancing ? "Processing..." : "Next Year"}
-          </Button>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="w-full mb-6 bg-black text-white">
-                Actions
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Actions</DialogTitle>
-                <DialogDescription>
-                  Decide which action you want to choose next
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid grid-cols-2 gap-4">
-                <Button onClick={() => router.push("/simulation/find-homes")}>
-                  Change Accommodation
-                </Button>
-                <Button
-                  onClick={() => router.push("/simulation/find-occupation")}
-                >
-                  Change Occupation
-                </Button>
-                <Button
-                  onClick={() => router.push("/simulation/manage-portfolio")}
-                >
-                  Manage Portfolio
-                </Button>
-                <Button onClick={() => null}>Take a Loan</Button>
+            <div>
+              <Label className="text-sm font-semibold">Savings Rate</Label>
+              <Slider
+                value={[savingsRate]}
+                onValueChange={handleSavingsRateChange}
+                max={100}
+                step={1}
+                className="mt-2"
+              />
+              <div className="mt-2 flex justify-between text-xs text-gray-600">
+                <span>Fixed Costs</span>
+                <span className="font-bold text-gray-900">
+                  {Math.round(savingsRate)}%
+                </span>
+                <span>Savings</span>
               </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </Card>
+            </div>
+
+            <Button
+              onClick={handleAdvanceYear}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+              disabled={history.length === 0 || isAdvancing}
+            >
+              {isAdvancing ? "Processing..." : "Next Year"}
+            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="w-full mb-6 bg-black text-white">
+                  Actions
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Actions</DialogTitle>
+                  <DialogDescription>
+                    Decide which action you want to choose next
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid grid-cols-2 gap-4">
+                  <Button onClick={() => router.push("/simulation/find-homes")}>
+                    Change Accommodation
+                  </Button>
+                  <Button
+                    onClick={() => router.push("/simulation/find-occupation")}
+                  >
+                    Change Occupation
+                  </Button>
+                  <Button
+                    onClick={() => router.push("/simulation/manage-portfolio")}
+                  >
+                    Manage Portfolio
+                  </Button>
+                  <Button onClick={() => null}>Take a Loan</Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </Card>
 
         {/* Center: Charts */}
-        <Card className="col-span-6 p-6 flex flex-col">
+        <Card className="col-span-2 p-6 flex flex-col">
           <h2 className="text-xl font-bold mb-4">
             Wealth & Satisfaction Progress
           </h2>
@@ -605,107 +607,118 @@ export default function Simulation() {
           )}
         </Card>
 
-      {/* Event Decision Dialog */}
-      <Dialog open={showEventDecision} onOpenChange={handleDialogChange}>
-        <DialogContent showCloseButton={false}>
-          <DialogHeader>
-            <DialogTitle>Event Occurred!</DialogTitle>
-          <DialogDescription>
-            {currentEvent?.eventDescription}
-          </DialogDescription>
-        </DialogHeader>
-        {currentEvent?.eventQuestion ? (
-          <div className="mt-3 grid grid-cols-1 gap-2">
-            <ImpactCard title="Impact if Yes" impact={currentEvent?.impact} />
-            <ImpactCard
-              title="Impact if No"
-              impact={currentEvent?.alternativeImpact}
-              fallback="No changes if No."
-            />
-          </div>
-        ) : (
-          <div className="mt-3 space-y-3">
-            <ImpactCard title="Impact" impact={currentEvent?.impact} />
-            <Button className="w-full" onClick={() => handleEventDecision(true)}>
-              Acknowledge
-            </Button>
-          </div>
-        )}
-        {currentEvent?.eventQuestion && (
-          <div className="space-y-4">
-            <p className="text-sm font-semibold">
-              {currentEvent.eventQuestion}
-            </p>
-              <div className="grid grid-cols-2 gap-4">
+        {/* Event Decision Dialog */}
+        <Dialog open={showEventDecision} onOpenChange={handleDialogChange}>
+          <DialogContent showCloseButton={false}>
+            <DialogHeader>
+              <DialogTitle>Event Occurred!</DialogTitle>
+              <DialogDescription>
+                {currentEvent?.eventDescription}
+              </DialogDescription>
+            </DialogHeader>
+            {currentEvent?.eventQuestion ? (
+              <div className="mt-3 grid grid-cols-1 gap-2">
+                <ImpactCard
+                  title="Impact if Yes"
+                  impact={currentEvent?.impact}
+                />
+                <ImpactCard
+                  title="Impact if No"
+                  impact={currentEvent?.alternativeImpact}
+                  fallback="No changes if No."
+                />
+              </div>
+            ) : (
+              <div className="mt-3 space-y-3">
+                <ImpactCard title="Impact" impact={currentEvent?.impact} />
                 <Button
+                  className="w-full"
                   onClick={() => handleEventDecision(true)}
-                  className="bg-green-600 hover:bg-green-700"
                 >
-                  Yes
+                  Acknowledge
                 </Button>
+              </div>
+            )}
+            {currentEvent?.eventQuestion && (
+              <div className="space-y-4">
+                <p className="text-sm font-semibold">
+                  {currentEvent.eventQuestion}
+                </p>
+                <div className="grid grid-cols-2 gap-4">
+                  <Button
+                    onClick={() => handleEventDecision(true)}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    onClick={() => handleEventDecision(false)}
+                    className="bg-red-600 hover:bg-red-700"
+                  >
+                    No
+                  </Button>
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* Game Over Dialog with Recommendations */}
+        <Dialog open={showGameOver} onOpenChange={() => router.push("/init")}>
+          <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-3xl font-bold text-green-600">
+                🎉 Congratulations! You've Reached Your Goal! 🎉
+              </DialogTitle>
+              <DialogDescription className="text-lg mt-2">
+                You have successfully accumulated enough wealth to achieve your
+                housing dream!
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-6 space-y-4">
+              <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-green-800 mb-4">
+                  Your Journey Summary
+                </h3>
+                <div className="prose prose-sm max-w-none text-gray-700">
+                  {recommendations.split("\n").map(
+                    (paragraph, idx) =>
+                      paragraph.trim() && (
+                        <p key={idx} className="mb-3">
+                          {paragraph}
+                        </p>
+                      )
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-end mt-6">
                 <Button
-                  onClick={() => handleEventDecision(false)}
-                  className="bg-red-600 hover:bg-red-700"
+                  onClick={() => router.push("/init")}
+                  className="bg-blue-600 hover:bg-blue-700"
                 >
-                  No
+                  Start New Game
                 </Button>
               </div>
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+          </DialogContent>
+        </Dialog>
 
-      {/* Game Over Dialog with Recommendations */}
-      <Dialog open={showGameOver} onOpenChange={() => router.push("/init")}>
-        <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-3xl font-bold text-green-600">
-              🎉 Congratulations! You've Reached Your Goal! 🎉
-            </DialogTitle>
-            <DialogDescription className="text-lg mt-2">
-              You have successfully accumulated enough wealth to achieve your housing dream!
-            </DialogDescription>
-          </DialogHeader>
-          <div className="mt-6 space-y-4">
-            <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-green-800 mb-4">
-                Your Journey Summary
-              </h3>
-              <div className="prose prose-sm max-w-none text-gray-700">
-                {recommendations.split('\n').map((paragraph, idx) => (
-                  paragraph.trim() && (
-                    <p key={idx} className="mb-3">
-                      {paragraph}
-                    </p>
-                  )
-                ))}
-              </div>
-            </div>
-            <div className="flex justify-end mt-6">
-              <Button
-                onClick={() => router.push("/init")}
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                Start New Game
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Right Sidebar: Events & Portfolio */}
-      <Card className="col-span-4 p-4 flex flex-col gap-4">
-        {/* Recent Events */}
-        <div>
-          <h3 className="font-bold text-sm mb-3">Recent Events</h3>
-          <div className="space-y-2 max-h-60 min-h-60 overflow-y-auto">
-            {eventHistory.length > 0 ? (
-              eventHistory
-                .slice(-5)
-                .reverse()
-                .map((event: EventModel, idx: number) => {
-                  const impact = event.chosenImpact ?? event.impact ?? event.alternativeImpact;
-                  const changes = formatImpactDetails(impact);
+        {/* Right Sidebar: Events & Portfolio */}
+        <Card className="col-span-1 p-4 flex flex-col gap-4">
+          {/* Recent Events */}
+          <div>
+            <h3 className="font-bold text-sm mb-3">Recent Events</h3>
+            <div className="space-y-2 max-h-60 min-h-60 overflow-y-auto">
+              {eventHistory.length > 0 ? (
+                eventHistory
+                  .slice(-5)
+                  .reverse()
+                  .map((event: EventModel, idx: number) => {
+                    const impact =
+                      event.chosenImpact ??
+                      event.impact ??
+                      event.alternativeImpact;
+                    const changes = formatImpactDetails(impact);
 
                     return (
                       <div
