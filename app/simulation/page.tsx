@@ -231,7 +231,7 @@ export default function Simulation() {
       satisfaction: s.lifeSatisfactionFrom1To100,
       goal: gameEngine.getGoals().buyingPrice,
     }));
-  }, [history.length, state.year, gameEngine]);
+  }, [gameEngine.getHistoryVersion(), gameEngine]);
 
   // Portfolio breakdown
   const portfolioBreakdown = useMemo(() => {
