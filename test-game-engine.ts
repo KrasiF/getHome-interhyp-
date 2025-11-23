@@ -40,6 +40,7 @@ async function runTestSimulation() {
             etfInEuro: 0
         },
         living: {
+            name:"",
             yearlyRentInEuro: 12000,
             zip: "10115",
             sizeInSquareMeter: 60
@@ -90,9 +91,9 @@ async function runTestSimulation() {
         // Advance year
         engine.decideActions({
             newSavingsRateInPercent: 30, 
-            newOccupationModel: undefined,
-            newLivingModel: undefined,
-            newPortfolioModel: undefined
+            newOccupationModel: null,
+            newLivingModel: null,
+            newPortfolioModel: null
         });
 
         // Handle events
@@ -113,7 +114,11 @@ async function runTestSimulation() {
         const feedback = await recommendationEngine.generateFeedback(
             engine.getHistory(),
             engine.getEventHistory(),
-            engine.getGoals()
+            engine.getGoals(),
+            {
+                reason: (engine.getState().creditWorthiness && (engine.getState().loanConditions?.loanAmount ?? 0) > 0) ? "loan" : "cash",
+                loan: engine.getState().loanConditions
+            }
         );
         console.log("\n--- 🤖 AI LIFE COACH REPORT ---");
         console.log(feedback);

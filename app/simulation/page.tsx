@@ -213,7 +213,7 @@ export default function Simulation() {
   const handleAdvanceYear = async () => {
     setIsAdvancing(true);
     const gameEvent = await gameEngine.runLoop();
-    console.log(gameEngine.getState())
+    console.log(gameEngine.getState());
     triggerUpdate();
 
     // Check if game is terminated after running the loop
@@ -262,9 +262,9 @@ export default function Simulation() {
   const chartData = useMemo(() => {
     return history.map((s: StateModel) => {
       // Find events that happened in this year
-      const eventsInYear = eventHistory.filter(e => e.year === s.year);
+      const eventsInYear = eventHistory.filter((e) => e.year === s.year);
       const emoji = eventsInYear.length > 0 ? eventsInYear[0].emoji : null;
-      
+
       return {
         year: s.year,
         wealth:
@@ -479,20 +479,23 @@ export default function Simulation() {
             >
               {isAdvancing ? "Processing..." : "Next Year"}
             </Button>
-            <Dialog open={showActionsDialog} onOpenChange={setShowActionsDialog}>
+            <Dialog
+              open={showActionsDialog}
+              onOpenChange={setShowActionsDialog}
+            >
               <DialogTrigger asChild>
-                <Button 
+                <Button
                   className={`w-full mb-6 text-white transition-all duration-300 relative overflow-hidden ${
                     state?.creditWorthiness
-                      ? 'bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg shadow-orange-500/50' 
-                      : 'bg-black hover:bg-gray-800'
+                      ? "bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg shadow-orange-500/50"
+                      : "bg-black hover:bg-gray-800"
                   }`}
                 >
                   {state?.creditWorthiness && showCreditAnimation && (
-                    <span 
+                    <span
                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
                       style={{
-                        animation: 'shimmer 1s ease-in-out'
+                        animation: "shimmer 1s ease-in-out",
                       }}
                     />
                   )}
@@ -507,20 +510,25 @@ export default function Simulation() {
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid grid-cols-2 gap-4">
-                  <Button onClick={() => router.push("/simulation/find-homes")}>
+                  <Button
+                    className="bg-black hover:bg-gray-800"
+                    onClick={() => router.push("/simulation/find-homes")}
+                  >
                     Change Accommodation
                   </Button>
                   <Button
+                    className="bg-black hover:bg-gray-800"
                     onClick={() => router.push("/simulation/find-occupation")}
                   >
                     Change Occupation
                   </Button>
                   <Button
+                    className="bg-black hover:bg-gray-800"
                     onClick={() => router.push("/simulation/manage-portfolio")}
                   >
                     Manage Portfolio
                   </Button>
-                  <Button 
+                  <Button
                     onClick={() => {
                       setShowLoanDialog(true);
                       setShowActionsDialog(false);
@@ -528,15 +536,15 @@ export default function Simulation() {
                     disabled={!state?.creditWorthiness}
                     className={`relative overflow-hidden transition-all duration-300 ${
                       state?.creditWorthiness
-                        ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/50 hover:from-orange-600 hover:to-orange-700'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/50 hover:from-orange-600 hover:to-orange-700"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
                     }`}
                   >
                     {state?.creditWorthiness && showLoanAnimation && (
-                      <span 
+                      <span
                         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
                         style={{
-                          animation: 'shimmer 1s ease-in-out'
+                          animation: "shimmer 1s ease-in-out",
                         }}
                       />
                     )}
@@ -550,9 +558,7 @@ export default function Simulation() {
 
         {/* Center: Charts */}
         <Card className="col-span-2 p-6 flex flex-col">
-          <h2 className="text-xl font-bold">
-            Wealth & Satisfaction Progress
-          </h2>
+          <h2 className="text-xl font-bold">Wealth & Satisfaction Progress</h2>
           {chartData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
@@ -576,20 +582,42 @@ export default function Simulation() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
+                <XAxis
                   dataKey="year"
                   tick={(props) => {
-                    const { x, y, payload } = props;
-                    const dataPoint = chartData.find(d => d.year === payload.value);
+                    const {x, y, payload} = props;
+                    const dataPoint = chartData.find(
+                      (d) => d.year === payload.value
+                    );
                     return (
                       <g transform={`translate(${x},${y})`}>
-                        <text x={0} y={0} dy={16} textAnchor="middle" fill="#666" fontSize={12}>
+                        <text
+                          x={0}
+                          y={0}
+                          dy={16}
+                          textAnchor="middle"
+                          fill="#666"
+                          fontSize={12}
+                        >
                           {payload.value}
                         </text>
                         {dataPoint?.emoji && (
                           <g>
-                            <circle cx={0} cy={-8} r={12} fill="white" stroke="#10b981" strokeWidth={2} />
-                            <text x={0} y={-8} textAnchor="middle" dominantBaseline="central" fontSize={14}>
+                            <circle
+                              cx={0}
+                              cy={-8}
+                              r={12}
+                              fill="white"
+                              stroke="#10b981"
+                              strokeWidth={2}
+                            />
+                            <text
+                              x={0}
+                              y={-8}
+                              textAnchor="middle"
+                              dominantBaseline="central"
+                              fontSize={14}
+                            >
                               {dataPoint.emoji}
                             </text>
                           </g>
@@ -755,23 +783,34 @@ export default function Simulation() {
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-700">Loan Amount:</span>
-                    <span className="font-semibold text-gray-900">€{Math.round(goalPrice).toLocaleString()}</span>
+                    <span className="font-semibold text-gray-900">
+                      €{Math.round(goalPrice-totalWealth).toLocaleString()}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-700">Interest Rate:</span>
-                    <span className="font-semibold text-gray-900">3.5% per year</span>
+                    <span className="font-semibold text-gray-900">
+                      3.5% per year
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-700">Loan Term:</span>
-                    <span className="font-semibold text-gray-900">25 years</span>
+                    <span className="font-semibold text-gray-900">
+                      25 years
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-700">Monthly Payment:</span>
-                    <span className="font-semibold text-gray-900">€{Math.round((goalPrice * 0.035 / 12 + goalPrice / (25 * 12))).toLocaleString()}</span>
+                    <span className="font-semibold text-gray-900">
+                      €
+                      {Math.round(
+                        (goalPrice * 0.035) / 12 + goalPrice / (25 * 12)
+                      ).toLocaleString()}
+                    </span>
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex items-center justify-center gap-2 pb-4 border-b">
                 <span className="text-sm text-gray-600">Provided by</span>
                 <svg
@@ -807,7 +846,8 @@ export default function Simulation() {
 
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-xs text-blue-800">
-                  ℹ️ By accepting this loan, you will complete your journey to homeownership and finish the simulation.
+                  ℹ️ By accepting this loan, you will complete your journey to
+                  homeownership and finish the simulation.
                 </p>
               </div>
 

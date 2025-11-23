@@ -1,36 +1,23 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# getHome(interhyp)
 
-## Getting Started
+## 1. Overview
 
-First, run the development server:
+getHome(interhyp) is an advanced, gamified life simulation platform designed to educate young adults on long-term financial planning and home ownership goals.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The core idea is to turn complex financial decisions—like saving rates, investments, and career changes—into an engaging role-playing experience. Users navigate simulated years, facing life events (powered by Google Gemini), and track their progress toward the ultimate goal: financing their dream home.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The simulation accurately models key dynamics:
+* Investment Growth: Stochastic models predict portfolio returns (ETF, Crypto, Cash).
+* Life Satisfaction: A psychometric function measures happiness based on income, stress, living space, and social factors.
+* Credit Worthiness: The system continuously calculates the maximum affordable loan amount based on current finances.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 2. Core Technology
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* Frontend/Backend: Next.js & TypeScript
+* AI: Google Gemini API (Event Generation, Financial Analysis)
+* Infrastructure: Docker / Google Cloud Run
 
-## Learn More
+## 3. Technical Documentation
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For a detailed overview of the governing equations for Life Satisfaction (Tanh Curve), Stochastic Asset Growth (Box-Muller/Normal Distribution), and Household Budgeting:
+[Mathematical Modeling of the getHome Framework](./doc/Mathematical-Modeling-of-the-getHome-Framework.pdf)
