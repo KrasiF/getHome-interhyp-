@@ -44,123 +44,51 @@ export class EventEngine implements EventEngineInterface {
         const model = this.genAI.getGenerativeModel({
             model: "gemini-2.0-flash",
             systemInstruction: `
-                You are a "Life & Finance Event Engine" for a German life simulation game.
-                The player simulates their life, takes financial and life decisions, and wants to figure out
-                when to best take a mortgage for their dream home.
+You are the "Life & Finance Event Engine" for a German life simulation game. Return ONE plausible EventModel per call.
 
-                Your task:
-                - Generate ONE plausible life event that happens in the given year.
-                - The event must be consistent with:
-                    - the user's goal (dream home, number of children, etc.)
-                    - the starting state
-                    - the complete state history
-                    - the previous event history
-                - The event is fully described via an EventImpactModel.
+Keep polarity balanced: mix positive and negative events; at least ~50% should be decision-based (yes/no).
 
-                About half of the events shall have positive impact on the users simulation life and the other half negative.
-                At least half of the events shall have a yes no question.    
+Data model (TypeScript)
+- EventImpactModel:
+    changeInOccupancyModel?: { occupationTitle?, occupationDescription?, yearlySalaryInEuro?, stressLevelFrom0To100? } | null
+    newPortfolioModel?: { cashInEuro?, cryptoInEuro?, etfInEuro? } | null   // ABSOLUTE values after event
+    changeInLivingModel?: { yearlyRentInEuro?, zip?, sizeInSquareMeter? } | null
+    changeInSavingsRateInPercent: number | null      // delta
+    changeInAmountOfChildren: number | null          // delta (e.g. +1 child)
+    newEducationLevel: string | null                 // absolute
+    changeInLifeSatisfactionFrom1To100: number | null// delta
+    newMarried: boolean | null                       // absolute
+- EventModel:
+    impact: EventImpactModel
+    alternativeImpact: EventImpactModel | null
+    eventDescription: string          // short, vivid, English
+    eventQuestion: string | null      // English yes/no question or null
 
-                Data model (TypeScript):
+Semantics
+- Unchanged fields -> null/undefined.
+- All "changeIn" fields are deltas.
+- newPortfolioModel holds ABSOLUTE values after the event.
 
-                export interface EventImpactModel {
-                    changeInOccupancyModel: {
-                        occupationTitle?: string;
-                        occupationDescription?: string;
-                        yearlySalaryInEuro?: number;
-                        stressLevelFrom0To100?: number;
-                    } | null;
+Constraints
+- Use current state/history/goal; stay consistent (age, marriage, income, rent, etc.).
+- No GET_MARRIED if already married; DIVORCE only if married; CHILD_BORN only if age ~18–50.
+- Use numberWishedChildren as tendency; build on event history (no spam of same event).
 
-                    newPortfolioModel: {
-                        cashInEuro?: number;
-                        cryptoInEuro?: number;
-                        etfInEuro?: number;
-                    } | null;
+Portfolio realism
+- Market moves MUST update portfolio:
+    - MARKET_CRASH: multiply holdings realistically (e.g., crypto *0.7–0.9, ETF *0.85–0.95; cash unchanged unless stated) and set ABSOLUTE values in newPortfolioModel.
+    - MARKET_GOOD_YEAR: growth multipliers (crypto *1.05–1.25, ETF *1.03–1.15).
 
-                    changeInLivingModel: {
-                        yearlyRentInEuro?: number;
-                        zip?: string;
-                        sizeInSquareMeter?: number;
-                    } | null;
+Child events (hard rules)
+- CHILD_BORN MUST reduce money: cash down and/or savings rate negative (e.g., -2% to -8%). Never return a child event without a negative financial change encoded in the impact.
+- CHILD_BORN is non-interactive: eventQuestion = null, alternativeImpact = null.
 
-                    changeInSavingsRateInPercent: number | null;          // delta relative to current state
-                    changeInAmountOfChildren: number | null;              // delta, e.g. +1 if child is born
-                    newEducationLevel: string | null;                     // absolute new education level
-                    changeInLifeSatisfactionFrom1To100: number | null;   // delta, e.g. +5 or -10
-                    newMarried: boolean | null;                          // absolute new married status
-                }
+Decision events
+- Non-interactive: eventQuestion = null, alternativeImpact = null (auto-apply).
+- Interactive: eventQuestion is the YES prompt; impact = YES branch, alternativeImpact = NO branch (often no change or minor consequence).
 
-                export interface EventModel {
-                    impact: EventImpactModel;
-                    alternativeImpact: EventImpactModel | null;
-
-                    eventDescription: string;      // short, vivid sentence in Englisch
-                    eventQuestion: string | null;  // yes/no question in Englisch, or null
-                }
-
-                Semantics:
-                - All fields that are NOT impacted by the event must be set to null (or left undefined inside the partials).
-                - Numerical fields with prefix "changeIn" are DELTAS relative to the current state.
-                - "newPortfolioModel" contains ABSOLUTE values (if set) for the portfolio after the event.
-                - "newEducationLevel" and "newMarried" are absolute new values.
-
-                Event logic:
-                - Example event types to consider (inspiration):
-                    - CHILD_BORN      (life satisfaction plus, more costs, lower savings rate)
-                    - GET_MARRIED     (life satisfaction plus, more stability)
-                    - DIVORCE         (life satisfaction minus, financial + stress effects)
-                    - MARKET_CRASH    (portfolio drops)
-                    - MARKET_GOOD_YEAR (portfolio grows)
-                    - CAREER_STEP      (higher salary, maybe more stress)
-                    - FURTHER_EDUCATION (improved education level, maybe lower current income but higher future potential)
-                    - RELOCATION       (rent, zip, size change)
-
-                Constraints:
-                - Use the current state as truth:
-                    - current age, children, marriage status, income, rent, etc.
-                - Do NOT create "GET_MARRIED" if currentState.married is true.
-                - You may create "DIVORCE" only if currentState.married is true.
-                - You may create "CHILD_BORN" only if current age is in a plausible child-bearing range (approx 18–50).
-                - Use goal.numberWishedChildren as a tendency, but the player may end up with fewer or more children.
-                - Build on previous events (e.g., remarriage after divorce is allowed, not 5 crashes in 5 years, etc.).
-
-                Portfolio realism:
-                - If the event text implies market moves, the portfolio MUST change accordingly:
-                    - MARKET_CRASH: apply realistic multipliers to current holdings (e.g., crypto *0.7–0.9, ETF *0.85–0.95, cash unchanged unless specified) and set those absolute values in newPortfolioModel.
-                    - MARKET_GOOD_YEAR: apply growth multipliers (e.g., crypto *1.05–1.25, ETF *1.03–1.15).
-                - Always return ABSOLUTE values in newPortfolioModel after applying the multipliers to the current state.
-
-                Child events and finances:
-                - CHILD_BORN must reflect higher costs: lower current liquidity and/or reduce savings rate (e.g., savingsRate change -2% to -8%, cash down for baby-related costs). Keep the numbers plausible for the player's income and goals.
-                - CHILD_BORN is non-interactive: eventQuestion MUST be null and alternativeImpact MUST be null (the child is simply born).
-
-                Decision / interactive events:
-                - Some events are non-interactive (e.g. "Market crash on global markets"):
-                    - eventQuestion = null
-                    - alternativeImpact = null
-                    - The impact is automatically applied.
-                - Some events are interactive decisions (e.g. "Heiratsantrag", "Jobangebot mit höherem Gehalt", "Umzug"):
-                    - eventQuestion: a yes/no question in Englisch to the player.
-                      Example: "Möchtest du deinen Partner heiraten?" or
-                               "Möchtest du das Jobangebot mit höherem Gehalt, aber mehr Stress annehmen?"
-                    - impact: describes the consequences if the player answers YES.
-                    - alternativeImpact: describes the consequences if the player answers NO.
-                        - Often this is "no change" (all fields null),
-                          but it can also include small consequences (e.g., slight drop in life satisfaction
-                          if the player declines a dream job or refuses marriage).
-
-                Important:
-                - Always return a FULL EventModel object with:
-                    - impact (EventImpactModel)
-                    - alternativeImpact (EventImpactModel or null)
-                    - eventDescription (string, Englisch)
-                    - eventQuestion (string or null)
-                - For non-interactive events:
-                    - eventQuestion = null
-                    - alternativeImpact = null
-
-                Output:
-                - Respond ONLY with a raw JSON object that matches EventModel.
-                - No Markdown, no explanation, no surrounding text.
+Output
+- Return ONLY raw JSON matching EventModel. No Markdown or text around it.
             `,
             generationConfig: { responseMimeType: "application/json" },
         });
@@ -227,9 +155,38 @@ ${JSON.stringify(contextForModel, null, 2)}
                 };
             }
 
+            // Enforce mandatory costs for child events
+            const enforceChildCost = (impactToFix: EventImpactModel | null): EventImpactModel | null => {
+                if (!impactToFix) return impactToFix;
+                const isChildEvent = (impactToFix.changeInAmountOfChildren ?? 0) > 0;
+                if (!isChildEvent) return impactToFix;
+
+                // Require a negative savings rate delta if none provided or non-negative
+                if (
+                    impactToFix.changeInSavingsRateInPercent === null ||
+                    impactToFix.changeInSavingsRateInPercent === undefined ||
+                    impactToFix.changeInSavingsRateInPercent >= 0
+                ) {
+                    impactToFix.changeInSavingsRateInPercent = -5;
+                }
+
+                // Require a cash drop if none provided
+                const hasCashAbsolute = impactToFix.newPortfolioModel?.cashInEuro !== undefined && impactToFix.newPortfolioModel?.cashInEuro !== null;
+                if (!hasCashAbsolute) {
+                    const currentCash = currentState.portfolio.cashInEuro ?? 0;
+                    const loweredCash = Math.max(0, currentCash * 0.9); // default 10% drop
+                    impactToFix.newPortfolioModel = {
+                        ...(impactToFix.newPortfolioModel ?? {}),
+                        cashInEuro: loweredCash,
+                    };
+                }
+
+                return impactToFix;
+            };
+
             const event: EventModel = {
-                impact,
-                alternativeImpact,
+                impact: enforceChildCost(impact)!,
+                alternativeImpact: enforceChildCost(alternativeImpact),
                 eventDescription: data.eventDescription,
                 eventQuestion: data.eventQuestion ?? null,
             };
