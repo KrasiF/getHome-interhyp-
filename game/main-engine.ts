@@ -12,6 +12,7 @@ import { LivingModel } from "./models/living-model";
 import { UserInputModel } from "./models/user-input-model";
 import { PortfolioModel } from "./models/portfolio-model";
 import { CreditEngine } from "./engines/credit-engine";
+import { RecommendationEngine } from "./engines/recommendation-engine";
 
 export class GameEngine implements GameEngineInterface {
     private eventEngine: EventEngine;
@@ -20,6 +21,7 @@ export class GameEngine implements GameEngineInterface {
     private investmentEngine: InvestmentEngine;
     private homeEngine: HomeEngine;
     private creditEngine: CreditEngine;
+    private recommendationEngine: RecommendationEngine;
 
     private state: StateModel;
     private goals: GoalModel;
@@ -34,7 +36,8 @@ export class GameEngine implements GameEngineInterface {
         satisfactionEngine?: SatisfactionEngine,
         investmentEngine?: InvestmentEngine,
         homeEngine?: HomeEngine,
-        creditEngine?: CreditEngine
+        creditEngine?: CreditEngine,
+        recommendationEngine?: RecommendationEngine
     ) {
         this.eventEngine = eventEngine ?? new EventEngine();
         this.jobEngine = jobEngine ?? new JobEngine();
@@ -42,6 +45,7 @@ export class GameEngine implements GameEngineInterface {
         this.investmentEngine = investmentEngine ?? new InvestmentEngine();
         this.homeEngine = homeEngine ?? new HomeEngine();
         this.creditEngine = creditEngine ?? new CreditEngine();
+        this.recommendationEngine = recommendationEngine ?? new RecommendationEngine();
 
         this.state = {} as StateModel;
         this.goals = {} as GoalModel;
@@ -246,6 +250,14 @@ export class GameEngine implements GameEngineInterface {
             this.isRunning = false;
         }
     }
+
+    async generateRecommendations(): Promise<string> {
+        return await this.recommendationEngine.generateFeedback(
+            this.history,
+            this.eventHistory,
+            this.goals
+        );
+    }
 }
 
 export interface GameEngineInterface {
@@ -261,5 +273,6 @@ export interface GameEngineInterface {
     decideActions(userInput: UserInputModel): StateModel;
     requestNewOccupation(occupation_description: string): Promise<OccupationModel>;
     requestNewHomes(home_description: string): Promise<LivingModel[]>;
+    generateRecommendations(): Promise<string>;
 }
 

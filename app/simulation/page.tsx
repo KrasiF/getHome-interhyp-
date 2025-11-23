@@ -131,8 +131,8 @@ export default function Simulation() {
       details.push(`Life satisfaction: ${v >= 0 ? "+" : ""}${v}`);
     }
 
-    if (impact.newMarried !== null && impact.newMarried !== undefined) {
-      details.push(impact.newMarried ? "Marriage" : "No marriage / separation");
+    if (impact.newMarried === true) {
+      details.push("Marriage");
     }
 
     return details;
@@ -171,6 +171,8 @@ export default function Simulation() {
   );
   const [showEventDecision, setShowEventDecision] = useState(!!currentEvent);
   const [isAdvancing, setIsAdvancing] = useState(false);
+  const [showGameOver, setShowGameOver] = useState(false);
+  const [recommendations, setRecommendations] = useState("");
 
   const currentYear = state?.year || new Date().getFullYear();
 
@@ -178,7 +180,18 @@ export default function Simulation() {
     setIsAdvancing(true);
     const gameEvent = await gameEngine.runLoop();
     triggerUpdate();
-    setShowEventDecision(!!gameEvent);
+    
+    // Check if game is terminated after running the loop
+    const currentState = gameEngine.getState() as StateModel;
+    if ((currentState as any).terminated) {
+      // Generate recommendations
+      const feedback = await gameEngine.generateRecommendations();
+      setRecommendations(feedback);
+      setShowGameOver(true);
+    } else {
+      setShowEventDecision(!!gameEvent);
+    }
+    
     setIsAdvancing(false);
   };
 
@@ -197,6 +210,13 @@ export default function Simulation() {
     gameEngine.decideEvent(accept);
     triggerUpdate();
     setShowEventDecision(false);
+  };
+
+  const handleDialogChange = (open: boolean) => {
+    if (currentEvent?.eventQuestion) {
+      setShowEventDecision(open);
+    }
+    // ignore close attempts for non-interactive events until acknowledged
   };
 
   // Chart data from real game history
@@ -453,46 +473,46 @@ export default function Simulation() {
               </div>
             </div>
 
-            <Button
-              onClick={handleAdvanceYear}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
-              disabled={history.length === 0 || isAdvancing}
-            >
-              {isAdvancing ? "Processing..." : "Next Year"}
-            </Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="w-full mb-6 bg-black text-white">
-                  Actions
+          <Button
+            onClick={handleAdvanceYear}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+            disabled={history.length === 0 || isAdvancing}
+          >
+            {isAdvancing ? "Processing..." : "Next Year"}
+          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="w-full mb-6 bg-black text-white">
+                Actions
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Actions</DialogTitle>
+                <DialogDescription>
+                  Decide which action you want to choose next
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid grid-cols-2 gap-4">
+                <Button onClick={() => router.push("/simulation/find-homes")}>
+                  Change Accommodation
                 </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Actions</DialogTitle>
-                  <DialogDescription>
-                    Decide which action you want to choose next
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid grid-cols-2 gap-4">
-                  <Button onClick={() => router.push("/simulation/find-homes")}>
-                    Move
-                  </Button>
-                  <Button
-                    onClick={() => router.push("/simulation/find-occupation")}
-                  >
-                    Change Occupation
-                  </Button>
-                  <Button
-                    onClick={() => router.push("/simulation/manage-portfolio")}
-                  >
-                    Manage Portfolio
-                  </Button>
-                  <Button onClick={() => null}>Take a Loan</Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </Card>
+                <Button
+                  onClick={() => router.push("/simulation/find-occupation")}
+                >
+                  Change Occupation
+                </Button>
+                <Button
+                  onClick={() => router.push("/simulation/manage-portfolio")}
+                >
+                  Manage Portfolio
+                </Button>
+                <Button onClick={() => null}>Take a Loan</Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </Card>
 
         {/* Center: Charts */}
         <Card className="col-span-6 p-6 flex flex-col">
@@ -585,149 +605,107 @@ export default function Simulation() {
           )}
         </Card>
 
-        {/* Event Decision Dialog */}
-        <Dialog open={showEventDecision} onOpenChange={setShowEventDecision}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Event Occurred!</DialogTitle>
-              <DialogDescription>
-                {currentEvent?.eventDescription}
-              </DialogDescription>
-            </DialogHeader>
-            {currentEvent?.eventQuestion ? (
-              <div className="mt-3 grid grid-cols-1 gap-2">
-                <ImpactCard
-                  title="Impact if Yes"
-                  impact={currentEvent?.impact}
-                />
-                <ImpactCard
-                  title="Impact if No"
-                  impact={currentEvent?.alternativeImpact}
-                  fallback="No changes if No."
-                />
+      {/* Event Decision Dialog */}
+      <Dialog open={showEventDecision} onOpenChange={handleDialogChange}>
+        <DialogContent showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Event Occurred!</DialogTitle>
+          <DialogDescription>
+            {currentEvent?.eventDescription}
+          </DialogDescription>
+        </DialogHeader>
+        {currentEvent?.eventQuestion ? (
+          <div className="mt-3 grid grid-cols-1 gap-2">
+            <ImpactCard title="Impact if Yes" impact={currentEvent?.impact} />
+            <ImpactCard
+              title="Impact if No"
+              impact={currentEvent?.alternativeImpact}
+              fallback="No changes if No."
+            />
+          </div>
+        ) : (
+          <div className="mt-3 space-y-3">
+            <ImpactCard title="Impact" impact={currentEvent?.impact} />
+            <Button className="w-full" onClick={() => handleEventDecision(true)}>
+              Acknowledge
+            </Button>
+          </div>
+        )}
+        {currentEvent?.eventQuestion && (
+          <div className="space-y-4">
+            <p className="text-sm font-semibold">
+              {currentEvent.eventQuestion}
+            </p>
+              <div className="grid grid-cols-2 gap-4">
+                <Button
+                  onClick={() => handleEventDecision(true)}
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  Yes
+                </Button>
+                <Button
+                  onClick={() => handleEventDecision(false)}
+                  className="bg-red-600 hover:bg-red-700"
+                >
+                  No
+                </Button>
               </div>
-            ) : (
-              <div className="mt-3">
-                <ImpactCard title="Impact" impact={currentEvent?.impact} />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Game Over Dialog with Recommendations */}
+      <Dialog open={showGameOver} onOpenChange={() => router.push("/init")}>
+        <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-3xl font-bold text-green-600">
+              🎉 Congratulations! You've Reached Your Goal! 🎉
+            </DialogTitle>
+            <DialogDescription className="text-lg mt-2">
+              You have successfully accumulated enough wealth to achieve your housing dream!
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-6 space-y-4">
+            <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-green-800 mb-4">
+                Your Journey Summary
+              </h3>
+              <div className="prose prose-sm max-w-none text-gray-700">
+                {recommendations.split('\n').map((paragraph, idx) => (
+                  paragraph.trim() && (
+                    <p key={idx} className="mb-3">
+                      {paragraph}
+                    </p>
+                  )
+                ))}
               </div>
-            )}
-            {currentEvent?.eventQuestion && (
-              <div className="space-y-4">
-                <p className="text-sm font-semibold">
-                  {currentEvent.eventQuestion}
-                </p>
-                <div className="grid grid-cols-2 gap-4">
-                  <Button
-                    onClick={() => handleEventDecision(true)}
-                    className="bg-green-600 hover:bg-green-700"
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    onClick={() => handleEventDecision(false)}
-                    className="bg-red-600 hover:bg-red-700"
-                  >
-                    No
-                  </Button>
-                </div>
-              </div>
-            )}
-          </DialogContent>
-        </Dialog>
+            </div>
+            <div className="flex justify-end mt-6">
+              <Button
+                onClick={() => router.push("/init")}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                Start New Game
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
-        {/* Right Sidebar: Events & Portfolio */}
-        <Card className="col-span-4 p-4 flex flex-col gap-4">
-          {/* Recent Events */}
-          <div>
-            <h3 className="font-bold text-sm mb-3">Recent Events</h3>
-            <div className="space-y-2 max-h-48 overflow-y-auto">
-              {eventHistory.length > 0 ? (
-                eventHistory
-                  .slice(-5)
-                  .reverse()
-                  .map((event: EventModel, idx: number) => {
-                    const impact = event.chosenImpact;
-                    const changes = formatImpactDetails(impact);
-                    console.log(impact);
-                    if (impact) {
-                      // Portfolio changes
-                      if (impact.newPortfolioModel?.cashInEuro !== undefined) {
-                        const change = impact.newPortfolioModel.cashInEuro;
-                        changes.push(
-                          `Cash ${change >= 0 ? "+" : ""}${Math.round(
-                            change
-                          ).toLocaleString("de-DE")}€`
-                        );
-                      }
-                      if (
-                        impact.newPortfolioModel?.cryptoInEuro !== undefined
-                      ) {
-                        const change = impact.newPortfolioModel.cryptoInEuro;
-                        changes.push(
-                          `Crypto ${change >= 0 ? "+" : ""}${Math.round(
-                            change
-                          ).toLocaleString("de-DE")}€`
-                        );
-                      }
-                      if (impact.newPortfolioModel?.etfInEuro !== undefined) {
-                        const change = impact.newPortfolioModel.etfInEuro;
-                        changes.push(
-                          `ETF ${change >= 0 ? "+" : ""}${Math.round(
-                            change
-                          ).toLocaleString("de-DE")}€`
-                        );
-                      }
-
-                      // Savings rate change
-                      if (impact.changeInSavingsRateInPercent) {
-                        const change = impact.changeInSavingsRateInPercent;
-                        changes.push(
-                          `Savings Rate ${change >= 0 ? "+" : ""}${change}%`
-                        );
-                      }
-
-                      // Children change
-                      if (impact.changeInAmountOfChildren) {
-                        const change = impact.changeInAmountOfChildren;
-                        changes.push(
-                          `Children ${change >= 0 ? "+" : ""}${change}`
-                        );
-                      }
-
-                      // Education level
-                      if (impact.newEducationLevel) {
-                        changes.push(`Education: ${impact.newEducationLevel}`);
-                      }
-
-                      // Marriage
-                      if (impact.newMarried !== null) {
-                        changes.push(
-                          impact.newMarried ? "Got Married" : "Divorced"
-                        );
-                      }
-
-                      // Occupation changes
-                      if (impact.changeInOccupancyModel?.yearlySalaryInEuro) {
-                        const change =
-                          impact.changeInOccupancyModel.yearlySalaryInEuro;
-                        changes.push(
-                          `Salary ${change >= 0 ? "+" : ""}${Math.round(
-                            change
-                          ).toLocaleString("de-DE")}€/yr`
-                        );
-                      }
-
-                      // Living changes
-                      if (impact.changeInLivingModel?.yearlyRentInEuro) {
-                        const change =
-                          impact.changeInLivingModel.yearlyRentInEuro;
-                        changes.push(
-                          `Rent ${change >= 0 ? "+" : ""}${Math.round(
-                            change
-                          ).toLocaleString("de-DE")}€/yr`
-                        );
-                      }
-                    }
+      {/* Right Sidebar: Events & Portfolio */}
+      <Card className="col-span-4 p-4 flex flex-col gap-4">
+        {/* Recent Events */}
+        <div>
+          <h3 className="font-bold text-sm mb-3">Recent Events</h3>
+          <div className="space-y-2 max-h-60 min-h-60 overflow-y-auto">
+            {eventHistory.length > 0 ? (
+              eventHistory
+                .slice(-5)
+                .reverse()
+                .map((event: EventModel, idx: number) => {
+                  const impact = event.chosenImpact ?? event.impact ?? event.alternativeImpact;
+                  const changes = formatImpactDetails(impact);
 
                     return (
                       <div
