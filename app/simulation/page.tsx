@@ -784,7 +784,7 @@ export default function Simulation() {
                   <div className="flex justify-between">
                     <span className="text-gray-700">Loan Amount:</span>
                     <span className="font-semibold text-gray-900">
-                      €{Math.round(goalPrice).toLocaleString()}
+                      €{Math.round(goalPrice-totalWealth).toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between">
