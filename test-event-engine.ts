@@ -9,6 +9,7 @@ import { EventModel } from "./game/models/event-model";
 // Hilfsfunktion: Beispiel-State-History aufbauen
 function buildSampleStateHistory(): StateModel[] {
     const baseLiving = {
+        name: "",
         yearlyRentInEuro: 18_000, // 1500 €/Monat
         zip: "80331",             // München Innenstadt
         sizeInSquareMeter: 60,
@@ -65,7 +66,8 @@ function buildSampleStateHistory(): StateModel[] {
             savingsRateInPercent: 0.20,
             amountOfChildren: 0,
             married: false,
-            terminated: false
+            terminated: false,
+            creditWorthiness: false
         },
         {
             year: 2029,
@@ -81,7 +83,8 @@ function buildSampleStateHistory(): StateModel[] {
             savingsRateInPercent: 0.22,
             amountOfChildren: 0,
             married: false,
-            terminated: false
+            terminated: false,
+            creditWorthiness: false
         },
         {
             year: 2030,
@@ -98,7 +101,8 @@ function buildSampleStateHistory(): StateModel[] {
             savingsRateInPercent: 0.25,
             amountOfChildren: 1,
             married: true, // inzwischen verheiratet
-            terminated: false
+            terminated: false,
+            creditWorthiness: false
         },
     ];
 

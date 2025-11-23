@@ -1,3 +1,6 @@
+//relistischer machen
+//infos zeigen
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import type { EventModel } from "../models/event-model";
@@ -52,6 +55,8 @@ export class EventEngine implements EventEngineInterface {
                     - the complete state history
                     - the previous event history
                 - The event is fully described via an EventImpactModel.
+
+                About half of the events shall have positive impact on the users simulation life and the other half negative.
 
                 Data model (TypeScript):
 

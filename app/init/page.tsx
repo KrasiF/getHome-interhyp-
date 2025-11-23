@@ -58,7 +58,7 @@ export default function Init() {
     amountOfChildren: 0,
     portfolio: {cashInEuro: 10000, cryptoInEuro: 0, etfInEuro: 0},
     living: {
-      name: "",
+      name: "Current Apartment",
       zip: "80538",
       yearlyRentInEuro: 12000,
       sizeInSquareMeter: 12,
@@ -405,9 +405,15 @@ export default function Init() {
                   min={0}
                   max={80}
                   step={1}
-                  onValueChange={(val) =>
-                    setStartState({...startState, savingsRateInPercent: val[0]})
-                  }
+                  onValueChange={(val) => {
+                    setStartState({...startState, savingsRateInPercent: val[0]});
+                    gameEngine.decideActions({
+                      newOccupationModel: null,
+                      newPortfolioModel: null,
+                      newLivingModel: null,
+                      newSavingsRateInPercent: val[0],
+                    });
+                  }}
                 />
               </div>
             </div>
