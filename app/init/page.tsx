@@ -30,6 +30,7 @@ import mockListingsData from "@/components/mock-listings.json";
 export default function Init() {
   const {engine: gameEngine} = useGameEngine();
   const router = useRouter();
+  const scrollingRef = useRef<HTMLDivElement>(null);
 
   const steps = ["Personal Info", "Financials", "Dream Home"]; // labels
   const [step, setStep] = useState<number>(1);
@@ -87,6 +88,8 @@ export default function Init() {
     if (!selectedHomeId) return;
     const found = listings.results.find((l) => l.id === selectedHomeId);
     if (!found) return;
+
+    scrollingRef.current.scrollIntoView({behavior: "smooth"});
 
     // Mark that the next automatic fetch (triggered by goal changes)
     // should be skipped because this update originates from a listing selection.
@@ -406,7 +409,10 @@ export default function Init() {
                   max={80}
                   step={1}
                   onValueChange={(val) => {
-                    setStartState({...startState, savingsRateInPercent: val[0]});
+                    setStartState({
+                      ...startState,
+                      savingsRateInPercent: val[0],
+                    });
                     gameEngine.decideActions({
                       newOccupationModel: null,
                       newPortfolioModel: null,
@@ -593,7 +599,7 @@ export default function Init() {
           )}
 
           {/* Navigation */}
-          <div className="flex justify-between pt-4">
+          <div ref={scrollingRef} className="flex justify-between pt-4">
             {step > 1 ? (
               <Button variant="outline" onClick={back}>
                 Back

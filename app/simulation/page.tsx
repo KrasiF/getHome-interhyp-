@@ -31,7 +31,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {Home, MapPin, Users, Ruler} from "lucide-react";
+import {Home, MapPin, Users, Ruler, Briefcase, CreditCard} from "lucide-react";
 
 export default function Simulation() {
   const router = useRouter();
@@ -48,14 +48,26 @@ export default function Simulation() {
     const details: string[] = [];
 
     if (impact.changeInOccupancyModel) {
-      const {occupationTitle, occupationDescription, yearlySalaryInEuro, stressLevelFrom0To100} =
-        impact.changeInOccupancyModel;
+      const {
+        occupationTitle,
+        occupationDescription,
+        yearlySalaryInEuro,
+        stressLevelFrom0To100,
+      } = impact.changeInOccupancyModel;
       if (occupationTitle) details.push(`Job: ${occupationTitle}`);
-      if (occupationDescription) details.push(`Job description: ${occupationDescription}`);
+      if (occupationDescription)
+        details.push(`Job description: ${occupationDescription}`);
       if (yearlySalaryInEuro !== undefined && yearlySalaryInEuro !== null) {
-        details.push(`Salary: ${Math.round(yearlySalaryInEuro).toLocaleString("de-DE")} €/Year`);
+        details.push(
+          `Salary: ${Math.round(yearlySalaryInEuro).toLocaleString(
+            "de-DE"
+          )} €/Year`
+        );
       }
-      if (stressLevelFrom0To100 !== undefined && stressLevelFrom0To100 !== null) {
+      if (
+        stressLevelFrom0To100 !== undefined &&
+        stressLevelFrom0To100 !== null
+      ) {
         details.push(`Stress level: ${stressLevelFrom0To100}/100`);
       }
     }
@@ -63,10 +75,14 @@ export default function Simulation() {
     if (impact.newPortfolioModel) {
       const {cashInEuro, cryptoInEuro, etfInEuro} = impact.newPortfolioModel;
       if (cashInEuro !== undefined && cashInEuro !== null) {
-        details.push(`Cash: ${Math.round(cashInEuro).toLocaleString("de-DE")} €`);
+        details.push(
+          `Cash: ${Math.round(cashInEuro).toLocaleString("de-DE")} €`
+        );
       }
       if (cryptoInEuro !== undefined && cryptoInEuro !== null) {
-        details.push(`Crypto: ${Math.round(cryptoInEuro).toLocaleString("de-DE")} €`);
+        details.push(
+          `Crypto: ${Math.round(cryptoInEuro).toLocaleString("de-DE")} €`
+        );
       }
       if (etfInEuro !== undefined && etfInEuro !== null) {
         details.push(`ETF: ${Math.round(etfInEuro).toLocaleString("de-DE")} €`);
@@ -74,9 +90,12 @@ export default function Simulation() {
     }
 
     if (impact.changeInLivingModel) {
-      const {yearlyRentInEuro, zip, sizeInSquareMeter} = impact.changeInLivingModel;
+      const {yearlyRentInEuro, zip, sizeInSquareMeter} =
+        impact.changeInLivingModel;
       if (yearlyRentInEuro !== undefined && yearlyRentInEuro !== null) {
-        details.push(`Rent: ${Math.round(yearlyRentInEuro).toLocaleString("de-DE")} €/year`);
+        details.push(
+          `Rent: ${Math.round(yearlyRentInEuro).toLocaleString("de-DE")} €/year`
+        );
       }
       if (zip) details.push(`ZIP: ${zip}`);
       if (sizeInSquareMeter !== undefined && sizeInSquareMeter !== null) {
@@ -182,7 +201,7 @@ export default function Simulation() {
       newOccupationModel: null,
       newPortfolioModel: null,
       newLivingModel: null,
-      newSavingsRateInPercent: value[0]
+      newSavingsRateInPercent: value[0],
     });
     triggerUpdate();
   };
@@ -270,8 +289,21 @@ export default function Simulation() {
       {/* Navbar */}
       <nav className="bg-white border-b border-gray-200 px-4 py-3">
         <div className="flex items-center ml-2.5">
-          <span className="text-2xl font-bold text-black mr-1" style={{ fontFamily: 'Avenir, "Avenir Next", system-ui, -apple-system, sans-serif' }}>getHome(</span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 85" height="28" className="relative top-[3px]">
+          <span
+            className="text-2xl font-bold text-black mr-1"
+            style={{
+              fontFamily:
+                'Avenir, "Avenir Next", system-ui, -apple-system, sans-serif',
+            }}
+          >
+            getHome(
+          </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 400 85"
+            height="28"
+            className="relative top-[3px]"
+          >
             <defs>
               <clipPath id="a">
                 <path d="M0 0h400v85H0z"></path>
@@ -279,7 +311,10 @@ export default function Simulation() {
             </defs>
             <g clipPath="url(#a)">
               <g>
-                <path d="M38.56 9.533A29.027 29.027 0 1067.587 38.56 29.032 29.032 0 0038.56 9.533m0-9.533A38.567 38.567 0 110 38.56 38.606 38.606 0 0138.56 0z" fill="#ee7900"></path>
+                <path
+                  d="M38.56 9.533A29.027 29.027 0 1067.587 38.56 29.032 29.032 0 0038.56 9.533m0-9.533A38.567 38.567 0 110 38.56 38.606 38.606 0 0138.56 0z"
+                  fill="#ee7900"
+                ></path>
               </g>
               <g>
                 <path d="M101.173 9.547a5.665 5.665 0 015.8 5.8 5.8 5.8 0 11-11.6 0 5.657 5.657 0 015.8-5.8zM96.2 26.96h9.533v40.627H96.2z"></path>
@@ -293,7 +328,15 @@ export default function Simulation() {
               </g>
             </g>
           </svg>
-          <span className="text-2xl font-bold text-black ml-1" style={{ fontFamily: 'Avenir, "Avenir Next", system-ui, -apple-system, sans-serif' }}>)</span>
+          <span
+            className="text-2xl font-bold text-black ml-1"
+            style={{
+              fontFamily:
+                'Avenir, "Avenir Next", system-ui, -apple-system, sans-serif',
+            }}
+          >
+            )
+          </span>
         </div>
       </nav>
 
@@ -301,110 +344,134 @@ export default function Simulation() {
       <main className="grid grid-cols-12 gap-4 p-4 flex-1">
         {/* Left Sidebar: Controls */}
         <Card className="col-span-2 p-4 flex flex-col justify-between">
-        <div className="space-y-4">
-          <div className="space-y-3">
-            <div>
-              <Label className="text-sm font-semibold">Savings Rate</Label>
-              <Slider
-                value={[savingsRate]}
-                onValueChange={handleSavingsRateChange}
-                max={100}
-                step={1}
-                className="mt-2"
-              />
-              <div className="mt-2 flex justify-between text-xs text-gray-600">
-                <span>Fixed Costs</span>
-                <span className="font-bold text-gray-900">
-                  {Math.round(savingsRate)}%
-                </span>
-                <span>Savings</span>
+          <div className="space-y-4">
+            <div className="space-y-3">
+              <div>
+                <Label className="text-sm font-semibold">Savings Rate</Label>
+                <Slider
+                  value={[savingsRate]}
+                  onValueChange={handleSavingsRateChange}
+                  max={100}
+                  step={1}
+                  className="mt-2"
+                />
+                <div className="mt-2 flex justify-between text-xs text-gray-600">
+                  <span>Fixed Costs</span>
+                  <span className="font-bold text-gray-900">
+                    {Math.round(savingsRate)}%
+                  </span>
+                  <span>Savings</span>
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-2 pt-2 border-t">
-              <div>
-                <p className="text-xs text-gray-600">Current Age</p>
-                <p className="text-sm font-semibold">{state?.age ?? 0} years</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-600">Current Year</p>
-                <p className="text-sm font-semibold">{currentYear}</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-600">Total Wealth</p>
-                <p className="text-sm font-semibold">
-                  €{Math.round(totalWealth).toLocaleString()}
-                </p>
-                <div className="mt-2">
-                  <p className="text-xs text-gray-500">Wealth vs Goal</p>
-                  <div className="w-full bg-gray-200 rounded h-3 mt-1 overflow-hidden">
-                    <div
-                      className="h-3"
-                      style={{
-                        width: `${goalProgressPercent}%`,
-                        backgroundColor: CASH_COLOR,
-                      }}
-                    />
-                  </div>
-                  <div className="flex justify-between text-xs text-gray-600 mt-1">
-                    <span>€{Math.round(totalWealth).toLocaleString()}</span>
-                    <span>€{Math.round(goalPrice).toLocaleString()}</span>
+              <div className="space-y-2 pt-2 border-t">
+                <div>
+                  <p className="text-xs text-gray-600">Current Age</p>
+                  <p className="text-sm font-semibold">
+                    {state?.age ?? 0} years
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-600">Current Year</p>
+                  <p className="text-sm font-semibold">{currentYear}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-600">Total Wealth</p>
+                  <p className="text-sm font-semibold">
+                    €{Math.round(totalWealth).toLocaleString()}
+                  </p>
+                  <div className="mt-2">
+                    <p className="text-xs text-gray-500">Wealth vs Goal</p>
+                    <div className="w-full bg-gray-200 rounded h-3 mt-1 overflow-hidden">
+                      <div
+                        className="h-3"
+                        style={{
+                          width: `${goalProgressPercent}%`,
+                          backgroundColor: CASH_COLOR,
+                        }}
+                      />
+                    </div>
+                    <div className="flex justify-between text-xs text-gray-600 mt-1">
+                      <span>€{Math.round(totalWealth).toLocaleString()}</span>
+                      <span>€{Math.round(goalPrice).toLocaleString()}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="pt-4 border-t">
-            <div className="mt-1 flex items-center gap-2">
-              <Home size={16} className="text-gray-500" />
-              <p className="text-xs text-gray-600">
-                {living?.name || "Apartment"}
-              </p>
-            </div>
-
-            <div className="mt-1 flex items-center gap-2">
-              <MapPin size={14} className="text-gray-400" />
-              <p className="text-xs text-gray-500">{livingCity}</p>
-            </div>
-
-            {typeof living?.sizeInSquareMeter === "number" && (
+            <div className="pt-4 border-t">
               <div className="mt-1 flex items-center gap-2">
-                <Ruler size={14} className="text-gray-400" />
+                <Home size={16} className="text-gray-500" />
                 <p className="text-xs text-gray-600">
-                  {living.sizeInSquareMeter} m²
+                  {living?.name || "Apartment"}
                 </p>
               </div>
-            )}
 
-            {state?.living?.yearlyRentInEuro !== undefined && (
-              <div className="mt-2">
-                <p className="text-xs text-gray-600">Monthly Costs</p>
-                <p className="text-sm font-semibold">
-                  €{monthlyRent.toLocaleString("de-DE")} per month
-                </p>
-              </div>
-            )}
-
-            <div className="mt-3 flex items-center gap-3">
-              <div className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">
-                <Users size={14} className="text-gray-600" />
-                <span>
-                  {children} {children === 1 ? "child" : "children"}
-                </span>
+              <div className="mt-1 flex items-center gap-2">
+                <MapPin size={14} className="text-gray-400" />
+                <p className="text-xs text-gray-500">{livingCity}</p>
               </div>
 
-              <div
-                className={
-                  "px-2 py-1 rounded text-xs font-medium " +
-                  (married
-                    ? "bg-green-100 text-green-800"
-                    : "bg-gray-100 text-gray-700")
-                }
-              >
-                {married ? "Married" : "Single"}
+              {typeof living?.sizeInSquareMeter === "number" && (
+                <div className="mt-1 flex items-center gap-2">
+                  <Ruler size={14} className="text-gray-400" />
+                  <p className="text-xs text-gray-600">
+                    {living.sizeInSquareMeter} m²
+                  </p>
+                </div>
+              )}
+
+              {state?.living?.yearlyRentInEuro !== undefined && (
+                <div className="mt-2">
+                  <p className="text-xs text-gray-600">Monthly Costs</p>
+                  <p className="text-sm font-semibold">
+                    €{monthlyRent.toLocaleString("de-DE")} per month
+                  </p>
+                </div>
+              )}
+
+              <div className="mt-3 flex items-center gap-3">
+                <div className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">
+                  <Users size={14} className="text-gray-600" />
+                  <span>
+                    {children} {children === 1 ? "child" : "children"}
+                  </span>
+                </div>
+
+                <div
+                  className={
+                    "px-2 py-1 rounded text-xs font-medium " +
+                    (married
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-100 text-gray-700")
+                  }
+                >
+                  {married ? "Married" : "Single"}
+                </div>
+              </div>
+
+              {/* Occupation */}
+              <div className="mt-4 pt-3 border-t">
+                <div className="flex items-center gap-2">
+                  <Briefcase size={14} className="text-gray-500" />
+                  <p className="text-xs text-gray-600">
+                    {state?.occupation?.occupationTitle || "Occupation"}
+                  </p>
+                </div>
+                {state?.occupation?.yearlySalaryInEuro !== undefined && (
+                  <div className="mt-1 flex items-center gap-2">
+                    <CreditCard size={14} className="text-gray-400" />
+                    <p className="text-xs text-gray-600">
+                      €
+                      {Math.round(
+                        state.occupation.yearlySalaryInEuro
+                      ).toLocaleString("de-DE")}{" "}
+                      / year
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
 
           <Button
             onClick={handleAdvanceYear}
@@ -428,7 +495,7 @@ export default function Simulation() {
               </DialogHeader>
               <div className="grid grid-cols-2 gap-4">
                 <Button onClick={() => router.push("/simulation/find-homes")}>
-                  Move
+                  Change Accommodation
                 </Button>
                 <Button
                   onClick={() => router.push("/simulation/find-occupation")}
@@ -447,96 +514,96 @@ export default function Simulation() {
         </div>
       </Card>
 
-      {/* Center: Charts */}
-      <Card className="col-span-6 p-6 flex flex-col">
-        <h2 className="text-xl font-bold mb-4">
-          Wealth & Satisfaction Progress
-        </h2>
-        {chartData.length > 0 ? (
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={chartData}
-              margin={{top: 5, right: 30, left: 0, bottom: 5}}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="year" />
-              <YAxis
-                yAxisId="left"
-                label={{
-                  value: "Wealth (€)",
-                  angle: -90,
-                  position: "insideLeft",
-                }}
-              />
-              <YAxis
-                yAxisId="right"
-                orientation="right"
-                domain={[0, 100]}
-                label={{
-                  value: "Satisfaction (0-100)",
-                  angle: 90,
-                  position: "insideRight",
-                }}
-              />
-              <Tooltip
-                formatter={(value: number) =>
-                  Math.round(value).toLocaleString()
-                }
-                contentStyle={{
-                  backgroundColor: "#f3f4f6",
-                  border: "1px solid #d1d5db",
-                }}
-              />
-              <Legend />
-              <Line
-                yAxisId="left"
-                type="monotone"
-                dataKey="wealth"
-                stroke="#10b981"
-                name="Wealth"
-                dot={false}
-                strokeWidth={2}
-              />
-              <Line
-                yAxisId="right"
-                type="monotone"
-                dataKey="satisfaction"
-                stroke="#f59e0b"
-                name="Satisfaction"
-                dot={false}
-                strokeWidth={2}
-              />
-              <Line
-                yAxisId="left"
-                type="monotone"
-                dataKey="goal"
-                stroke="#6b7280"
-                strokeDasharray="5 5"
-                name="Goal"
-                dot={false}
-                strokeWidth={1.5}
-              />
-              <ReferenceLine
-                x={currentYear}
-                stroke="#ef4444"
-                strokeWidth={2}
-                label={{
-                  value: `Now: ${currentYear}`,
-                  position: "top",
-                  fill: "#ef4444",
-                  fontSize: 12,
-                  fontWeight: "bold",
-                }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full text-gray-500">
-            <p>Start the game from the init page to see your progress</p>
-            <Button onClick={() => router.push("/init")}>Go to Init</Button>
-          </div>
-        )}
-      </Card>
+        {/* Center: Charts */}
+        <Card className="col-span-6 p-6 flex flex-col">
+          <h2 className="text-xl font-bold mb-4">
+            Wealth & Satisfaction Progress
+          </h2>
+          {chartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={chartData}
+                margin={{top: 5, right: 30, left: 0, bottom: 5}}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="year" />
+                <YAxis
+                  yAxisId="left"
+                  label={{
+                    value: "Wealth (€)",
+                    angle: -90,
+                    position: "insideLeft",
+                  }}
+                />
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  domain={[0, 100]}
+                  label={{
+                    value: "Satisfaction (0-100)",
+                    angle: 90,
+                    position: "insideRight",
+                  }}
+                />
+                <Tooltip
+                  formatter={(value: number) =>
+                    Math.round(value).toLocaleString()
+                  }
+                  contentStyle={{
+                    backgroundColor: "#f3f4f6",
+                    border: "1px solid #d1d5db",
+                  }}
+                />
+                <Legend />
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="wealth"
+                  stroke="#10b981"
+                  name="Wealth"
+                  dot={false}
+                  strokeWidth={2}
+                />
+                <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="satisfaction"
+                  stroke="#f59e0b"
+                  name="Satisfaction"
+                  dot={false}
+                  strokeWidth={2}
+                />
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="goal"
+                  stroke="#6b7280"
+                  strokeDasharray="5 5"
+                  name="Goal"
+                  dot={false}
+                  strokeWidth={1.5}
+                />
+                <ReferenceLine
+                  x={currentYear}
+                  stroke="#ef4444"
+                  strokeWidth={2}
+                  label={{
+                    value: `Now: ${currentYear}`,
+                    position: "top",
+                    fill: "#ef4444",
+                    fontSize: 12,
+                    fontWeight: "bold",
+                  }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-gray-500">
+              <p>Start the game from the init page to see your progress</p>
+              <Button onClick={() => router.push("/init")}>Go to Init</Button>
+            </div>
+          )}
+        </Card>
 
       {/* Event Decision Dialog */}
       <Dialog open={showEventDecision} onOpenChange={handleDialogChange}>
@@ -631,7 +698,7 @@ export default function Simulation() {
         {/* Recent Events */}
         <div>
           <h3 className="font-bold text-sm mb-3">Recent Events</h3>
-          <div className="space-y-2 max-h-48 overflow-y-auto">
+          <div className="space-y-2 max-h-60 min-h-60 overflow-y-auto">
             {eventHistory.length > 0 ? (
               eventHistory
                 .slice(-5)
@@ -640,89 +707,89 @@ export default function Simulation() {
                   const impact = event.chosenImpact ?? event.impact ?? event.alternativeImpact;
                   const changes = formatImpactDetails(impact);
 
-                  return (
+                    return (
+                      <div
+                        key={idx}
+                        className="text-xs p-2 bg-blue-50 rounded border border-blue-200"
+                      >
+                        <p className="font-semibold text-blue-900">
+                          {event.eventDescription}
+                        </p>
+                        {changes.length > 0 && (
+                          <div className="mt-1 space-y-0.5 text-gray-700">
+                            {changes.map((change, i) => (
+                              <p key={i} className="text-[10px]">
+                                • {change}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+              ) : (
+                <p className="text-xs text-gray-500">No events yet</p>
+              )}
+            </div>
+          </div>
+
+          {/* Portfolio Distribution */}
+          <div className="flex-1 flex flex-col items-center">
+            <h3 className="font-bold text-sm mb-3">Portfolio Distribution</h3>
+            {portfolioBreakdown.length > 0 ? (
+              <>
+                <ResponsiveContainer width="100%" height={180}>
+                  <PieChart>
+                    <Pie
+                      data={portfolioBreakdown}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={70}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {portfolioBreakdown.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={portfolioColorsByName[entry.name] ?? CASH_COLOR}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: number) =>
+                        `€${Math.round(value).toLocaleString()}`
+                      }
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="text-xs text-gray-700 text-center mt-3 w-full space-y-1">
+                  {portfolioBreakdown.map((item, idx) => (
                     <div
                       key={idx}
-                      className="text-xs p-2 bg-blue-50 rounded border border-blue-200"
+                      className="flex items-center justify-center gap-2"
                     >
-                      <p className="font-semibold text-blue-900">
-                        {event.eventDescription}
-                      </p>
-                      {changes.length > 0 && (
-                        <div className="mt-1 space-y-0.5 text-gray-700">
-                          {changes.map((change, i) => (
-                            <p key={i} className="text-[10px]">
-                              • {change}
-                            </p>
-                          ))}
-                        </div>
-                      )}
+                      <div
+                        className="w-2 h-2 rounded-full"
+                        style={{
+                          backgroundColor:
+                            portfolioColorsByName[item.name] ?? CASH_COLOR,
+                        }}
+                      />
+                      <span>{item.name}:</span>
+                      <span className="font-semibold">
+                        €{Math.round(item.value).toLocaleString("de-DE")}
+                      </span>
                     </div>
-                  );
-                })
+                  ))}
+                </div>
+              </>
             ) : (
-              <p className="text-xs text-gray-500">No events yet</p>
+              <p className="text-xs text-gray-500">No portfolio data</p>
             )}
           </div>
-        </div>
-
-        {/* Portfolio Distribution */}
-        <div className="flex-1 flex flex-col items-center">
-          <h3 className="font-bold text-sm mb-3">Portfolio Distribution</h3>
-          {portfolioBreakdown.length > 0 ? (
-            <>
-              <ResponsiveContainer width="100%" height={180}>
-                <PieChart>
-                  <Pie
-                    data={portfolioBreakdown}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={70}
-                    paddingAngle={2}
-                    dataKey="value"
-                  >
-                    {portfolioBreakdown.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={portfolioColorsByName[entry.name] ?? CASH_COLOR}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value: number) =>
-                      `€${Math.round(value).toLocaleString()}`
-                    }
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="text-xs text-gray-700 text-center mt-3 w-full space-y-1">
-                {portfolioBreakdown.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center justify-center gap-2"
-                  >
-                    <div
-                      className="w-2 h-2 rounded-full"
-                      style={{
-                        backgroundColor:
-                          portfolioColorsByName[item.name] ?? CASH_COLOR,
-                      }}
-                    />
-                    <span>{item.name}:</span>
-                    <span className="font-semibold">
-                      €{Math.round(item.value).toLocaleString("de-DE")}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <p className="text-xs text-gray-500">No portfolio data</p>
-          )}
-        </div>
-      </Card>
-    </main>
+        </Card>
+      </main>
     </div>
   );
 }
