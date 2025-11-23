@@ -20,6 +20,7 @@ import {
   ReferenceLine,
 } from "recharts";
 import {EventModel} from "@/game/models/event-model";
+import type {EventImpactModel} from "@/game/models/event-impact-model";
 import {StateModel} from "@/game/models/state-model";
 import {useRouter} from "next/navigation";
 import {
@@ -41,6 +42,110 @@ export default function Simulation() {
     gameEngine as unknown as {currentEventResult?: EventModel}
   ).currentEventResult;
 
+  const formatImpactDetails = (impact?: EventImpactModel | null): string[] => {
+    if (!impact) return [];
+    const details: string[] = [];
+
+    if (impact.changeInOccupancyModel) {
+      const {occupationTitle, occupationDescription, yearlySalaryInEuro, stressLevelFrom0To100} =
+        impact.changeInOccupancyModel;
+      if (occupationTitle) details.push(`Job: ${occupationTitle}`);
+      if (occupationDescription) details.push(`Job description: ${occupationDescription}`);
+      if (yearlySalaryInEuro !== undefined && yearlySalaryInEuro !== null) {
+        details.push(`Gehalt: ${Math.round(yearlySalaryInEuro).toLocaleString("de-DE")} €/Jahr`);
+      }
+      if (stressLevelFrom0To100 !== undefined && stressLevelFrom0To100 !== null) {
+        details.push(`Stresslevel: ${stressLevelFrom0To100}/100`);
+      }
+    }
+
+    if (impact.newPortfolioModel) {
+      const {cashInEuro, cryptoInEuro, etfInEuro} = impact.newPortfolioModel;
+      if (cashInEuro !== undefined && cashInEuro !== null) {
+        details.push(`Cash: ${Math.round(cashInEuro).toLocaleString("de-DE")} €`);
+      }
+      if (cryptoInEuro !== undefined && cryptoInEuro !== null) {
+        details.push(`Crypto: ${Math.round(cryptoInEuro).toLocaleString("de-DE")} €`);
+      }
+      if (etfInEuro !== undefined && etfInEuro !== null) {
+        details.push(`ETF: ${Math.round(etfInEuro).toLocaleString("de-DE")} €`);
+      }
+    }
+
+    if (impact.changeInLivingModel) {
+      const {yearlyRentInEuro, zip, sizeInSquareMeter} = impact.changeInLivingModel;
+      if (yearlyRentInEuro !== undefined && yearlyRentInEuro !== null) {
+        details.push(`Rent: ${Math.round(yearlyRentInEuro).toLocaleString("de-DE")} €/year`);
+      }
+      if (zip) details.push(`ZIP: ${zip}`);
+      if (sizeInSquareMeter !== undefined && sizeInSquareMeter !== null) {
+        details.push(`Living area: ${sizeInSquareMeter} m²`);
+      }
+    }
+
+    if (
+      impact.changeInSavingsRateInPercent !== null &&
+      impact.changeInSavingsRateInPercent !== undefined
+    ) {
+      const v = impact.changeInSavingsRateInPercent;
+      details.push(`Savings rate: ${v >= 0 ? "+" : ""}${v}%`);
+    }
+
+    if (
+      impact.changeInAmountOfChildren !== null &&
+      impact.changeInAmountOfChildren !== undefined
+    ) {
+      const v = impact.changeInAmountOfChildren;
+      details.push(`Children: ${v >= 0 ? "+" : ""}${v}`);
+    }
+
+    if (impact.newEducationLevel) {
+      details.push(`Education level: ${impact.newEducationLevel}`);
+    }
+
+    if (
+      impact.changeInLifeSatisfactionFrom1To100 !== null &&
+      impact.changeInLifeSatisfactionFrom1To100 !== undefined
+    ) {
+      const v = impact.changeInLifeSatisfactionFrom1To100;
+      details.push(`Life satisfaction: ${v >= 0 ? "+" : ""}${v}`);
+    }
+
+    if (impact.newMarried !== null && impact.newMarried !== undefined) {
+      details.push(impact.newMarried ? "Marriage" : "No marriage / separation");
+    }
+
+    return details;
+  };
+
+  const ImpactCard = ({
+    title,
+    impact,
+    fallback = "No changes",
+  }: {
+    title: string;
+    impact?: EventImpactModel | null;
+    fallback?: string;
+  }) => {
+    const details = formatImpactDetails(impact);
+    return (
+      <div className="rounded border border-gray-200 bg-gray-50 p-3">
+        <p className="text-xs font-semibold text-gray-700">{title}</p>
+        {details.length > 0 ? (
+          <ul className="mt-2 space-y-1 text-xs text-gray-800">
+            {details.map((item, idx) => (
+              <li key={`${title}-${idx}`} className="leading-snug">
+                • {item}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-2 text-xs text-gray-500">{fallback}</p>
+        )}
+      </div>
+    );
+  };
+
   const [savingsRate, setSavingsRate] = useState(
     state?.savingsRateInPercent || 0
   );
@@ -58,8 +163,8 @@ export default function Simulation() {
     setSavingsRate(value[0]);
   };
 
-  const handleEventDecision = (chooseOption1: boolean) => {
-    gameEngine.decideEvent(!chooseOption1);
+  const handleEventDecision = (accept: boolean) => {
+    gameEngine.decideEvent(accept);
     triggerUpdate();
     setShowEventDecision(false);
   };
@@ -283,15 +388,29 @@ export default function Simulation() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Event Occurred!</DialogTitle>
-            <DialogDescription>
-              {currentEvent?.eventDescription}
-            </DialogDescription>
-          </DialogHeader>
-          {currentEvent?.eventQuestion && (
-            <div className="space-y-4">
-              <p className="text-sm font-semibold">
-                {currentEvent.eventQuestion}
-              </p>
+          <DialogDescription>
+            {currentEvent?.eventDescription}
+          </DialogDescription>
+        </DialogHeader>
+        {currentEvent?.eventQuestion ? (
+          <div className="mt-3 grid grid-cols-1 gap-2">
+            <ImpactCard title="Impact if Yes" impact={currentEvent?.impact} />
+            <ImpactCard
+              title="Impact if No"
+              impact={currentEvent?.alternativeImpact}
+              fallback="No changes if No."
+            />
+          </div>
+        ) : (
+          <div className="mt-3">
+            <ImpactCard title="Impact" impact={currentEvent?.impact} />
+          </div>
+        )}
+        {currentEvent?.eventQuestion && (
+          <div className="space-y-4">
+            <p className="text-sm font-semibold">
+              {currentEvent.eventQuestion}
+            </p>
               <div className="grid grid-cols-2 gap-4">
                 <Button
                   onClick={() => handleEventDecision(true)}
@@ -322,80 +441,8 @@ export default function Simulation() {
                 .slice(-5)
                 .reverse()
                 .map((event: EventModel, idx: number) => {
-                  const impact = event.chosenImpact;
-                  const changes: string[] = [];
-
-                  if (impact) {
-                    // Portfolio changes
-                    if (impact.newPortfolioModel?.cashInEuro !== undefined) {
-                      const change = impact.newPortfolioModel.cashInEuro;
-                      changes.push(
-                        `Cash ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
-                      );
-                    }
-                    if (impact.newPortfolioModel?.cryptoInEuro !== undefined) {
-                      const change = impact.newPortfolioModel.cryptoInEuro;
-                      changes.push(
-                        `Crypto ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
-                      );
-                    }
-                    if (impact.newPortfolioModel?.etfInEuro !== undefined) {
-                      const change = impact.newPortfolioModel.etfInEuro;
-                      changes.push(
-                        `ETF ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€`
-                      );
-                    }
-
-                    // Satisfaction change
-                    if (impact.changeInLifeSatisfactionFrom1To100) {
-                      const change = impact.changeInLifeSatisfactionFrom1To100;
-                      changes.push(
-                        `Satisfaction ${change >= 0 ? "+" : ""}${change}`
-                      );
-                    }
-
-                    // Savings rate change
-                    if (impact.changeInSavingsRateInPercent) {
-                      const change = impact.changeInSavingsRateInPercent;
-                      changes.push(
-                        `Savings Rate ${change >= 0 ? "+" : ""}${change}%`
-                      );
-                    }
-
-                    // Children change
-                    if (impact.changeInAmountOfChildren) {
-                      const change = impact.changeInAmountOfChildren;
-                      changes.push(
-                        `Children ${change >= 0 ? "+" : ""}${change}`
-                      );
-                    }
-
-                    // Education level
-                    if (impact.newEducationLevel) {
-                      changes.push(`Education: ${impact.newEducationLevel}`);
-                    }
-
-                    // Marriage
-                    if (impact.newMarried !== null) {
-                      changes.push(impact.newMarried ? "Got Married" : "Divorced");
-                    }
-
-                    // Occupation changes
-                    if (impact.changeInOccupancyModel?.yearlySalaryInEuro) {
-                      const change = impact.changeInOccupancyModel.yearlySalaryInEuro;
-                      changes.push(
-                        `Salary ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€/yr`
-                      );
-                    }
-
-                    // Living changes
-                    if (impact.changeInLivingModel?.yearlyRentInEuro) {
-                      const change = impact.changeInLivingModel.yearlyRentInEuro;
-                      changes.push(
-                        `Rent ${change >= 0 ? "+" : ""}${Math.round(change).toLocaleString("de-DE")}€/yr`
-                      );
-                    }
-                  }
+                  const impact = event.chosenImpact ?? event.impact ?? event.alternativeImpact;
+                  const changes = formatImpactDetails(impact);
 
                   return (
                     <div
