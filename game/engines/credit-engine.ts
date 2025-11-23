@@ -6,7 +6,7 @@ export class CreditEngine {
     private readonly INTEREST_RATE = 0.035; 
     
     // Mögliche Laufzeiten, die die Bank prüft (in Jahren)
-    private readonly POSSIBLE_DURATIONS = [10, 15, 20, 25, 30];
+    private readonly POSSIBLE_DURATIONS = [25];//[10, 15, 20, 25, 30];
 
     /**
      * Prüft die Kreditwürdigkeit basierend auf dem Ziel-Hauspreis und dem aktuellen Vermögen.

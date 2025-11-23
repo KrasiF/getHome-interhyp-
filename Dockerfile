@@ -26,7 +26,7 @@ COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
-ARG NEXT_PUBLIC_GOOGLE_API_KEY="AIzaSyCkHExPRzKhQ1KbE_Sx1R9xsVxPjqVeXOQ"
+ARG NEXT_PUBLIC_GOOGLE_API_KEY=ARG NEXT_PUBLIC_GOOGLE_API_KEY
 ENV NEXT_PUBLIC_GOOGLE_API_KEY=$NEXT_PUBLIC_GOOGLE_API_KEY
 
 # Auch den Server-Key setzen, sicherheitshalber
@@ -49,6 +49,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
+
 
 EXPOSE 3000
 ENV PORT 3000

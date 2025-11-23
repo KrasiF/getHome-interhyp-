@@ -328,6 +328,15 @@ export default function Simulation() {
 
   const monthlyRent = Math.round((state?.living?.yearlyRentInEuro ?? 0) / 12);
 
+  const loanConditions = state?.loanConditions;
+  const loanDuration = loanConditions?.durationInYears ?? 25; // Default if state is missing
+  const loanInterestRate = loanConditions?.interestRateInPercent ?? 3.5; // Default if state is missing
+  const loanAmount = goalPrice - totalWealth; // This seems to be the current logic
+
+  const monthlyPaymentCalculation = Math.round(
+    (loanAmount * (loanInterestRate / 100)) / 12 + loanAmount / (loanDuration * 12)
+  );
+
   return (
     <div className="h-screen flex flex-col bg-gray-50">
       {/* Navbar */}
@@ -784,28 +793,25 @@ export default function Simulation() {
                   <div className="flex justify-between">
                     <span className="text-gray-700">Loan Amount:</span>
                     <span className="font-semibold text-gray-900">
-                      €{Math.round(goalPrice-totalWealth).toLocaleString()}
+                      €{Math.round(loanAmount).toLocaleString("de-DE")} 
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-700">Interest Rate:</span>
                     <span className="font-semibold text-gray-900">
-                      3.5% per year
+                      {loanInterestRate.toFixed(1)}% per year
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-700">Loan Term:</span>
                     <span className="font-semibold text-gray-900">
-                      25 years
+                      {loanDuration} years
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-700">Monthly Payment:</span>
                     <span className="font-semibold text-gray-900">
-                      €
-                      {Math.round(
-                        (goalPrice * 0.035) / 12 + goalPrice / (25 * 12)
-                      ).toLocaleString()}
+                     €{monthlyPaymentCalculation.toLocaleString()}
                     </span>
                   </div>
                 </div>
