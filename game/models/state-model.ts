@@ -7,6 +7,6 @@ export interface StateModel extends StartStateModel {
   educationLevel: string;
   lifeSatisfactionFrom1To100: number;
   terminated: boolean;
-  creditWorthiness: boolean;       // Bekommt man den Kredit?
-  loanConditions?: LoanConditions; // Wenn ja, zu welchen Konditionen?
+  creditWorthiness: boolean;      
+  loanConditions?: LoanConditions; 
 }
