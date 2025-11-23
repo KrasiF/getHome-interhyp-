@@ -4,19 +4,18 @@ import {StateModel} from "@/game/models/state-model";
 import {useEffect, useState, useMemo} from "react";
 import {Button} from "@/components/ui/button";
 import {
-  PieChart,
-  Pie,
-  Cell,
   ResponsiveContainer,
   Tooltip,
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Legend,
 } from "recharts";
-import {ChevronLeft, ChevronRight} from "lucide-react";
+import {ArrowRight, ChevronLeft, ChevronRight} from "lucide-react";
+import {useRouter} from "next/navigation";
+import {motion} from "framer-motion";
 
 const CASH_COLOR = "#10b981";
 const CRYPTO_COLOR = "#f59e0b";
@@ -26,6 +25,7 @@ export default function Wrapup() {
   const {engine: gameEngine} = useGameEngine();
   const state = gameEngine.getState() as StateModel;
   const history = gameEngine.getHistory() as StateModel[];
+  const router = useRouter();
 
   const [recommendations, setRecommendations] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -82,18 +82,32 @@ export default function Wrapup() {
 
   // Portfolio breakdown
   const portfolioBreakdown = useMemo(() => {
+    if (!state.portfolio) {
+      console.warn("No portfolio data available");
+      return [];
+    }
+
     const cash = Number(state.portfolio?.cashInEuro ?? 0);
     const crypto = Number(state.portfolio?.cryptoInEuro ?? 0);
     const etf = Number(state.portfolio?.etfInEuro ?? 0);
+
+    console.log("=== PORTFOLIO BREAKDOWN DEBUG ===");
+    console.log("Raw portfolio:", state.portfolio);
+    console.log("Parsed values:", {cash, crypto, etf});
 
     const breakdown = [
       {name: "Cash", value: cash},
       {name: "Crypto", value: crypto},
       {name: "ETF", value: etf},
-    ].filter((item) => item.value > 0);
+    ].filter((item) => {
+      const isValid =
+        item.value > 0 && !isNaN(item.value) && isFinite(item.value);
+      console.log(`${item.name}: ${item.value} - valid: ${isValid}`);
+      return isValid;
+    });
 
-    console.log("Portfolio breakdown:", breakdown);
-    console.log("Raw portfolio data:", {cash, crypto, etf});
+    console.log("Final breakdown for chart:", breakdown);
+    console.log("Breakdown length:", breakdown.length);
 
     return breakdown;
   }, [state.portfolio]);
@@ -104,10 +118,13 @@ export default function Wrapup() {
     ETF: ETF_COLOR,
   };
 
-  const totalWealth = portfolioBreakdown.reduce(
-    (sum, item) => sum + item.value,
-    0
-  );
+  const totalWealth = useMemo(() => {
+    const total = portfolioBreakdown.reduce((sum, item) => sum + item.value, 0);
+    console.log("Total wealth calculated:", total);
+    return total;
+  }, [portfolioBreakdown]);
+
+  const MAX_SLIDES = 5; // Change this to a number like 10 to limit slides
 
   // Create slides with recommendations and charts
   const slides = useMemo(() => {
@@ -130,8 +147,15 @@ export default function Wrapup() {
     });
 
     // Portfolio chart slide
+    console.log(
+      "Checking portfolio slide - breakdown length:",
+      portfolioBreakdown.length
+    );
     if (portfolioBreakdown.length > 0) {
+      console.log("Adding portfolio slide");
       allSlides.push({type: "chart-portfolio"});
+    } else {
+      console.log("Skipping portfolio slide - no data");
     }
 
     // Progress chart slide
@@ -139,7 +163,20 @@ export default function Wrapup() {
       allSlides.push({type: "chart-progress"});
     }
 
-    // Finale slide
+    // Apply slide limit if configured (before adding finale to ensure finale is always last)
+    if (MAX_SLIDES !== null && allSlides.length >= MAX_SLIDES) {
+      console.log(
+        `Limiting slides from ${
+          allSlides.length + 1
+        } to ${MAX_SLIDES} (including finale)`
+      );
+      // Trim slides to make room for finale, then add finale
+      const limitedSlides = allSlides.slice(0, MAX_SLIDES - 1);
+      limitedSlides.push({type: "finale"});
+      return limitedSlides;
+    }
+
+    // Finale slide - always included
     allSlides.push({type: "finale"});
 
     return allSlides;
@@ -205,19 +242,21 @@ export default function Wrapup() {
   // Define different background gradients for variety
   const getBackgroundGradient = (slideType: string, index: number) => {
     const gradients = [
-      "bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400",
-      "bg-gradient-to-br from-blue-600 via-purple-500 to-pink-500",
-      "bg-gradient-to-br from-indigo-600 via-blue-500 to-cyan-400",
-      "bg-gradient-to-br from-pink-600 via-rose-500 to-orange-400",
-      "bg-gradient-to-br from-emerald-600 via-teal-500 to-blue-500",
-      "bg-gradient-to-br from-violet-600 via-purple-500 to-fuchsia-500",
-      "bg-gradient-to-br from-orange-600 via-red-500 to-pink-500",
-      "bg-gradient-to-br from-cyan-600 via-blue-500 to-indigo-500",
+      "bg-linear-to-br from-orange-600 via-red-500 to-yellow-500",
+      "bg-linear-to-br from-purple-600 via-pink-500 to-orange-400",
+      "bg-linear-to-br from-blue-600 via-cyan-500 to-teal-400",
+      "bg-linear-to-br from-green-600 via-emerald-500 to-teal-400",
+      "bg-linear-to-br from-orange-500 via-amber-500 to-yellow-400",
+      "bg-linear-to-br from-indigo-600 via-purple-500 to-pink-500",
+      "bg-linear-to-br from-yellow-600 via-orange-500 to-red-500",
+      "bg-linear-to-br from-violet-600 via-purple-500 to-fuchsia-500",
+      "bg-linear-to-br from-emerald-600 via-green-500 to-lime-400",
+      "bg-linear-to-br from-cyan-600 via-blue-500 to-indigo-500",
     ];
 
     if (slideType === "intro") return gradients[0];
     if (slideType === "finale") return gradients[6];
-    if (slideType === "chart-portfolio") return gradients[4];
+    if (slideType === "chart-portfolio") return gradients[3];
     if (slideType === "chart-progress") return gradients[2];
 
     // For recommendations, cycle through remaining gradients
@@ -225,19 +264,19 @@ export default function Wrapup() {
   };
 
   return (
-    <div className="h-screen w-screen bg-black flex items-center justify-center overflow-hidden relative">
+    <div className="fixed inset-0 h-screen w-screen bg-black flex items-center justify-center overflow-hidden">
       {/* Navigation Areas */}
       <div
-        className="absolute left-0 top-0 bottom-0 w-1/3 z-20 cursor-pointer"
+        className="absolute left-0 top-0 bottom-0 w-1/3 z-20 cursor-pointer hover:bg-white/5 transition-colors"
         onClick={handlePrevious}
       />
       <div
-        className="absolute right-0 top-0 bottom-0 w-1/3 z-20 cursor-pointer"
+        className="absolute right-0 top-0 bottom-0 w-1/3 z-20 cursor-pointer hover:bg-white/5 transition-colors"
         onClick={handleNext}
       />
 
       {/* Progress Bars */}
-      <div className="absolute top-4 left-4 right-4 flex gap-1 z-30">
+      <div className="absolute top-8 left-1/2 -translate-x-1/2 w-full max-w-4xl px-8 flex gap-2 z-30">
         {slides.map((_, index) => (
           <div
             key={index}
@@ -261,23 +300,27 @@ export default function Wrapup() {
 
       {/* Main Content */}
       <div
-        className={`w-full max-w-md h-full relative transition-all duration-500 ${getBackgroundGradient(
+        className={`w-full h-full relative transition-all duration-500 ${getBackgroundGradient(
           currentSlideData.type,
           currentSlide
         )}`}
       >
-        <div className="absolute inset-0 flex items-center justify-center p-8">
+        <div className="absolute inset-0 flex items-center justify-center p-12 md:p-16">
           {currentSlideData.type === "intro" && (
-            <div className="text-center text-white space-y-6">
-              <div className="text-6xl font-bold animate-pulse">🏠</div>
-              <h1 className="text-4xl font-bold">Your getHome Wrapped</h1>
-              <p className="text-xl">Let&apos;s look at your journey...</p>
-              <div className="flex items-center justify-center gap-2 mt-8">
-                <p className="text-sm opacity-70">Powered by</p>
+            <div className="text-center text-white space-y-8">
+              <div className="text-9xl font-bold animate-pulse">🏠</div>
+              <h1 className="text-6xl md:text-7xl font-bold">
+                Your getHome Wrapped
+              </h1>
+              <p className="text-2xl md:text-3xl">
+                Let&apos;s look at your journey...
+              </p>
+              <div className="flex items-center justify-center gap-3 mt-12">
+                <p className="text-lg opacity-70">Powered by</p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 400 85"
-                  height="18"
+                  height="24"
                   className="opacity-80"
                 >
                   <defs>
@@ -333,10 +376,10 @@ export default function Wrapup() {
           )}
 
           {currentSlideData.type === "recommendation" && (
-            <div className="text-white space-y-6">
-              <div className="text-5xl mb-8 text-center">✨</div>
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
-                <p className="text-2xl font-semibold leading-relaxed text-center">
+            <div className="text-white space-y-8 max-w-4xl mx-auto">
+              <div className="text-7xl mb-12 text-center">✨</div>
+              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-12 border border-white/20">
+                <p className="text-3xl md:text-4xl font-semibold leading-relaxed text-center">
                   {currentSlideData.content}
                 </p>
               </div>
@@ -344,43 +387,12 @@ export default function Wrapup() {
           )}
 
           {currentSlideData.type === "chart-portfolio" && (
-            <div className="text-white space-y-6 w-full">
-              <h2 className="text-3xl font-bold text-center">
+            <div className="text-white space-y-8 w-full max-w-5xl mx-auto">
+              <h2 className="text-5xl md:text-6xl font-bold text-center">
                 Your Portfolio Mix
               </h2>
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                <ResponsiveContainer width="100%" height={250}>
-                  <PieChart>
-                    <Pie
-                      data={portfolioBreakdown}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={50}
-                      outerRadius={90}
-                      paddingAngle={5}
-                      dataKey="value"
-                      label={(entry) =>
-                        `${entry.name}: €${Math.round(
-                          entry.value
-                        ).toLocaleString()}`
-                      }
-                      labelLine={false}
-                    >
-                      {portfolioBreakdown.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={portfolioColorsByName[entry.name] ?? CASH_COLOR}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      formatter={(value: number) =>
-                        `€${Math.round(value).toLocaleString()}`
-                      }
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-                <div className="mt-4 space-y-2">
+              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-10 border border-white/20">
+                <div className="space-y-3">
                   {portfolioBreakdown.map((item, idx) => (
                     <div
                       key={idx}
@@ -411,11 +423,51 @@ export default function Wrapup() {
           )}
 
           {currentSlideData.type === "chart-progress" && (
-            <div className="text-white space-y-6 w-full">
-              <h2 className="text-3xl font-bold text-center">Your Journey</h2>
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                <ResponsiveContainer width="100%" height={280}>
-                  <LineChart data={chartData}>
+            <div className="text-white space-y-8 w-full max-w-5xl mx-auto">
+              <h2 className="text-5xl md:text-6xl font-bold text-center">
+                Your Journey
+              </h2>
+              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-10 border border-white/20">
+                <ResponsiveContainer width="100%" height={450}>
+                  <AreaChart data={chartData}>
+                    <defs>
+                      <linearGradient
+                        id="colorWealth"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor={CASH_COLOR}
+                          stopOpacity={0.6}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor={CASH_COLOR}
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                      <linearGradient
+                        id="colorSatisfaction"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="#ec4899"
+                          stopOpacity={0.6}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#ec4899"
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                    </defs>
                     <CartesianGrid
                       strokeDasharray="3 3"
                       stroke="rgba(255,255,255,0.2)"
@@ -448,46 +500,54 @@ export default function Wrapup() {
                         color: "white",
                       }}
                       formatter={(value: number, name: string) => {
-                        if (name === "Wealth (€)") {
+                        if (name === "Wealth") {
                           return `€${Math.round(value).toLocaleString()}`;
                         }
                         return value.toFixed(1);
                       }}
                     />
                     <Legend />
-                    <Line
+                    <Area
                       yAxisId="left"
                       type="monotone"
                       dataKey="wealth"
                       stroke={CASH_COLOR}
-                      strokeWidth={3}
-                      name="Wealth (€)"
-                      dot={{fill: CASH_COLOR, r: 4}}
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorWealth)"
+                      name="Wealth"
+                      dot={{fill: CASH_COLOR, r: 3}}
+                      activeDot={{r: 5}}
                     />
-                    <Line
+                    <Area
                       yAxisId="right"
                       type="monotone"
                       dataKey="satisfaction"
                       stroke="#ec4899"
-                      strokeWidth={3}
-                      name="Life Satisfaction"
-                      dot={{fill: "#ec4899", r: 4}}
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorSatisfaction)"
+                      name="Satisfaction"
+                      dot={{fill: "#ec4899", r: 3}}
+                      activeDot={{r: 5}}
                     />
-                  </LineChart>
+                  </AreaChart>
                 </ResponsiveContainer>
               </div>
             </div>
           )}
 
           {currentSlideData.type === "finale" && (
-            <div className="text-center text-white space-y-6">
-              <div className="text-6xl mb-4">🎉</div>
-              <h1 className="text-4xl font-bold">That&apos;s Your Wrap!</h1>
-              <p className="text-xl">
+            <div className="text-center text-white space-y-8 max-w-4xl mx-auto">
+              <div className="text-9xl mb-8">🎉</div>
+              <h1 className="text-6xl md:text-7xl font-bold">
+                That&apos;s Your Wrap!
+              </h1>
+              <p className="text-3xl md:text-4xl">
                 Final Wealth: €{Math.round(totalWealth).toLocaleString()}
               </p>
-              <div className="flex items-center justify-center gap-2 mt-4">
-                <p className="text-sm opacity-70">Powered by</p>
+              <div className="flex items-center justify-center gap-3 mt-8">
+                <p className="text-lg opacity-70">Powered by</p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 400 85"
@@ -543,36 +603,95 @@ export default function Wrapup() {
                   </g>
                 </svg>
               </div>
-              <div className="pt-6">
-                <Button
-                  onClick={() => (window.location.href = "/init")}
-                  className="bg-white text-purple-600 hover:bg-gray-100 font-bold px-8 py-3 rounded-full text-lg"
+              <div className="pt-8 flex justify-center">
+                <motion.div
+                  whileHover={{scale: 1.05, rotate: [0, -1, 1, 0]}}
+                  whileTap={{scale: 0.95}}
+                  className="relative"
+                  onMouseEnter={(e) => {
+                    const emojis = [
+                      "🏠",
+                      "💰",
+                      "📈",
+                      "🎯",
+                      "✨",
+                      "🌟",
+                      "💫",
+                      "🚀",
+                    ];
+                    for (let i = 0; i < 12; i++) {
+                      const emoji = document.createElement("span");
+                      emoji.textContent =
+                        emojis[Math.floor(Math.random() * emojis.length)];
+                      emoji.style.position = "absolute";
+                      emoji.style.left = "50%";
+                      emoji.style.top = "50%";
+                      emoji.style.pointerEvents = "none";
+                      emoji.style.fontSize = "28px";
+                      emoji.style.zIndex = "100";
+                      const angle = (Math.PI * 2 * i) / 12;
+                      const velocity = 120 + Math.random() * 60;
+                      e.currentTarget.appendChild(emoji);
+
+                      const animation = emoji.animate(
+                        [
+                          {
+                            transform:
+                              "translate(-50%, -50%) scale(0) rotate(0deg)",
+                            opacity: 1,
+                          },
+                          {
+                            transform: `translate(calc(-50% + ${
+                              Math.cos(angle) * velocity
+                            }px), calc(-50% + ${
+                              Math.sin(angle) * velocity
+                            }px)) scale(1.2) rotate(${
+                              360 * (Math.random() > 0.5 ? 1 : -1)
+                            }deg)`,
+                            opacity: 0,
+                          },
+                        ],
+                        {
+                          duration: 1200,
+                          easing: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                        }
+                      );
+
+                      animation.onfinish = () => emoji.remove();
+                    }
+                  }}
                 >
-                  Start New Journey
-                </Button>
+                  <Button
+                    size="lg"
+                    className="text-xl px-16 py-8 rounded-full bg-white text-black hover:bg-linear-to-r hover:from-orange-400 hover:via-red-400 hover:to-yellow-400 hover:text-white transition-all duration-300 flex items-center gap-4 shadow-2xl hover:shadow-orange-500/60"
+                    onClick={() => router.push("/init")}
+                  >
+                    Begin Simulation <ArrowRight className="w-6 h-6" />
+                  </Button>
+                </motion.div>
               </div>
             </div>
           )}
         </div>
 
         {/* Navigation Indicators */}
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2 z-10">
+        <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-4 z-10">
           <button
             onClick={handlePrevious}
             disabled={currentSlide === 0}
-            className="p-2 rounded-full bg-white/20 backdrop-blur-sm disabled:opacity-30 hover:bg-white/30 transition-colors"
+            className="p-4 rounded-full bg-white/20 backdrop-blur-sm disabled:opacity-30 hover:bg-white/30 transition-colors"
           >
-            <ChevronLeft className="text-white" size={24} />
+            <ChevronLeft className="text-white" size={32} />
           </button>
-          <div className="flex items-center px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white font-medium">
+          <div className="flex items-center px-6 py-3 rounded-full bg-white/20 backdrop-blur-sm text-white font-medium text-xl">
             {currentSlide + 1} / {totalSlides}
           </div>
           <button
             onClick={handleNext}
             disabled={currentSlide === totalSlides - 1}
-            className="p-2 rounded-full bg-white/20 backdrop-blur-sm disabled:opacity-30 hover:bg-white/30 transition-colors"
+            className="p-4 rounded-full bg-white/20 backdrop-blur-sm disabled:opacity-30 hover:bg-white/30 transition-colors"
           >
-            <ChevronRight className="text-white" size={24} />
+            <ChevronRight className="text-white" size={32} />
           </button>
         </div>
       </div>

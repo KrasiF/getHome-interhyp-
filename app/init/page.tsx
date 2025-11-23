@@ -168,7 +168,7 @@ export default function Init() {
   const back = () => setStep((s) => Math.max(1, s - 1));
 
   return (
-    <main className="mx-auto max-w-3xl p-4 space-y-8">
+    <main className="mx-auto max-w-2xl p-4 pt-8 pb-8 space-y-8">
       {/* Step tracker */}
       <div className="flex items-center justify-between">
         {steps.map((label, index) => {

@@ -20,7 +20,7 @@ async function main() {
 
     console.log("➡️ Calling AI model...\n");
 
-    const feedback = await engine.generateFeedback(history, events, goal);
+    const feedback = await engine.generateFeedback(history, events, goal, { reason: "cash" });
 
     console.log("===== AI FEEDBACK START =====\n");
     feedback.forEach((line, idx) => console.log(`${idx + 1}. ${line}`));
@@ -124,6 +124,8 @@ function buildEvents(): EventModel[] {
                 changeInLifeSatisfactionFrom1To100: -10,
                 newMarried: null
             },
+            emoji: "",
+            year: 1000,
             alternativeImpact: null
         },
         {
@@ -143,6 +145,8 @@ function buildEvents(): EventModel[] {
                 changeInLifeSatisfactionFrom1To100: -3,
                 newMarried: null
             },
+                        emoji: "",
+            year: 1000,
             alternativeImpact: {
                 changeInOccupancyModel: {
                     occupationTitle: "Mid-level Developer"
@@ -169,6 +173,8 @@ function buildEvents(): EventModel[] {
                 changeInLifeSatisfactionFrom1To100: 5,
                 newMarried: null
             },
+            emoji: "",
+            year: 1000,
             alternativeImpact: {
                 changeInOccupancyModel: null,
                 newPortfolioModel: null,

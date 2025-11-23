@@ -4,7 +4,7 @@ import {Button} from "@/components/ui/button";
 import {Card} from "@/components/ui/card";
 import {Slider} from "@/components/ui/slider";
 import {Label} from "@/components/ui/label";
-import {useState, useMemo} from "react";
+import {useState, useMemo, useEffect, useRef} from "react";
 import {
   Line,
   AreaChart,
@@ -184,12 +184,36 @@ export default function Simulation() {
   const [showEventDecision, setShowEventDecision] = useState(!!currentEvent);
   const [isAdvancing, setIsAdvancing] = useState(false);
   const [showGameOver, setShowGameOver] = useState(false);
+  const [showCreditAnimation, setShowCreditAnimation] = useState(false);
+  const [showActionsDialog, setShowActionsDialog] = useState(false);
+  const [showLoanAnimation, setShowLoanAnimation] = useState(false);
+  const [showLoanDialog, setShowLoanDialog] = useState(false);
+  const [recommendations, setRecommendations] = useState<string[]>([]);
+  const previousCreditWorthiness = useRef(state?.creditWorthiness || false);
 
   const currentYear = state?.year || new Date().getFullYear();
+
+  // Watch for creditworthiness changes
+  useEffect(() => {
+    if (state?.creditWorthiness && !previousCreditWorthiness.current) {
+      setShowCreditAnimation(true);
+      setTimeout(() => setShowCreditAnimation(false), 1000);
+    }
+    previousCreditWorthiness.current = state?.creditWorthiness || false;
+  }, [state?.creditWorthiness]);
+
+  // Trigger loan animation when actions dialog opens and user is creditworthy
+  useEffect(() => {
+    if (showActionsDialog && state?.creditWorthiness) {
+      setShowLoanAnimation(true);
+      setTimeout(() => setShowLoanAnimation(false), 1000);
+    }
+  }, [showActionsDialog, state?.creditWorthiness]);
 
   const handleAdvanceYear = async () => {
     setIsAdvancing(true);
     const gameEvent = await gameEngine.runLoop();
+    console.log(gameEngine.getState());
     triggerUpdate();
 
     // Check if game is terminated after running the loop
@@ -227,13 +251,20 @@ export default function Simulation() {
     // ignore close attempts for non-interactive events until acknowledged
   };
 
+  const handleAcceptLoan = async () => {
+    const feedback = await gameEngine.generateRecommendations();
+    setRecommendations(feedback);
+    setShowLoanDialog(false);
+    setShowGameOver(true);
+  };
+
   // Chart data from real game history
   const chartData = useMemo(() => {
     return history.map((s: StateModel) => {
       // Find events that happened in this year
-      const eventsInYear = eventHistory.filter(e => e.year === s.year);
+      const eventsInYear = eventHistory.filter((e) => e.year === s.year);
       const emoji = eventsInYear.length > 0 ? eventsInYear[0].emoji : null;
-      
+
       return {
         year: s.year,
         wealth:
@@ -295,8 +326,6 @@ export default function Simulation() {
     (living && cityOptions.find((c) => c.zip === String(living.zip))?.city) ||
     (living?.zip ?? "Unknown");
 
-  const married = Boolean(state?.married);
-  const children = state?.amountOfChildren ?? 0;
   const monthlyRent = Math.round((state?.living?.yearlyRentInEuro ?? 0) / 12);
 
   return (
@@ -450,10 +479,27 @@ export default function Simulation() {
             >
               {isAdvancing ? "Processing..." : "Next Year"}
             </Button>
-            <Dialog>
+            <Dialog
+              open={showActionsDialog}
+              onOpenChange={setShowActionsDialog}
+            >
               <DialogTrigger asChild>
-                <Button className="w-full mb-6 bg-black text-white">
-                  Actions
+                <Button
+                  className={`w-full mb-6 text-white transition-all duration-300 relative overflow-hidden ${
+                    state?.creditWorthiness
+                      ? "bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg shadow-orange-500/50"
+                      : "bg-black hover:bg-gray-800"
+                  }`}
+                >
+                  {state?.creditWorthiness && showCreditAnimation && (
+                    <span
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                      style={{
+                        animation: "shimmer 1s ease-in-out",
+                      }}
+                    />
+                  )}
+                  <span className="relative z-10">Actions</span>
                 </Button>
               </DialogTrigger>
               <DialogContent>
@@ -464,20 +510,46 @@ export default function Simulation() {
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid grid-cols-2 gap-4">
-                  <Button onClick={() => router.push("/simulation/find-homes")}>
+                  <Button
+                    className="bg-black hover:bg-gray-800"
+                    onClick={() => router.push("/simulation/find-homes")}
+                  >
                     Change Accommodation
                   </Button>
                   <Button
+                    className="bg-black hover:bg-gray-800"
                     onClick={() => router.push("/simulation/find-occupation")}
                   >
                     Change Occupation
                   </Button>
                   <Button
+                    className="bg-black hover:bg-gray-800"
                     onClick={() => router.push("/simulation/manage-portfolio")}
                   >
                     Manage Portfolio
                   </Button>
-                  <Button onClick={() => null}>Take a Loan</Button>
+                  <Button
+                    onClick={() => {
+                      setShowLoanDialog(true);
+                      setShowActionsDialog(false);
+                    }}
+                    disabled={!state?.creditWorthiness}
+                    className={`relative overflow-hidden transition-all duration-300 ${
+                      state?.creditWorthiness
+                        ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/50 hover:from-orange-600 hover:to-orange-700"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
+                  >
+                    {state?.creditWorthiness && showLoanAnimation && (
+                      <span
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                        style={{
+                          animation: "shimmer 1s ease-in-out",
+                        }}
+                      />
+                    )}
+                    <span className="relative z-10">Take a Loan</span>
+                  </Button>
                 </div>
               </DialogContent>
             </Dialog>
@@ -486,9 +558,7 @@ export default function Simulation() {
 
         {/* Center: Charts */}
         <Card className="col-span-2 p-6 flex flex-col">
-          <h2 className="text-xl font-bold mb-4">
-            Wealth & Satisfaction Progress
-          </h2>
+          <h2 className="text-xl font-bold">Wealth & Satisfaction Progress</h2>
           {chartData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
@@ -512,20 +582,42 @@ export default function Simulation() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
+                <XAxis
                   dataKey="year"
                   tick={(props) => {
-                    const { x, y, payload } = props;
-                    const dataPoint = chartData.find(d => d.year === payload.value);
+                    const {x, y, payload} = props;
+                    const dataPoint = chartData.find(
+                      (d) => d.year === payload.value
+                    );
                     return (
                       <g transform={`translate(${x},${y})`}>
-                        <text x={0} y={0} dy={16} textAnchor="middle" fill="#666" fontSize={12}>
+                        <text
+                          x={0}
+                          y={0}
+                          dy={16}
+                          textAnchor="middle"
+                          fill="#666"
+                          fontSize={12}
+                        >
                           {payload.value}
                         </text>
                         {dataPoint?.emoji && (
                           <g>
-                            <circle cx={0} cy={-8} r={12} fill="white" stroke="#10b981" strokeWidth={2} />
-                            <text x={0} y={-8} textAnchor="middle" dominantBaseline="central" fontSize={14}>
+                            <circle
+                              cx={0}
+                              cy={-8}
+                              r={12}
+                              fill="white"
+                              stroke="#10b981"
+                              strokeWidth={2}
+                            />
+                            <text
+                              x={0}
+                              y={-8}
+                              textAnchor="middle"
+                              dominantBaseline="central"
+                              fontSize={14}
+                            >
                               {dataPoint.emoji}
                             </text>
                           </g>
@@ -669,6 +761,112 @@ export default function Simulation() {
                 </div>
               </div>
             )}
+          </DialogContent>
+        </Dialog>
+
+        {/* Loan Dialog */}
+        <Dialog open={showLoanDialog} onOpenChange={setShowLoanDialog}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold">
+                Home Loan Offer
+              </DialogTitle>
+              <DialogDescription className="text-base mt-2">
+                Congratulations! You are eligible for a home loan.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4 space-y-4">
+              <div className="bg-orange-50 border border-orange-200 rounded-lg p-6">
+                <h3 className="text-lg font-semibold text-orange-800 mb-4">
+                  Loan Details
+                </h3>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-700">Loan Amount:</span>
+                    <span className="font-semibold text-gray-900">
+                      €{Math.round(goalPrice-totalWealth).toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-700">Interest Rate:</span>
+                    <span className="font-semibold text-gray-900">
+                      3.5% per year
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-700">Loan Term:</span>
+                    <span className="font-semibold text-gray-900">
+                      25 years
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-700">Monthly Payment:</span>
+                    <span className="font-semibold text-gray-900">
+                      €
+                      {Math.round(
+                        (goalPrice * 0.035) / 12 + goalPrice / (25 * 12)
+                      ).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center gap-2 pb-4 border-b">
+                <span className="text-sm text-gray-600">Provided by</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 400 85"
+                  height="24"
+                >
+                  <defs>
+                    <clipPath id="loan-logo-clip">
+                      <path d="M0 0h400v85H0z"></path>
+                    </clipPath>
+                  </defs>
+                  <g clipPath="url(#loan-logo-clip)">
+                    <g>
+                      <path
+                        d="M38.56 9.533A29.027 29.027 0 1067.587 38.56 29.032 29.032 0 0038.56 9.533m0-9.533A38.567 38.567 0 110 38.56 38.606 38.606 0 0138.56 0z"
+                        fill="#ee7900"
+                      ></path>
+                    </g>
+                    <g>
+                      <path d="M101.173 9.547a5.665 5.665 0 015.8 5.8 5.8 5.8 0 11-11.6 0 5.657 5.657 0 015.8-5.8zM96.2 26.96h9.533v40.627H96.2z"></path>
+                      <path d="M116.506 26.96h9.533v5.8h.413s4.147-6.64 12.027-6.64c8.707 0 15.347 6.64 15.347 17.41v24.057h-9.533v-22.72c0-5.893-3.32-9.2-8.293-9.2-5.8 0-9.947 4.147-9.947 10.36v21.56h-9.534V26.96z"></path>
+                      <path d="M166.843 36.907h-7.47v-9.12h4.147c2.907 0 4.147-1.24 4.147-4.56v-8.293h8.707v12.853h9.12v9.12h-9.12v16.174c0 4.147 2.067 6.213 5.387 6.213a13.534 13.534 0 004.973-1.16v9.04a19.649 19.649 0 01-7.053 1.24c-7.88 0-12.853-4.973-12.853-14.093V36.907z"></path>
+                      <path d="M230.266 61.374s-5.387 7.053-17 7.053a21.149 21.149 0 11-.413-42.293c11.613 0 19.907 9.12 19.907 20.32a25.97 25.97 0 01-.413 4.56h-30.268c1 4.56 4.973 8.707 11.613 8.707a15.411 15.411 0 0011.2-5.053zm-7.867-18.24c-1.24-4.56-4.56-7.88-9.947-7.88-5.8 0-9.12 3.32-10.36 7.88z"></path>
+                      <path d="M240.213 26.96h9.533v5.8h.413s4.147-6.64 11.613-6.64h1.653v10.36a11.485 11.485 0 00-3.32-.413c-5.8 0-10.36 4.56-10.36 11.613v19.907h-9.532z"></path>
+                      <path d="M270.48 9.547h9.533V32.76h.413s4.147-6.64 12.027-6.64c8.707 0 15.347 6.64 15.347 17.413v24.054h-9.533v-22.72c0-5.893-3.32-9.2-8.293-9.2-5.8 0-9.947 4.147-9.947 10.36v21.56h-9.533V9.547z"></path>
+                      <path d="M314.173 74.64a10.518 10.518 0 004.973 1.24c3.733 0 5.64-2.16 7.053-5.387l1.24-2.907-16.173-40.626h10.36l10.79 28.2h.413l10.36-28.2h10.36l-17.416 44.36c-3.4 8.707-7.88 13.68-14.933 13.68a21.445 21.445 0 01-7.053-1.24v-9.12z"></path>
+                      <path d="M358.533 26.96h9.533v5.8h.413s3.733-6.64 13.267-6.64 18.253 8.72 18.253 21.16-8.706 21.15-18.239 21.15-13.267-6.64-13.267-6.64h-.413V85h-9.533V26.96zm31.933 20.32a11.207 11.207 0 10-22.4 0 11.207 11.207 0 1022.4 0z"></path>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-xs text-blue-800">
+                  ℹ️ By accepting this loan, you will complete your journey to
+                  homeownership and finish the simulation.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mt-6">
+                <Button
+                  onClick={() => setShowLoanDialog(false)}
+                  variant="outline"
+                  className="border-gray-300 hover:bg-gray-50"
+                >
+                  Decline
+                </Button>
+                <Button
+                  onClick={handleAcceptLoan}
+                  className="bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700"
+                >
+                  Accept Loan
+                </Button>
+              </div>
+            </div>
           </DialogContent>
         </Dialog>
 

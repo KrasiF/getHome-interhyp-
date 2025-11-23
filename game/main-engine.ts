@@ -12,7 +12,7 @@ import { LivingModel } from "./models/living-model";
 import { UserInputModel } from "./models/user-input-model";
 import { PortfolioModel } from "./models/portfolio-model";
 import { CreditEngine } from "./engines/credit-engine";
-import { RecommendationEngine } from "./engines/recommendation-engine";
+import { CompletionContext, RecommendationEngine } from "./engines/recommendation-engine";
 
 export class GameEngine implements GameEngineInterface {
     private eventEngine: EventEngine;
@@ -275,11 +275,24 @@ export class GameEngine implements GameEngineInterface {
         }
     }
 
+    private buildCompletionContext(): CompletionContext {
+        const lastState = this.history.length > 0 ? this.history[this.history.length - 1] : this.state;
+        const loanAmount = lastState.loanConditions?.loanAmount ?? 0;
+        const hasLoan = !!lastState.creditWorthiness && loanAmount > 0;
+
+        return {
+            reason: hasLoan ? "loan" as const : "cash",
+            loan: hasLoan ? lastState.loanConditions : undefined
+        };
+    }
+
     async generateRecommendations(): Promise<string[]> {
+        const completionContext = this.buildCompletionContext();
         return await this.recommendationEngine.generateFeedback(
             this.history,
             this.eventHistory,
-            this.goals
+            this.goals,
+            completionContext
         );
     }
 }

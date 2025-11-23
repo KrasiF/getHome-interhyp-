@@ -237,13 +237,13 @@ export function Listings({
                 key={listing.id}
                 className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center"
               >
-                <div className="col-span-1 w-full h-28 bg-gray-100 overflow-hidden rounded">
+                <div className="col-span-1 w-auto h-full bg-gray-100 overflow-hidden rounded">
                   {listing.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={listing.imageUrl}
                       alt={listing.title ?? listing.zip}
-                      className="w-full h-full"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
