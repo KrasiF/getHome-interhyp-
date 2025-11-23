@@ -25,6 +25,13 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
+
+ARG NEXT_PUBLIC_GOOGLE_API_KEY="AIzaSyCkHExPRzKhQ1KbE_Sx1R9xsVxPjqVeXOQ"
+ENV NEXT_PUBLIC_GOOGLE_API_KEY=$NEXT_PUBLIC_GOOGLE_API_KEY
+
+# Auch den Server-Key setzen, sicherheitshalber
+ENV GOOGLE_API_KEY=$NEXT_PUBLIC_GOOGLE_API_KEY
+
 RUN pnpm run build
 
 # 4. Runner
