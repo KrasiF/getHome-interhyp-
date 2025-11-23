@@ -172,7 +172,7 @@ export default function Simulation() {
   const [showEventDecision, setShowEventDecision] = useState(!!currentEvent);
   const [isAdvancing, setIsAdvancing] = useState(false);
   const [showGameOver, setShowGameOver] = useState(false);
-  const [recommendations, setRecommendations] = useState("");
+  const [recommendations, setRecommendations] = useState<string[]>([]);
 
   const currentYear = state?.year || new Date().getFullYear();
 
@@ -671,15 +671,25 @@ export default function Simulation() {
               <h3 className="text-xl font-semibold text-green-800 mb-4">
                 Your Journey Summary
               </h3>
-              <div className="prose prose-sm max-w-none text-gray-700">
-                {recommendations.split('\n').map((paragraph, idx) => (
-                  paragraph.trim() && (
-                    <p key={idx} className="mb-3">
-                      {paragraph}
-                    </p>
-                  )
-                ))}
-              </div>
+              {recommendations.length > 0 ? (
+                <div className="grid md:grid-cols-2 gap-3">
+                  {recommendations.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="rounded-lg bg-white shadow-sm border border-green-100 p-4 flex items-start gap-3"
+                    >
+                      <div className="h-8 w-8 rounded-full bg-green-100 text-green-800 text-sm font-bold flex items-center justify-center">
+                        {idx + 1}
+                      </div>
+                      <p className="text-sm text-gray-800 leading-snug">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-gray-700">
+                  Keine Empfehlungen verfügbar. Starte eine neue Simulation, um Feedback zu erhalten.
+                </p>
+              )}
             </div>
             <div className="flex justify-end mt-6">
               <Button

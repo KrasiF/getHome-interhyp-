@@ -275,7 +275,7 @@ export class GameEngine implements GameEngineInterface {
         }
     }
 
-    async generateRecommendations(): Promise<string> {
+    async generateRecommendations(): Promise<string[]> {
         return await this.recommendationEngine.generateFeedback(
             this.history,
             this.eventHistory,
@@ -297,7 +297,6 @@ export interface GameEngineInterface {
     decideActions(userInput: UserInputModel): StateModel;
     requestNewOccupation(occupation_description: string): Promise<OccupationModel>;
     requestNewHomes(home_description: string): Promise<LivingModel[]>;
-    generateRecommendations(): Promise<string>;
+    generateRecommendations(): Promise<string[]>;
     getHistoryVersion(): number;
 }
-

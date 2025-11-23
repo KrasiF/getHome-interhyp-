@@ -23,7 +23,7 @@ async function main() {
     const feedback = await engine.generateFeedback(history, events, goal);
 
     console.log("===== AI FEEDBACK START =====\n");
-    console.log(feedback);
+    feedback.forEach((line, idx) => console.log(`${idx + 1}. ${line}`));
     console.log("\n===== AI FEEDBACK END =====\n");
 
     console.log("📌 Manual checklist:");
