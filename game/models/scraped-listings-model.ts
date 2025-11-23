@@ -5,6 +5,7 @@ interface ListingModel {
   rooms: number;
   squareMeter: number;
   imageUrl: string;
+  title: string;
 }
 
 export interface ScrapedListingsModel {

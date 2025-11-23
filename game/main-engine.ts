@@ -153,6 +153,7 @@ export class GameEngine implements GameEngineInterface {
         const impact = decision ? this.currentEventResult.impact : this.currentEventResult.alternativeImpact;
         
         if (impact) {
+            this.currentEventResult.chosenImpact = impact;
             this.applyEventImpact(impact);
         }
 
@@ -261,5 +262,4 @@ export interface GameEngineInterface {
     requestNewOccupation(occupation_description: string): Promise<OccupationModel>;
     requestNewHomes(home_description: string): Promise<LivingModel[]>;
 }
-
 

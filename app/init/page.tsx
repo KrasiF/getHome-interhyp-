@@ -94,6 +94,7 @@ export default function Init() {
 
     setGoal((prev) => ({
       ...prev,
+      title: found.title,
       buyingPrice: found.buyingPrice ?? prev.buyingPrice,
       rooms: found.rooms ?? prev.rooms,
       squareMeter: found.squareMeter ?? prev.squareMeter,
@@ -126,6 +127,7 @@ export default function Init() {
           // Use mock listings as fallback - transform mock data to match ListingModel
           type MockListingRaw = {
             id: string | number;
+            title: string;
             buyingPrice: string | number;
             zip: string | number;
             rooms: string | number;
@@ -137,6 +139,7 @@ export default function Init() {
               .slice(0, 10)
               .map((listing) => ({
                 id: String(listing.id),
+                title: String(listing.title),
                 buyingPrice: Number(listing.buyingPrice),
                 zip: String(listing.zip),
                 rooms: Number(listing.rooms),

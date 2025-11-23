@@ -20,6 +20,7 @@ import {
   ReferenceLine,
 } from "recharts";
 import {EventModel} from "@/game/models/event-model";
+import type {EventImpactModel} from "@/game/models/event-impact-model";
 import {StateModel} from "@/game/models/state-model";
 import {useRouter} from "next/navigation";
 import {
@@ -30,6 +31,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {Home, MapPin, Users, Ruler} from "lucide-react";
 
 export default function Simulation() {
   const router = useRouter();
@@ -41,6 +43,110 @@ export default function Simulation() {
     gameEngine as unknown as {currentEventResult?: EventModel}
   ).currentEventResult;
 
+  const formatImpactDetails = (impact?: EventImpactModel | null): string[] => {
+    if (!impact) return [];
+    const details: string[] = [];
+
+    if (impact.changeInOccupancyModel) {
+      const {occupationTitle, occupationDescription, yearlySalaryInEuro, stressLevelFrom0To100} =
+        impact.changeInOccupancyModel;
+      if (occupationTitle) details.push(`Job: ${occupationTitle}`);
+      if (occupationDescription) details.push(`Job description: ${occupationDescription}`);
+      if (yearlySalaryInEuro !== undefined && yearlySalaryInEuro !== null) {
+        details.push(`Gehalt: ${Math.round(yearlySalaryInEuro).toLocaleString("de-DE")} €/Jahr`);
+      }
+      if (stressLevelFrom0To100 !== undefined && stressLevelFrom0To100 !== null) {
+        details.push(`Stresslevel: ${stressLevelFrom0To100}/100`);
+      }
+    }
+
+    if (impact.newPortfolioModel) {
+      const {cashInEuro, cryptoInEuro, etfInEuro} = impact.newPortfolioModel;
+      if (cashInEuro !== undefined && cashInEuro !== null) {
+        details.push(`Cash: ${Math.round(cashInEuro).toLocaleString("de-DE")} €`);
+      }
+      if (cryptoInEuro !== undefined && cryptoInEuro !== null) {
+        details.push(`Crypto: ${Math.round(cryptoInEuro).toLocaleString("de-DE")} €`);
+      }
+      if (etfInEuro !== undefined && etfInEuro !== null) {
+        details.push(`ETF: ${Math.round(etfInEuro).toLocaleString("de-DE")} €`);
+      }
+    }
+
+    if (impact.changeInLivingModel) {
+      const {yearlyRentInEuro, zip, sizeInSquareMeter} = impact.changeInLivingModel;
+      if (yearlyRentInEuro !== undefined && yearlyRentInEuro !== null) {
+        details.push(`Rent: ${Math.round(yearlyRentInEuro).toLocaleString("de-DE")} €/year`);
+      }
+      if (zip) details.push(`ZIP: ${zip}`);
+      if (sizeInSquareMeter !== undefined && sizeInSquareMeter !== null) {
+        details.push(`Living area: ${sizeInSquareMeter} m²`);
+      }
+    }
+
+    if (
+      impact.changeInSavingsRateInPercent !== null &&
+      impact.changeInSavingsRateInPercent !== undefined
+    ) {
+      const v = impact.changeInSavingsRateInPercent;
+      details.push(`Savings rate: ${v >= 0 ? "+" : ""}${v}%`);
+    }
+
+    if (
+      impact.changeInAmountOfChildren !== null &&
+      impact.changeInAmountOfChildren !== undefined
+    ) {
+      const v = impact.changeInAmountOfChildren;
+      details.push(`Children: ${v >= 0 ? "+" : ""}${v}`);
+    }
+
+    if (impact.newEducationLevel) {
+      details.push(`Education level: ${impact.newEducationLevel}`);
+    }
+
+    if (
+      impact.changeInLifeSatisfactionFrom1To100 !== null &&
+      impact.changeInLifeSatisfactionFrom1To100 !== undefined
+    ) {
+      const v = impact.changeInLifeSatisfactionFrom1To100;
+      details.push(`Life satisfaction: ${v >= 0 ? "+" : ""}${v}`);
+    }
+
+    if (impact.newMarried !== null && impact.newMarried !== undefined) {
+      details.push(impact.newMarried ? "Marriage" : "No marriage / separation");
+    }
+
+    return details;
+  };
+
+  const ImpactCard = ({
+    title,
+    impact,
+    fallback = "No changes",
+  }: {
+    title: string;
+    impact?: EventImpactModel | null;
+    fallback?: string;
+  }) => {
+    const details = formatImpactDetails(impact);
+    return (
+      <div className="rounded border border-gray-200 bg-gray-50 p-3">
+        <p className="text-xs font-semibold text-gray-700">{title}</p>
+        {details.length > 0 ? (
+          <ul className="mt-2 space-y-1 text-xs text-gray-800">
+            {details.map((item, idx) => (
+              <li key={`${title}-${idx}`} className="leading-snug">
+                • {item}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-2 text-xs text-gray-500">{fallback}</p>
+        )}
+      </div>
+    );
+  };
+
   const [savingsRate, setSavingsRate] = useState(
     state?.savingsRateInPercent || 0
   );
@@ -49,7 +155,7 @@ export default function Simulation() {
   const currentYear = state?.year || new Date().getFullYear();
 
   const handleAdvanceYear = async () => {
-    let gameEvent = await gameEngine.runLoop();
+    const gameEvent = await gameEngine.runLoop();
     triggerUpdate();
     setShowEventDecision(!!gameEvent);
   };
@@ -58,8 +164,8 @@ export default function Simulation() {
     setSavingsRate(value[0]);
   };
 
-  const handleEventDecision = (chooseOption1: boolean) => {
-    gameEngine.decideEvent(!chooseOption1);
+  const handleEventDecision = (accept: boolean) => {
+    gameEngine.decideEvent(accept);
     triggerUpdate();
     setShowEventDecision(false);
   };
@@ -75,7 +181,7 @@ export default function Simulation() {
       satisfaction: s.lifeSatisfactionFrom1To100,
       goal: gameEngine.getGoals().buyingPrice,
     }));
-  }, [history.length, state.year]);
+  }, [history, gameEngine]);
 
   // Portfolio breakdown
   const portfolioBreakdown = useMemo(() => {
@@ -103,6 +209,31 @@ export default function Simulation() {
     (sum, item) => sum + item.value,
     0
   );
+
+  // Goal / city / family info
+  const goalPrice =
+    (gameEngine.getGoals && gameEngine.getGoals().buyingPrice) || 0;
+  const goalProgressPercent =
+    goalPrice > 0
+      ? Math.min(100, Math.round((totalWealth / goalPrice) * 100))
+      : 0;
+
+  const cityOptions = [
+    {city: "Berlin", zip: "10115"},
+    {city: "Hamburg", zip: "20095"},
+    {city: "München", zip: "80331"},
+    {city: "Köln", zip: "50667"},
+    {city: "Frankfurt", zip: "60311"},
+  ];
+
+  const living = state?.living;
+  const livingCity =
+    (living && cityOptions.find((c) => c.zip === String(living.zip))?.city) ||
+    (living?.zip ?? "Unknown");
+
+  const married = Boolean(state?.married);
+  const children = state?.amountOfChildren ?? 0;
+  const monthlyRent = Math.round((state?.living?.yearlyRentInEuro ?? 0) / 12);
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
@@ -174,6 +305,73 @@ export default function Simulation() {
                 <p className="text-sm font-semibold">
                   €{Math.round(totalWealth).toLocaleString()}
                 </p>
+                <div className="mt-2">
+                  <p className="text-xs text-gray-500">Wealth vs Goal</p>
+                  <div className="w-full bg-gray-200 rounded h-3 mt-1 overflow-hidden">
+                    <div
+                      className="h-3"
+                      style={{
+                        width: `${goalProgressPercent}%`,
+                        backgroundColor: CASH_COLOR,
+                      }}
+                    />
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-600 mt-1">
+                    <span>€{Math.round(totalWealth).toLocaleString()}</span>
+                    <span>€{Math.round(goalPrice).toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="pt-4 border-t">
+            <div className="mt-1 flex items-center gap-2">
+              <Home size={16} className="text-gray-500" />
+              <p className="text-xs text-gray-600">
+                {living?.name || "Apartment"}
+              </p>
+            </div>
+
+            <div className="mt-1 flex items-center gap-2">
+              <MapPin size={14} className="text-gray-400" />
+              <p className="text-xs text-gray-500">{livingCity}</p>
+            </div>
+
+            {typeof living?.sizeInSquareMeter === "number" && (
+              <div className="mt-1 flex items-center gap-2">
+                <Ruler size={14} className="text-gray-400" />
+                <p className="text-xs text-gray-600">
+                  {living.sizeInSquareMeter} m²
+                </p>
+              </div>
+            )}
+
+            {state?.living?.yearlyRentInEuro !== undefined && (
+              <div className="mt-2">
+                <p className="text-xs text-gray-600">Monthly Costs</p>
+                <p className="text-sm font-semibold">
+                  €{monthlyRent.toLocaleString("de-DE")} per month
+                </p>
+              </div>
+            )}
+
+            <div className="mt-3 flex items-center gap-3">
+              <div className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">
+                <Users size={14} className="text-gray-600" />
+                <span>
+                  {children} {children === 1 ? "child" : "children"}
+                </span>
+              </div>
+
+              <div
+                className={
+                  "px-2 py-1 rounded text-xs font-medium " +
+                  (married
+                    ? "bg-green-100 text-green-800"
+                    : "bg-gray-100 text-gray-700")
+                }
+              >
+                {married ? "Married" : "Single"}
               </div>
             </div>
           </div>
@@ -315,15 +513,29 @@ export default function Simulation() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Event Occurred!</DialogTitle>
-            <DialogDescription>
-              {currentEvent?.eventDescription}
-            </DialogDescription>
-          </DialogHeader>
-          {currentEvent?.eventQuestion && (
-            <div className="space-y-4">
-              <p className="text-sm font-semibold">
-                {currentEvent.eventQuestion}
-              </p>
+          <DialogDescription>
+            {currentEvent?.eventDescription}
+          </DialogDescription>
+        </DialogHeader>
+        {currentEvent?.eventQuestion ? (
+          <div className="mt-3 grid grid-cols-1 gap-2">
+            <ImpactCard title="Impact if Yes" impact={currentEvent?.impact} />
+            <ImpactCard
+              title="Impact if No"
+              impact={currentEvent?.alternativeImpact}
+              fallback="No changes if No."
+            />
+          </div>
+        ) : (
+          <div className="mt-3">
+            <ImpactCard title="Impact" impact={currentEvent?.impact} />
+          </div>
+        )}
+        {currentEvent?.eventQuestion && (
+          <div className="space-y-4">
+            <p className="text-sm font-semibold">
+              {currentEvent.eventQuestion}
+            </p>
               <div className="grid grid-cols-2 gap-4">
                 <Button
                   onClick={() => handleEventDecision(true)}
@@ -355,7 +567,7 @@ export default function Simulation() {
                 .reverse()
                 .map((event: EventModel, idx: number) => {
                   const impact = event.chosenImpact;
-                  const changes: string[] = [];
+                  const changes = formatImpactDetails(impact);
                   console.log(impact)
                   if (impact) {
                     // Portfolio changes
