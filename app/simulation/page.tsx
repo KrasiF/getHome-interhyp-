@@ -105,9 +105,41 @@ export default function Simulation() {
   );
 
   return (
-    <main className="grid grid-cols-12 gap-4 p-4 h-screen bg-gray-50">
-      {/* Left Sidebar: Controls */}
-      <Card className="col-span-2 p-4 flex flex-col justify-between">
+    <div className="h-screen flex flex-col bg-gray-50">
+      {/* Navbar */}
+      <nav className="bg-white border-b border-gray-200 px-4 py-3">
+        <div className="flex items-center ml-2.5">
+          <span className="text-2xl font-bold text-black mr-1" style={{ fontFamily: 'Avenir, "Avenir Next", system-ui, -apple-system, sans-serif' }}>getHome(</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 85" height="28" className="relative top-[3px]">
+            <defs>
+              <clipPath id="a">
+                <path d="M0 0h400v85H0z"></path>
+              </clipPath>
+            </defs>
+            <g clipPath="url(#a)">
+              <g>
+                <path d="M38.56 9.533A29.027 29.027 0 1067.587 38.56 29.032 29.032 0 0038.56 9.533m0-9.533A38.567 38.567 0 110 38.56 38.606 38.606 0 0138.56 0z" fill="#ee7900"></path>
+              </g>
+              <g>
+                <path d="M101.173 9.547a5.665 5.665 0 015.8 5.8 5.8 5.8 0 11-11.6 0 5.657 5.657 0 015.8-5.8zM96.2 26.96h9.533v40.627H96.2z"></path>
+                <path d="M116.506 26.96h9.533v5.8h.413s4.147-6.64 12.027-6.64c8.707 0 15.347 6.64 15.347 17.41v24.057h-9.533v-22.72c0-5.893-3.32-9.2-8.293-9.2-5.8 0-9.947 4.147-9.947 10.36v21.56h-9.534V26.96z"></path>
+                <path d="M166.843 36.907h-7.47v-9.12h4.147c2.907 0 4.147-1.24 4.147-4.56v-8.293h8.707v12.853h9.12v9.12h-9.12v16.174c0 4.147 2.067 6.213 5.387 6.213a13.534 13.534 0 004.973-1.16v9.04a19.649 19.649 0 01-7.053 1.24c-7.88 0-12.853-4.973-12.853-14.093V36.907z"></path>
+                <path d="M230.266 61.374s-5.387 7.053-17 7.053a21.149 21.149 0 11-.413-42.293c11.613 0 19.907 9.12 19.907 20.32a25.97 25.97 0 01-.413 4.56h-30.268c1 4.56 4.973 8.707 11.613 8.707a15.411 15.411 0 0011.2-5.053zm-7.867-18.24c-1.24-4.56-4.56-7.88-9.947-7.88-5.8 0-9.12 3.32-10.36 7.88z"></path>
+                <path d="M240.213 26.96h9.533v5.8h.413s4.147-6.64 11.613-6.64h1.653v10.36a11.485 11.485 0 00-3.32-.413c-5.8 0-10.36 4.56-10.36 11.613v19.907h-9.532z"></path>
+                <path d="M270.48 9.547h9.533V32.76h.413s4.147-6.64 12.027-6.64c8.707 0 15.347 6.64 15.347 17.413v24.054h-9.533v-22.72c0-5.893-3.32-9.2-8.293-9.2-5.8 0-9.947 4.147-9.947 10.36v21.56h-9.533V9.547z"></path>
+                <path d="M314.173 74.64a10.518 10.518 0 004.973 1.24c3.733 0 5.64-2.16 7.053-5.387l1.24-2.907-16.173-40.626h10.36l10.79 28.2h.413l10.36-28.2h10.36l-17.416 44.36c-3.4 8.707-7.88 13.68-14.933 13.68a21.445 21.445 0 01-7.053-1.24v-9.12z"></path>
+                <path d="M358.533 26.96h9.533v5.8h.413s3.733-6.64 13.267-6.64 18.253 8.72 18.253 21.16-8.706 21.15-18.239 21.15-13.267-6.64-13.267-6.64h-.413V85h-9.533V26.96zm31.933 20.32a11.207 11.207 0 10-22.4 0 11.207 11.207 0 1022.4 0z"></path>
+              </g>
+            </g>
+          </svg>
+          <span className="text-2xl font-bold text-black ml-1" style={{ fontFamily: 'Avenir, "Avenir Next", system-ui, -apple-system, sans-serif' }}>)</span>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <main className="grid grid-cols-12 gap-4 p-4 flex-1">
+        {/* Left Sidebar: Controls */}
+        <Card className="col-span-2 p-4 flex flex-col justify-between">
         <div className="space-y-4">
           <div className="space-y-3">
             <div>
@@ -324,7 +356,7 @@ export default function Simulation() {
                 .map((event: EventModel, idx: number) => {
                   const impact = event.chosenImpact;
                   const changes: string[] = [];
-
+                  console.log(impact)
                   if (impact) {
                     // Portfolio changes
                     if (impact.newPortfolioModel?.cashInEuro !== undefined) {
@@ -480,5 +512,6 @@ export default function Simulation() {
         </div>
       </Card>
     </main>
+    </div>
   );
 }

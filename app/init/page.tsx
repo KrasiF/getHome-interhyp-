@@ -402,9 +402,15 @@ export default function Init() {
                   min={0}
                   max={80}
                   step={1}
-                  onValueChange={(val) =>
-                    setStartState({...startState, savingsRateInPercent: val[0]})
-                  }
+                  onValueChange={(val) => {
+                    setStartState({...startState, savingsRateInPercent: val[0]});
+                    gameEngine.decideActions({
+                      newOccupationModel: null,
+                      newPortfolioModel: null,
+                      newLivingModel: null,
+                      newSavingsRateInPercent: val[0],
+                    });
+                  }}
                 />
               </div>
             </div>
