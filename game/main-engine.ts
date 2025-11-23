@@ -27,6 +27,7 @@ export class GameEngine implements GameEngineInterface {
     private goals: GoalModel;
     private history: StateModel[];
     private eventHistory: EventModel[];
+    private historyVersion: number;
     private isRunning: boolean;
     private currentEventResult: EventModel | undefined;
 
@@ -51,6 +52,7 @@ export class GameEngine implements GameEngineInterface {
         this.goals = {} as GoalModel;
         this.history = [];
         this.eventHistory = [];
+        this.historyVersion = 0;
         this.isRunning = false;
         this.currentEventResult = undefined;  
     }
@@ -73,6 +75,11 @@ export class GameEngine implements GameEngineInterface {
     getEventHistory(): EventModel[] {
         return this.eventHistory;
     }
+    
+    getHistoryVersion(): number {
+        return this.historyVersion;
+    }
+    
     startGame(startState: StartStateModel, goal: GoalModel): StateModel {
         if(this.isRunning) {
             throw new Error("Game is already running.");
@@ -112,7 +119,13 @@ export class GameEngine implements GameEngineInterface {
         // Check if goal is reached
         this.checkGoalReached();
 
-        this.history.push(JSON.parse(JSON.stringify(this.state)));
+        // Push to history, replacing if same year
+        if (this.history.length > 0 && this.history[this.history.length - 1].year === this.state.year) {
+            this.history[this.history.length - 1] = JSON.parse(JSON.stringify(this.state));
+        } else {
+            this.history.push(JSON.parse(JSON.stringify(this.state)));
+        }
+        this.historyVersion++;
 
         const random_event = await this.eventEngine.randomlyGenerateEvent(
             0.5,
@@ -168,7 +181,15 @@ export class GameEngine implements GameEngineInterface {
         };
         
         this.eventHistory.push(eventWithChoice);
-        this.history.push(structuredClone(this.state));
+        
+        // Push to history, replacing if same year
+        if (this.history.length > 0 && this.history[this.history.length - 1].year === this.state.year) {
+            this.history[this.history.length - 1] = structuredClone(this.state);
+        } else {
+            this.history.push(structuredClone(this.state));
+        }
+        this.historyVersion++;
+        
         this.currentEventResult = undefined;
 
         return this.state;
@@ -274,5 +295,6 @@ export interface GameEngineInterface {
     requestNewOccupation(occupation_description: string): Promise<OccupationModel>;
     requestNewHomes(home_description: string): Promise<LivingModel[]>;
     generateRecommendations(): Promise<string>;
+    getHistoryVersion(): number;
 }
 
