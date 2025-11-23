@@ -295,8 +295,6 @@ export default function Simulation() {
     (living && cityOptions.find((c) => c.zip === String(living.zip))?.city) ||
     (living?.zip ?? "Unknown");
 
-  const married = Boolean(state?.married);
-  const children = state?.amountOfChildren ?? 0;
   const monthlyRent = Math.round((state?.living?.yearlyRentInEuro ?? 0) / 12);
 
   return (

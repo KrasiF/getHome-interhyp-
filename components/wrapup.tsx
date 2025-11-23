@@ -4,13 +4,10 @@ import {StateModel} from "@/game/models/state-model";
 import {useEffect, useState, useMemo} from "react";
 import {Button} from "@/components/ui/button";
 import {
-  PieChart,
-  Pie,
-  Cell,
   ResponsiveContainer,
   Tooltip,
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -82,18 +79,32 @@ export default function Wrapup() {
 
   // Portfolio breakdown
   const portfolioBreakdown = useMemo(() => {
+    if (!state.portfolio) {
+      console.warn("No portfolio data available");
+      return [];
+    }
+
     const cash = Number(state.portfolio?.cashInEuro ?? 0);
     const crypto = Number(state.portfolio?.cryptoInEuro ?? 0);
     const etf = Number(state.portfolio?.etfInEuro ?? 0);
+
+    console.log("=== PORTFOLIO BREAKDOWN DEBUG ===");
+    console.log("Raw portfolio:", state.portfolio);
+    console.log("Parsed values:", {cash, crypto, etf});
 
     const breakdown = [
       {name: "Cash", value: cash},
       {name: "Crypto", value: crypto},
       {name: "ETF", value: etf},
-    ].filter((item) => item.value > 0);
+    ].filter((item) => {
+      const isValid =
+        item.value > 0 && !isNaN(item.value) && isFinite(item.value);
+      console.log(`${item.name}: ${item.value} - valid: ${isValid}`);
+      return isValid;
+    });
 
-    console.log("Portfolio breakdown:", breakdown);
-    console.log("Raw portfolio data:", {cash, crypto, etf});
+    console.log("Final breakdown for chart:", breakdown);
+    console.log("Breakdown length:", breakdown.length);
 
     return breakdown;
   }, [state.portfolio]);
@@ -104,10 +115,11 @@ export default function Wrapup() {
     ETF: ETF_COLOR,
   };
 
-  const totalWealth = portfolioBreakdown.reduce(
-    (sum, item) => sum + item.value,
-    0
-  );
+  const totalWealth = useMemo(() => {
+    const total = portfolioBreakdown.reduce((sum, item) => sum + item.value, 0);
+    console.log("Total wealth calculated:", total);
+    return total;
+  }, [portfolioBreakdown]);
 
   // Create slides with recommendations and charts
   const slides = useMemo(() => {
@@ -130,8 +142,15 @@ export default function Wrapup() {
     });
 
     // Portfolio chart slide
+    console.log(
+      "Checking portfolio slide - breakdown length:",
+      portfolioBreakdown.length
+    );
     if (portfolioBreakdown.length > 0) {
+      console.log("Adding portfolio slide");
       allSlides.push({type: "chart-portfolio"});
+    } else {
+      console.log("Skipping portfolio slide - no data");
     }
 
     // Progress chart slide
@@ -349,38 +368,7 @@ export default function Wrapup() {
                 Your Portfolio Mix
               </h2>
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                <ResponsiveContainer width="100%" height={250}>
-                  <PieChart>
-                    <Pie
-                      data={portfolioBreakdown}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={50}
-                      outerRadius={90}
-                      paddingAngle={5}
-                      dataKey="value"
-                      label={(entry) =>
-                        `${entry.name}: €${Math.round(
-                          entry.value
-                        ).toLocaleString()}`
-                      }
-                      labelLine={false}
-                    >
-                      {portfolioBreakdown.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={portfolioColorsByName[entry.name] ?? CASH_COLOR}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      formatter={(value: number) =>
-                        `€${Math.round(value).toLocaleString()}`
-                      }
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-                <div className="mt-4 space-y-2">
+                <div className="space-y-3">
                   {portfolioBreakdown.map((item, idx) => (
                     <div
                       key={idx}
@@ -415,7 +403,45 @@ export default function Wrapup() {
               <h2 className="text-3xl font-bold text-center">Your Journey</h2>
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
                 <ResponsiveContainer width="100%" height={280}>
-                  <LineChart data={chartData}>
+                  <AreaChart data={chartData}>
+                    <defs>
+                      <linearGradient
+                        id="colorWealth"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor={CASH_COLOR}
+                          stopOpacity={0.6}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor={CASH_COLOR}
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                      <linearGradient
+                        id="colorSatisfaction"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="#ec4899"
+                          stopOpacity={0.6}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#ec4899"
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                    </defs>
                     <CartesianGrid
                       strokeDasharray="3 3"
                       stroke="rgba(255,255,255,0.2)"
@@ -448,32 +474,38 @@ export default function Wrapup() {
                         color: "white",
                       }}
                       formatter={(value: number, name: string) => {
-                        if (name === "Wealth (€)") {
+                        if (name === "Wealth") {
                           return `€${Math.round(value).toLocaleString()}`;
                         }
                         return value.toFixed(1);
                       }}
                     />
                     <Legend />
-                    <Line
+                    <Area
                       yAxisId="left"
                       type="monotone"
                       dataKey="wealth"
                       stroke={CASH_COLOR}
-                      strokeWidth={3}
-                      name="Wealth (€)"
-                      dot={{fill: CASH_COLOR, r: 4}}
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorWealth)"
+                      name="Wealth"
+                      dot={{fill: CASH_COLOR, r: 3}}
+                      activeDot={{r: 5}}
                     />
-                    <Line
+                    <Area
                       yAxisId="right"
                       type="monotone"
                       dataKey="satisfaction"
                       stroke="#ec4899"
-                      strokeWidth={3}
-                      name="Life Satisfaction"
-                      dot={{fill: "#ec4899", r: 4}}
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorSatisfaction)"
+                      name="Satisfaction"
+                      dot={{fill: "#ec4899", r: 3}}
+                      activeDot={{r: 5}}
                     />
-                  </LineChart>
+                  </AreaChart>
                 </ResponsiveContainer>
               </div>
             </div>
