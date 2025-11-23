@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/dialog";
 import {Home, MapPin, Ruler} from "lucide-react";
 import Character from "@/components/character";
+import Wrapup from "@/components/wrapup";
 
 const formatMoney = (value: number): string => {
   if (value >= 1000000) {
@@ -183,7 +184,6 @@ export default function Simulation() {
   const [showEventDecision, setShowEventDecision] = useState(!!currentEvent);
   const [isAdvancing, setIsAdvancing] = useState(false);
   const [showGameOver, setShowGameOver] = useState(false);
-  const [recommendations, setRecommendations] = useState<string[]>([]);
   const [showCreditAnimation, setShowCreditAnimation] = useState(false);
   const [showActionsDialog, setShowActionsDialog] = useState(false);
   const [showLoanAnimation, setShowLoanAnimation] = useState(false);
@@ -217,9 +217,6 @@ export default function Simulation() {
     // Check if game is terminated after running the loop
     const currentState = gameEngine.getState() as StateModel;
     if ((currentState as any).terminated) {
-      // Generate recommendations
-      const feedback = await gameEngine.generateRecommendations();
-      setRecommendations(feedback);
       setShowGameOver(true);
     } else {
       setShowEventDecision(!!gameEvent);
@@ -320,8 +317,6 @@ export default function Simulation() {
     (living && cityOptions.find((c) => c.zip === String(living.zip))?.city) ||
     (living?.zip ?? "Unknown");
 
-  const married = Boolean(state?.married);
-  const children = state?.amountOfChildren ?? 0;
   const monthlyRent = Math.round((state?.living?.yearlyRentInEuro ?? 0) / 12);
 
   return (
@@ -554,12 +549,18 @@ export default function Simulation() {
               >
                 <defs>
                   <linearGradient id="colorWealth" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                   </linearGradient>
-                  <linearGradient id="colorSatisfaction" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#f59e0b" stopOpacity={0}/>
+                  <linearGradient
+                    id="colorSatisfaction"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -723,53 +724,12 @@ export default function Simulation() {
           </DialogContent>
         </Dialog>
 
-      {/* Game Over Dialog with Recommendations */}
-      <Dialog open={showGameOver} onOpenChange={() => router.push("/init")}>
-        <DialogContent className="max-w-6xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-3xl font-bold text-green-600">
-              🎉 Congratulations! You've Reached Your Goal! 🎉
-            </DialogTitle>
-            <DialogDescription className="text-lg mt-2">
-              You have successfully accumulated enough wealth to achieve your housing dream!
-            </DialogDescription>
-          </DialogHeader>
-          <div className="mt-6 space-y-4">
-            <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-green-800 mb-4">
-                Your Journey Summary
-              </h3>
-              {recommendations.length > 0 ? (
-                <div className="grid md:grid-cols-2 gap-3">
-                  {recommendations.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="rounded-lg bg-white shadow-sm border border-green-100 p-4 flex items-start gap-3"
-                    >
-                      <div className="h-8 w-8 rounded-full bg-green-100 text-green-800 text-sm font-bold flex items-center justify-center">
-                        {idx + 1}
-                      </div>
-                      <p className="text-sm text-gray-800 leading-snug">{item}</p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-gray-700">
-                  Keine Empfehlungen verfügbar. Starte eine neue Simulation, um Feedback zu erhalten.
-                </p>
-              )}
-            </div>
-            <div className="flex justify-end mt-6">
-              <Button
-                onClick={() => router.push("/init")}
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                Start New Game
-              </Button>
-            </div>
+        {/* Game Over - Show Wrapup Component */}
+        {showGameOver && (
+          <div className="fixed inset-0 z-50">
+            <Wrapup />
           </div>
-        </DialogContent>
-      </Dialog>
+        )}
 
         {/* Right Sidebar: Events & Portfolio */}
         <Card className="col-span-1 p-4 flex flex-col gap-4">
