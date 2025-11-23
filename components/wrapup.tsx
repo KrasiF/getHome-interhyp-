@@ -121,6 +121,8 @@ export default function Wrapup() {
     return total;
   }, [portfolioBreakdown]);
 
+  const MAX_SLIDES = 5; // Change this to a number like 10 to limit slides
+
   // Create slides with recommendations and charts
   const slides = useMemo(() => {
     const allSlides: Array<{
@@ -158,7 +160,20 @@ export default function Wrapup() {
       allSlides.push({type: "chart-progress"});
     }
 
-    // Finale slide
+    // Apply slide limit if configured (before adding finale to ensure finale is always last)
+    if (MAX_SLIDES !== null && allSlides.length >= MAX_SLIDES) {
+      console.log(
+        `Limiting slides from ${
+          allSlides.length + 1
+        } to ${MAX_SLIDES} (including finale)`
+      );
+      // Trim slides to make room for finale, then add finale
+      const limitedSlides = allSlides.slice(0, MAX_SLIDES - 1);
+      limitedSlides.push({type: "finale"});
+      return limitedSlides;
+    }
+
+    // Finale slide - always included
     allSlides.push({type: "finale"});
 
     return allSlides;
