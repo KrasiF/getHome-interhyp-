@@ -124,7 +124,7 @@ export default function Wrapup() {
     return total;
   }, [portfolioBreakdown]);
 
-  const MAX_SLIDES = 5; // Change this to a number like 10 to limit slides
+  const MAX_SLIDES = null; // Change this to a number like 10 to limit slides
 
   // Create slides with recommendations and charts
   const slides = useMemo(() => {
